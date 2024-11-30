@@ -3,14 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  box-sizing: border-box;
+  --background: rgb(242, 242, 242);
   --foreground: #171717;
+  --navbackground: white;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: rgb(242, 242, 242);
+    --nav-background: #1e1e1e;
+    --postcard-background: #1e1e1e;
+    --btn-hover-background: rgb(183, 233, 116);
   }
 }
 
@@ -18,10 +23,4 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
 }
