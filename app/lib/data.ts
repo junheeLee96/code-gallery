@@ -13,7 +13,12 @@ export const getUserInfo = async (token: string) => {
       }
     );
     const data = await res.json();
-    console.log(data);
+    return {
+      data,
+      isValid: true,
+    };
+    // console.log(data);
+    return { isValid: true };
   } catch (e: unknown) {
     console.log(e);
     if (e instanceof Error) {
