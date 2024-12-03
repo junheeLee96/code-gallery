@@ -8,16 +8,12 @@ import PostWrapper from "./PostWrapper";
 import Textarea from "./TextArea";
 
 export default function NewPost() {
-  const [language, setLanguage] = useState("javascript");
-  const [content, setContent] = useState("");
-  const [code, setCode] = useState("console.log()");
-
-  const onChange = (e) => {
-    setCode(e); // CodeMirror의 값이 변할 때마다 호출되어서 값이 저장된다.
-  };
-  const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    let value = e.target.value;
-    // setContent(value);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const markdownContent = formData.get("markdownContent");
+    console.log(markdownContent);
+    // todo : post를 db에 저장하기
   };
 
   return (
@@ -31,10 +27,13 @@ export default function NewPost() {
       </button>
 
       <Dialog id="newPost">
-        <div className="w-dialog-width g:w-[660px]">
-          <div className="w-full ">게시물 만들기</div>
-          <Textarea />
-        </div>
+        <form onSubmit={onSubmit}>
+          <div className="w-dialog-width g:w-[660px] max-h-[700px] scroll">
+            <div className="w-full ">게시물 만들기</div>
+            <Textarea />
+            <button>제출하기 ㅋㅋㅋ</button>
+          </div>
+        </form>
         {/* <div className="relative w-full h-[500px] flex flex-col">
           <textarea
             spellCheck="false"

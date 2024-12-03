@@ -14,8 +14,9 @@ const Textarea = () => {
       <textarea
         value={markdown}
         onChange={(e) => setMarkdown(e.target.value)}
-        placeholder="여기에 마크다운을 입력하세요..."
+        placeholder="``` code ```을 통해 코드를 작성할 수 있습니다"
         className="w-full h-[400px]"
+        name="markdownContent"
       />
       <ReactMarkdown
         children={markdown}
@@ -25,15 +26,18 @@ const Textarea = () => {
             const match = /language-(\w+)/.exec(className || "");
             return !inline && match ? (
               <SyntaxHighlighter
-                style={okaidia}
                 language={match[1]}
                 PreTag="div"
+                style={okaidia} // Using the theme object directly
                 {...props}
               >
                 {String(children).replace(/\n$/, "")}
               </SyntaxHighlighter>
             ) : (
-              <code className={className} {...props}>
+              <code
+                className={`${className} bg-gray-500 p-2 min-w-full block`}
+                {...props}
+              >
                 {children}
               </code>
             );
