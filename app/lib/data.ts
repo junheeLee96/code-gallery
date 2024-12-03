@@ -30,3 +30,5 @@ export const getUserInfo = async (token: string) => {
     }
   }
 };
+
+export default async function getPosts(category: string) {}
