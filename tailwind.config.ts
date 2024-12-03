@@ -7,7 +7,11 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: { g: "720px" },
     extend: {
+      width: {
+        "dialog-width": "calc(100vw - 60px)",
+      },
       borderRadius: {
         "sign-in-shape": "35% 0 0 35%",
         "sign-up-shape": "0px 35% 35% 0px;",
@@ -19,6 +23,7 @@ export default {
         "postcard-background": "var(--postcard-background)",
         "btn-hover-background": "var(--btn-hover-background)",
         "btn-hover-text": "#000",
+        "code-background": "var(codebackground)",
       },
     },
   },
