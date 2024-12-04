@@ -5,9 +5,9 @@ import NewPost from "./ui/NewPost";
 export default async function Home() {
   // const data = await getPosts("all");
   return (
-    <div>
+    <main className="p-2">
       <NewPost />
       {/* <ExecuteBtn /> */}
-    </div>
+    </main>
   );
 }

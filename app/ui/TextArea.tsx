@@ -6,7 +6,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkBreaks from "remark-breaks";
 
-const Textarea = () => {
+export default function Textarea() {
   const [markdown, setMarkdown] = useState("");
 
   return (
@@ -28,7 +28,7 @@ const Textarea = () => {
               <SyntaxHighlighter
                 language={match[1]}
                 PreTag="div"
-                style={okaidia} // Using the theme object directly
+                style={okaidia}
                 {...props}
               >
                 {String(children).replace(/\n$/, "")}
@@ -46,6 +46,4 @@ const Textarea = () => {
       />
     </div>
   );
-};
-
-export default Textarea;
+}

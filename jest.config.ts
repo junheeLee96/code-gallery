@@ -11,10 +11,12 @@ const createJestConfig = nextJest({
 });
 
 const config: Config = {
-  // All imported modules in your tests should be mocked automatically
-  // automock: false,
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-  moduleNameMapper: { "^@/(.*)$": "<rootDir>/$1" },
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/$1",
+  },
+  transform: { "^.+\\.[tj]sx?$": "babel-jest" },
+  transformIgnorePatterns: ["/node_modules/(?!(react-markdown)/)"],
   // Stop running tests after `n` failures
   // bail: 0,
   preset: "ts-jest",

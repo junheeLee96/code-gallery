@@ -9,6 +9,9 @@ export default {
   theme: {
     screens: { g: "720px" },
     extend: {
+      height: {
+        "screen-without-header": "calc(100vh - 56px)",
+      },
       width: {
         "dialog-width": "calc(100vw - 60px)",
       },
