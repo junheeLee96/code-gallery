@@ -17,7 +17,6 @@ export default function CallbackPage() {
   //   const router = useRouter();
 
   const startGetUser = async (token: string) => {
-    // todo: 토큰 저장
     const data = await getUserInfo(token);
     if (data.isValid) {
       localStorage.setItem("token", token);

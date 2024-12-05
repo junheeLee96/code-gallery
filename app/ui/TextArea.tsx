@@ -16,7 +16,7 @@ export default function Textarea() {
         value={markdown}
         onChange={(e) => setMarkdown(e.target.value)}
         placeholder="``` code ```을 통해 코드를 작성할 수 있습니다"
-        className="w-full h-[400px]"
+        className="w-full h-[400px] bg-transparent"
         name="markdownContent"
       />
       <ReactMarkdown

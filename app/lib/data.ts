@@ -2,6 +2,7 @@
 
 export const getUserInfo = async (token: string) => {
   //todo: 사용자 db저장
+
   try {
     const res = await fetch(
       "https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token,
