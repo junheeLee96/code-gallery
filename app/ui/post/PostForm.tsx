@@ -1,12 +1,13 @@
-"use client";
-
-// import Textarea from "../TextArea";
-// import { createPost } from "@/app/lib/actions";
+import { auth } from "@/auth";
+import Textarea from "../TextArea";
 
 export default function PostForm() {
+  const session = auth();
+  console.log(session);
+  const createInvoice = () => {};
   return (
     <></>
-    // <form action={createPost}>
+    // <form action={createInvoice}>
     //   <Textarea />
     //   <button className="cursor-pointer">submit</button>
     // </form>

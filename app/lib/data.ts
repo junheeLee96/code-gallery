@@ -1,35 +1,29 @@
 "use server";
 
-export const getUserInfo = async (token: string) => {
-  //todo: 사용자 db저장
+import pool from "./db";
+import { RowDataPacket } from "mysql2";
+import { User } from "./definitions";
 
+export const getUser = async (uuid: string): Promise<User | null> => {
   try {
-    const res = await fetch(
-      "https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token,
-      {
-        headers: {
-          authorization: `token ${token}`,
-          accept: "application/json",
-        },
-      }
+    console.log(uuid);
+    const [rows] = await pool.query<RowDataPacket[]>(
+      `SELECT * FROM users WHERE uuid = ?`,
+      [uuid]
     );
-    const data = await res.json();
-    console.log(data);
-    if (data.id) {
-      return {
-        data,
-        isValid: true,
+
+    if (rows.length > 0) {
+      const user: User = {
+        uuid: rows[0].uuid,
+        user_name: rows[0].user_name,
+        email: rows[0].email,
+        image: rows[0].image,
       };
+      return user;
     }
-    return { isValid: false };
-  } catch (e: unknown) {
-    console.log(e);
-    if (e instanceof Error) {
-      throw e;
-    } else {
-      throw new Error(typeof e === "string" ? e : "An unknown error occurred");
-    }
+    return null;
+  } catch (err) {
+    console.log(err);
+    throw new Error("Cannot connect to db");
   }
 };
-
-// export default async function getPosts(category: string) {}

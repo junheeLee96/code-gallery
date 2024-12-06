@@ -4,6 +4,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function LoginButton() {
   const { data: session } = useSession();
+  console.log(session);
 
   if (session && session.user) {
     return (
@@ -20,7 +21,7 @@ export default function LoginButton() {
   }
   return (
     <button
-      onClick={() => signIn("google")}
+      onClick={() => signIn("google", { callbackUrl: "/" })}
       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
     >
       Sign in with Google
