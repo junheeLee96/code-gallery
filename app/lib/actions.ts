@@ -1,5 +1,6 @@
-// "use server";
+"use server";
 
+import { auth } from "@/auth";
 import pool from "./db";
 import { User } from "./definitions";
 
@@ -37,4 +38,11 @@ export async function createNewUser(user: User) {
     console.error("Error inserting new user:", err);
     throw new Error("Cannot insert new user into the database");
   }
+}
+
+export async function createPost(data: any) {
+  const session = auth();
+  if (!session) {
+  }
+  console.log("session = ", session);
 }

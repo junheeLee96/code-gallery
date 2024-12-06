@@ -1,25 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
-import ReactMarkdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
-import remarkBreaks from "remark-breaks";
+import React, { ChangeEvent, useState } from "react";
 
-export default function Textarea() {
-  const [markdown, setMarkdown] = useState("");
+type TextareaTypes = {
+  markdown: string;
+  onMarkdownChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+};
 
-  // todo:React marker에 jest와의 오류가 잇음
+export default function Textarea({
+  markdown,
+  onMarkdownChange,
+}: TextareaTypes) {
   return (
     <div>
       <textarea
         value={markdown}
-        onChange={(e) => setMarkdown(e.target.value)}
+        onChange={onMarkdownChange}
         placeholder="``` code ```을 통해 코드를 작성할 수 있습니다"
         className="w-full h-[400px] bg-transparent"
         name="markdownContent"
       />
-      <ReactMarkdown
+      {/* <ReactMarkdown
         children={markdown}
         remarkPlugins={[remarkBreaks]}
         components={{
@@ -44,7 +45,7 @@ export default function Textarea() {
             );
           },
         }}
-      />
+      /> */}
     </div>
   );
 }
