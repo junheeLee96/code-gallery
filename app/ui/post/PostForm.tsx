@@ -3,6 +3,7 @@
 import Textarea from "../TextArea";
 import Markdown from "../Markdown";
 import { ChangeEvent, useState } from "react";
+import { useSession } from "next-auth/react";
 
 type PostFormTypes = {
   isMarkdownRender: boolean;
@@ -11,11 +12,14 @@ type PostFormTypes = {
 
 export default function PostForm({ isMarkdownRender, action }: PostFormTypes) {
   const [markdown, setMarkdown] = useState("");
+  const auth = useSession();
+  console.log(auth);
 
   const onMarkdownChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdown(e.target.value);
   };
   return (
+    // <></>
     <form action={action}>
       <Textarea markdown={markdown} onMarkdownChange={onMarkdownChange} />
       {isMarkdownRender && <Markdown markdown={markdown} />}

@@ -41,8 +41,7 @@ export async function createNewUser(user: User) {
 }
 
 export async function createPost(data: any) {
-  const session = auth();
-  if (!session) {
-  }
+  const session = await auth();
+  // todo post form 데이터 저장
   console.log("session = ", session);
 }
