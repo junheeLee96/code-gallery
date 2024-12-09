@@ -1,5 +1,4 @@
 export default function SignIn() {
-  // todo: 로그인 처리
   const onSignIn = () => {};
   return (
     <span

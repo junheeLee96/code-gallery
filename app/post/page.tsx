@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { createPost } from "../lib/actions";
 import PostForm from "../ui/post/PostForm";
 

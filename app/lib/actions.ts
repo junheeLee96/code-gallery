@@ -4,44 +4,43 @@ import { auth } from "@/auth";
 import pool from "./db";
 import { User } from "./definitions";
 
-// import { z } from "zod";
-// // import pool from "./db";
-
-// // const createFormSchema = z.object({
-// //   markdownContent: z.string(),
-// // });
-
-// export async function createPost(formData: FormData) {
-//   //   console.log(process.env.DB_HOST);
-//   //   const { markdownContent } = createFormSchema.parse({
-//   //     markdownContent: formData.get("markdownContent"),
-//   //   });
-//   //   const [rows] = await pool.query("SELECT * FROM users");
-//   //   console.log(rows);
-//   //   return NextResponse.json(rows);
-// }
-
 export async function createNewUser(user: User) {
   const query = `
-        INSERT INTO users (uuid, user_name, email, image)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO users (uuid, user_name,nickname, email, image,reg_dt)
+        VALUES (?, ?, ?, ?, ?, ?)
     `;
 
   // `pool.query`에 쿼리와 파라미터를 전달합니다.
-  const values = [user.uuid, user.user_name, user.email, user.image];
+  const reg_dt = new Date();
+  const values = [
+    user.uuid,
+    user.user_name,
+    user.nickname,
+    user.email,
+    user.image,
+    reg_dt,
+  ];
 
   try {
     await pool.query(query, values);
-
-    return true;
+    return { message: "complete insert new user" };
   } catch (err) {
     console.error("Error inserting new user:", err);
     throw new Error("Cannot insert new user into the database");
   }
 }
 
-export async function createPost(data: any) {
-  const session = await auth();
+export async function createPost(formData: FormData) {
   // todo post form 데이터 저장
-  console.log("session = ", session);
+  const session = await auth();
+  const uuid = session?.user?.id;
+
+  if (!uuid) {
+    throw new Error("로그인 필");
+  }
+
+  // const reg_dt = new Date();
+  // const category = "javascript";
+
+  console.log(formData.get("markdownContent"));
 }

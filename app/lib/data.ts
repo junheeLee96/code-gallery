@@ -6,7 +6,6 @@ import { User } from "./definitions";
 
 export const getUser = async (uuid: string): Promise<User | null> => {
   try {
-    console.log(uuid);
     const [rows] = await pool.query<RowDataPacket[]>(
       `SELECT * FROM users WHERE uuid = ?`,
       [uuid]
