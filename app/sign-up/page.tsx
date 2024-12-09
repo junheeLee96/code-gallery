@@ -10,7 +10,6 @@ import SignUpForm from "../ui/sign-up/SignUpForm";
 export default function SignUp() {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [nickname, setNickname] = useState("");
 
   if (status === "loading") {
     return <div>Loading...</div>;
