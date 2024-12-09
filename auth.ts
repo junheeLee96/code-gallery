@@ -11,15 +11,15 @@ export const { handlers, auth } = NextAuth({
   ],
   callbacks: {
     async signIn({ profile, user }) {
-      const isExistingUser = await getUser(profile.sub);
+      const isExistingUser = await getUser(profile?.sub as string);
       if (!isExistingUser) {
         user.isNewUser = true;
       }
       return true;
     },
-    async jwt({ token, account, profile, user }) {
+    async jwt({ token, account, profile, user, trigger, session }) {
       if (account && profile) {
-        token.sub = profile.sub;
+        token.sub = profile.sub as string;
         token.name = profile.name;
         token.email = profile.email;
       }
@@ -27,11 +27,15 @@ export const { handlers, auth } = NextAuth({
         token.isNewUser = user.isNewUser;
       }
 
+      if (trigger === "update" && session !== null) {
+        return session.user;
+      }
+
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.sub;
+        session.user.id = token.sub as string;
         session.user.isNewUser = token.isNewUser as boolean;
       }
       return session;

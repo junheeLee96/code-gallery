@@ -12,7 +12,7 @@ type SignUpFormTypes = {
 const hasWhitespace = /\s/;
 
 export default function SignUpForm({ onSuccess, onError }: SignUpFormTypes) {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const [nickname, setNickname] = useState("");
   const [error, setError] = useState<null | string>(null);
@@ -34,6 +34,10 @@ export default function SignUpForm({ onSuccess, onError }: SignUpFormTypes) {
     e.preventDefault();
     if (error) return;
     if (!session?.user) return;
+    if (nickname === "") {
+      setError("1글자 이상이어야합니다.");
+      return;
+    }
     setIsLoading(true);
     const { user } = session;
     const userInfo: User = {
