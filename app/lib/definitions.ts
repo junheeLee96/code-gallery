@@ -5,3 +5,14 @@ export type User = {
   image: string;
   nickname?: string;
 };
+
+export type PostTypes = {
+  idx: number;
+  uuid: string;
+  nickname: string;
+  content: string;
+  language: string;
+  like: number;
+  comment: number;
+  reg_dt: Date;
+};
