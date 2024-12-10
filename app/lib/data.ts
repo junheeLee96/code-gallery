@@ -11,14 +11,10 @@ export const getUser = async (uuid: string): Promise<User | null> => {
       [uuid]
     );
 
+    console.log(rows[0]);
+
     if (rows.length > 0) {
-      const user: User = {
-        uuid: rows[0].uuid,
-        user_name: rows[0].user_name,
-        email: rows[0].email,
-        image: rows[0].image,
-      };
-      return user;
+      return rows[0] as User;
     }
     return null;
   } catch (err) {

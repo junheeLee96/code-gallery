@@ -2,9 +2,6 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState, FormEvent } from "react";
-import { createNewUser } from "../lib/actions";
-import { User } from "../lib/definitions";
 import SignUpForm from "../ui/sign-up/SignUpForm";
 
 export default function SignUp() {

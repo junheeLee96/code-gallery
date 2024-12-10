@@ -3,6 +3,8 @@
 import { auth } from "@/auth";
 import pool from "./db";
 import { User } from "./definitions";
+import { FormEvent } from "react";
+import { getUser } from "./data";
 
 export async function createNewUser(user: User) {
   const query = `
@@ -30,17 +32,22 @@ export async function createNewUser(user: User) {
   }
 }
 
-export async function createPost(formData: FormData) {
-  // todo post form 데이터 저장
+export async function createPost(FormData: FormData) {
   const session = await auth();
+  console.log(session);
   const uuid = session?.user?.id;
 
   if (!uuid) {
     throw new Error("로그인 필");
   }
+  const category = FormData.get("language");
+  const content = FormData.get("markdownContent");
+  const user = await getUser(uuid);
 
-  // const reg_dt = new Date();
-  // const category = "javascript";
+  console.log("user = ", user);
 
-  console.log(formData.get("markdownContent"));
+  const InsertQuery = `
+        INSERT INTO users (uuid, nickname, content, language)
+        VALUES (?, ?, ?, ?)
+    `;
 }

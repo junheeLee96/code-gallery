@@ -14,6 +14,8 @@ export const { handlers, auth } = NextAuth({
       const isExistingUser = await getUser(profile?.sub as string);
       if (!isExistingUser) {
         user.isNewUser = true;
+      } else {
+        user.nickname = isExistingUser.nickname;
       }
       return true;
     },
@@ -25,9 +27,11 @@ export const { handlers, auth } = NextAuth({
       }
       if (user) {
         token.isNewUser = user.isNewUser;
+        token.nickname = user.nickname;
       }
 
       if (trigger === "update" && session !== null) {
+        console.log("세션 업데이트!!", session);
         return session.user;
       }
 

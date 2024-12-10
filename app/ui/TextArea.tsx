@@ -20,32 +20,6 @@ export default function Textarea({
         className="w-full h-[400px] bg-transparent"
         name="markdownContent"
       />
-      {/* <ReactMarkdown
-        children={markdown}
-        remarkPlugins={[remarkBreaks]}
-        components={{
-          code({ node, inline, className, children, ...props }) {
-            const match = /language-(\w+)/.exec(className || "");
-            return !inline && match ? (
-              <SyntaxHighlighter
-                language={match[1]}
-                PreTag="div"
-                style={okaidia}
-                {...props}
-              >
-                {String(children).replace(/\n$/, "")}
-              </SyntaxHighlighter>
-            ) : (
-              <code
-                className={`${className} bg-gray-500 p-2 min-w-full block`}
-                {...props}
-              >
-                {children}
-              </code>
-            );
-          },
-        }}
-      /> */}
     </div>
   );
 }
