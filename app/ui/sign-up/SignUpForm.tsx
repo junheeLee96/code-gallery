@@ -12,7 +12,7 @@ type SignUpFormTypes = {
 const hasWhitespace = /\s/;
 
 export default function SignUpForm({ onSuccess, onError }: SignUpFormTypes) {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
 
   const [nickname, setNickname] = useState("");
   const [error, setError] = useState<null | string>(null);
@@ -50,6 +50,14 @@ export default function SignUpForm({ onSuccess, onError }: SignUpFormTypes) {
     try {
       await createNewUser(userInfo);
       setIsLoading(true);
+      await update({
+        ...session,
+        user: {
+          ...session?.user,
+          isNewUser: false,
+          nickname,
+        },
+      });
       onSuccess();
     } catch (e) {
       onError(e as Error);

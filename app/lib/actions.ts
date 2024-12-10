@@ -40,13 +40,11 @@ export async function createPost(FormData: FormData) {
   if (!uuid) {
     throw new Error("로그인 필");
   }
+  const nickname = session.user.nickname;
   const category = FormData.get("language");
   const content = FormData.get("markdownContent");
-  const user = await getUser(uuid);
 
-  console.log("user = ", user);
-
-  const InsertQuery = `
+  const query = `
         INSERT INTO users (uuid, nickname, content, language)
         VALUES (?, ?, ?, ?)
     `;

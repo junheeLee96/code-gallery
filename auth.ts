@@ -31,16 +31,17 @@ export const { handlers, auth } = NextAuth({
       }
 
       if (trigger === "update" && session !== null) {
-        console.log("세션 업데이트!!", session);
-        return session.user;
+        return { ...session.user };
       }
 
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.sub as string;
+        console.log("session token", token);
+        session.user.id = (token.sub || token.id) as string;
         session.user.isNewUser = token.isNewUser as boolean;
+        session.user.nickname = token.nickname as string;
       }
       return session;
     },

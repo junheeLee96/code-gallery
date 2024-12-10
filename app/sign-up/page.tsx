@@ -6,7 +6,7 @@ import SignUpForm from "../ui/sign-up/SignUpForm";
 
 export default function SignUp() {
   const router = useRouter();
-  const { data: session, status, update } = useSession();
+  const { data: session, status } = useSession();
 
   if (status === "loading") {
     return <div>Loading...</div>;
@@ -19,13 +19,6 @@ export default function SignUp() {
   }
 
   const onSuccess = async () => {
-    await update({
-      ...session,
-      user: {
-        ...session?.user,
-        isNewUser: false,
-      },
-    });
     router.push("/");
   };
 

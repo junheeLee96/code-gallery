@@ -11,8 +11,6 @@ export const getUser = async (uuid: string): Promise<User | null> => {
       [uuid]
     );
 
-    console.log(rows[0]);
-
     if (rows.length > 0) {
       return rows[0] as User;
     }

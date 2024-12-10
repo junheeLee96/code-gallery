@@ -13,6 +13,8 @@ type PostFormTypes = {
 
 export default function PostForm({ isMarkdownRender, action }: PostFormTypes) {
   const [markdown, setMarkdown] = useState("");
+  const session = useSession();
+  console.log(session);
 
   const onMarkdownChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdown(e.target.value);
