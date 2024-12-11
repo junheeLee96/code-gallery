@@ -36,3 +36,5 @@ export const getPost = async (id: string) => {
     throw new Error("Cannot get post");
   }
 };
+
+export const getPosts = async () => {};
