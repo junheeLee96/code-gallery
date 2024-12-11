@@ -37,4 +37,22 @@ export const getPost = async (id: string) => {
   }
 };
 
-export const getPosts = async () => {};
+export const getPosts = async (page: number, postsPerPage: number = 12) => {
+  const offset = (page - 1) * postsPerPage;
+
+  const [countRows] = await pool.query<RowDataPacket[]>(`
+    SELECT COUNT(*) AS totalPosts FROM posts
+  `);
+  const totalPage = Math.ceil(countRows[0].totalPosts / postsPerPage);
+
+  const [rows] = await pool.query<RowDataPacket[]>(
+    `SELECT * FROM posts LIMIT ?, ?`,
+    [offset, postsPerPage]
+  );
+
+  return {
+    posts: rows as PostTypes[],
+    totalPage,
+    pageParams: page,
+  };
+};
