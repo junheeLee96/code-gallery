@@ -2,7 +2,7 @@
 
 import pool from "./db";
 import { RowDataPacket } from "mysql2";
-import { PostTypes, User } from "./definitions";
+import { PostListResponse, PostTypes, User } from "./definitions";
 
 export const getUser = async (uuid: string): Promise<User | null> => {
   try {
@@ -37,22 +37,30 @@ export const getPost = async (id: string) => {
   }
 };
 
-export const getPosts = async (page: number, postsPerPage: number = 12) => {
+export const getPosts = async (
+  page: number,
+  postsPerPage: number = 12
+): Promise<PostListResponse> => {
   const offset = (page - 1) * postsPerPage;
 
-  const [countRows] = await pool.query<RowDataPacket[]>(`
-    SELECT COUNT(*) AS totalPosts FROM posts
-  `);
-  const totalPage = Math.ceil(countRows[0].totalPosts / postsPerPage);
+  try {
+    const [countRows] = await pool.query<RowDataPacket[]>(`
+      SELECT COUNT(*) AS totalPosts FROM posts
+      `);
+    const totalPage = Math.ceil(countRows[0].totalPosts / postsPerPage);
 
-  const [rows] = await pool.query<RowDataPacket[]>(
-    `SELECT * FROM posts LIMIT ?, ?`,
-    [offset, postsPerPage]
-  );
+    const [rows] = await pool.query<RowDataPacket[]>(
+      `SELECT * FROM posts LIMIT ?, ?`,
+      [offset, postsPerPage]
+    );
 
-  return {
-    posts: rows as PostTypes[],
-    totalPage,
-    pageParams: page,
-  };
+    return {
+      posts: rows as PostTypes[],
+      totalPage,
+      pageParams: page,
+    };
+  } catch (e) {
+    console.error(e);
+    throw new Error("Cannot connect to DB", e as Error);
+  }
 };

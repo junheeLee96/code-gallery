@@ -16,3 +16,9 @@ export type PostTypes = {
   comment: number;
   reg_dt: Date;
 };
+
+export type PostListResponse = {
+  posts: PostTypes[];
+  totalPage: number;
+  pageParams: number;
+};
