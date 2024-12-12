@@ -2,13 +2,25 @@
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getPosts } from "../lib/data";
+import { LanguageType } from "../stores/types/language-store-type";
 
-const useFetchPosts = () => {
+type useFetchPostsTypes = {
+  language: LanguageType;
+};
+
+const useFetchPosts = ({ language }: useFetchPostsTypes) => {
   const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery({
-    queryKey: ["products"],
-    queryFn: async ({ pageParam = 1 }) => await getPosts(pageParam),
+    queryKey: ["products", language],
+    // queryFn: async (pageParam) => {
+    //   console.log(pageParam);
+    //   return await getPosts(1);
+    // },
+    queryFn: async ({ queryKey, pageParam = 1 }) =>
+      await getPosts({
+        page: pageParam,
+        queryKey: queryKey[1],
+      }),
     getNextPageParam: (lastPage, pages) => {
-      console.log("lastPage, pages = ", lastPage, pages);
       return lastPage.totalPage <= pages.length ? undefined : pages.length + 1;
     },
     initialPageParam: 1,

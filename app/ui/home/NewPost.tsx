@@ -1,4 +1,4 @@
-import PostWrapper from "./PostWrapper";
+import PostWrapper from "../PostWrapper";
 import Link from "next/link";
 
 export default function NewPost() {

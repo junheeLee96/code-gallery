@@ -17,6 +17,12 @@ export type PostTypes = {
   reg_dt: Date;
 };
 
+export type PostListProps = {
+  page: number;
+  postsPerPage?: number;
+  queryKey: string;
+};
+
 export type PostListResponse = {
   posts: PostTypes[];
   totalPage: number;
