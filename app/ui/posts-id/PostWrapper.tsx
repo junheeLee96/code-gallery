@@ -7,8 +7,8 @@ type PostWrapperTypes = {
 };
 
 export default async function PostWrap({ id }: PostWrapperTypes) {
-  const post: PostTypes | null = await getPost(id);
-  console.log(post);
+  const post = await getPost(id);
+  console.log("post = ", post);
 
-  return <div>{post ? <Post post={post} /> : ""}</div>;
+  return <div>{post && post.length > 0 ? <Post post={post[0]} /> : ""}</div>;
 }

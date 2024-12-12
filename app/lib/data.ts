@@ -1,6 +1,6 @@
 "use server";
 
-import pool from "./db";
+import pool, { db } from "./db";
 import { RowDataPacket } from "mysql2";
 import {
   PostListProps,
@@ -10,37 +10,33 @@ import {
 } from "./definitions";
 import { LanguageType } from "../stores/types/language-store-type";
 
-export const getUser = async (uuid: string): Promise<User | null> => {
-  try {
-    const [rows] = await pool.query<RowDataPacket[]>(
-      `SELECT * FROM users WHERE uuid = ?`,
-      [uuid]
-    );
+export const getUser = async (uuid: string): Promise<User[]> => {
+  const query = `SELECT * FROM users WHERE uuid = ?`;
+  const queryParams = [uuid];
 
-    if (rows.length > 0) {
-      return rows[0] as User;
-    }
-    return null;
-  } catch (err) {
-    console.log(err);
-    throw new Error("Cannot connect to db");
-  }
+  return db<User[]>({ query, queryParams });
+
+  // try {
+  //   const [rows] = await pool.query<RowDataPacket[]>(
+  //     `SELECT * FROM users WHERE uuid = ?`,
+  //     [uuid]
+  //   );
+
+  //   if (rows.length > 0) {
+  //     return rows[0] as User;
+  //   }
+  //   return null;
+  // } catch (err) {
+  //   console.log(err);
+  //   throw new Error("Cannot connect to db");
+  // }
 };
 
 export const getPost = async (id: string) => {
-  try {
-    const [rows] = await pool.query<RowDataPacket[]>(
-      `SELECT * FROM posts WHERE idx = ?`,
-      [id]
-    );
-    if (rows.length > 0) {
-      return rows[0] as PostTypes;
-    }
-    return null;
-  } catch (e) {
-    console.error(e as Error);
-    throw new Error("Cannot get post");
-  }
+  const query = `SELECT * FROM posts WHERE idx = ?`;
+  const queryParams = [id];
+
+  return db<PostTypes[]>({ query, queryParams });
 };
 
 export const getPosts = async ({
@@ -49,7 +45,6 @@ export const getPosts = async ({
   queryKey,
 }: PostListProps): Promise<PostListResponse> => {
   const offset = (page - 1) * postsPerPage;
-
   try {
     // 총 게시물 수를 가져오는 쿼리
     const [countRows] = await pool.query<RowDataPacket[]>(`
@@ -68,7 +63,6 @@ export const getPosts = async ({
 
     query += ` LIMIT ?, ?`;
 
-    // 수정된 쿼리 실행
     const [rows] = await pool.query<RowDataPacket[]>(query, queryParams);
 
     return {
