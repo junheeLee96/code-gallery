@@ -3,6 +3,7 @@
 import pool, { db } from "./db";
 import { RowDataPacket } from "mysql2";
 import {
+  CommentsTypes,
   PostListProps,
   PostListResponse,
   PostTypes,
@@ -15,21 +16,6 @@ export const getUser = async (uuid: string): Promise<User[]> => {
   const queryParams = [uuid];
 
   return db<User[]>({ query, queryParams });
-
-  // try {
-  //   const [rows] = await pool.query<RowDataPacket[]>(
-  //     `SELECT * FROM users WHERE uuid = ?`,
-  //     [uuid]
-  //   );
-
-  //   if (rows.length > 0) {
-  //     return rows[0] as User;
-  //   }
-  //   return null;
-  // } catch (err) {
-  //   console.log(err);
-  //   throw new Error("Cannot connect to db");
-  // }
 };
 
 export const getPost = async (id: string) => {
@@ -39,6 +25,12 @@ export const getPost = async (id: string) => {
   return db<PostTypes[]>({ query, queryParams });
 };
 
+export const getComments = async ({ post_id }: { post_id: string }) => {
+  const query = "SELECT * FROM posts WHERE post_id = ?";
+  const queryParams = [post_id];
+  return db<CommentsTypes[]>({ query, queryParams });
+};
+
 export const getPosts = async ({
   page,
   postsPerPage = 12,
@@ -46,7 +38,7 @@ export const getPosts = async ({
 }: PostListProps): Promise<PostListResponse> => {
   const offset = (page - 1) * postsPerPage;
   try {
-    // 총 게시물 수를 가져오는 쿼리
+    // 총 게시물 수
     const [countRows] = await pool.query<RowDataPacket[]>(`
       SELECT COUNT(*) AS totalPosts FROM posts
     `);

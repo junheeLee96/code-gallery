@@ -11,10 +11,6 @@ type useFetchPostsTypes = {
 const useFetchPosts = ({ language }: useFetchPostsTypes) => {
   const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery({
     queryKey: ["products", language],
-    // queryFn: async (pageParam) => {
-    //   console.log(pageParam);
-    //   return await getPosts(1);
-    // },
     queryFn: async ({ queryKey, pageParam = 1 }) =>
       await getPosts({
         page: pageParam,

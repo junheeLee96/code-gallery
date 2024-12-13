@@ -21,12 +21,12 @@ export const db = async <T>({
   queryParams,
 }: QueryParams): Promise<T> => {
   try {
-    const [row] = await pool.query<RowDataPacket[] | ResultSetHeader>(
+    const [rows] = await pool.query<RowDataPacket[] | ResultSetHeader>(
       query,
       queryParams
     );
-
-    return row as T;
+    const result: T = JSON.parse(JSON.stringify(rows));
+    return result;
   } catch (error) {
     if (error instanceof Error) {
       throw error;

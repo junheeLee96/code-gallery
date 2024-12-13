@@ -7,6 +7,7 @@ import useFetchPosts from "@/app/hooks/useFetchPosts";
 import { languages } from "@/app/lib/languages";
 import Languages from "../languages";
 import { useLanguageStore } from "@/app/providers/zustand/language-store-provider";
+import AddCommentBtn from "./add-comment-btn";
 
 export default function Feeds() {
   const { language, setLanguage } = useLanguageStore((state) => state);
@@ -46,18 +47,11 @@ export default function Feeds() {
             <div key={post.idx || idx} className="mt-4 bg-red-500">
               <div>{post.idx}</div>
               <Post post={post} />
+              <AddCommentBtn post_id={post.idx} />
             </div>
           ))}
         </div>
       ))}
-      {hasNextPage && (
-        <button
-          onClick={() => fetchNextPage()}
-          className="mt-4 p-2 bg-blue-500 text-white rounded"
-        >
-          Load More
-        </button>
-      )}
     </div>
   );
 }

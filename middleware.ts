@@ -5,9 +5,10 @@ import { auth } from "./auth";
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
-  const isOnMyPage = req.nextUrl.pathname.startsWith("/post");
+  const PostPage = req.nextUrl.pathname.startsWith("/post");
+  const MyPage = req.nextUrl.pathname.startsWith("/mypage");
 
-  if (isOnMyPage && !isLoggedIn) {
+  if ((PostPage || MyPage) && !isLoggedIn) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 });

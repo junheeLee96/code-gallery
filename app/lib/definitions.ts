@@ -28,3 +28,19 @@ export type PostListResponse = {
   totalPage: number;
   pageParams: number;
 };
+
+export type createCommentProps = {
+  uuid: string;
+  post_id: string;
+  nickname: string;
+  comment: string;
+};
+
+export type CommentsTypes = {
+  idx: number;
+  post_id: number;
+  uuid: string;
+  nickname: string;
+  comment: string;
+  reg_dt: Date;
+};

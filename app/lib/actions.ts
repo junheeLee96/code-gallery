@@ -1,11 +1,10 @@
 "use server";
 
 import { auth } from "@/auth";
-import pool from "./db";
-import { User } from "./definitions";
-import { FormEvent } from "react";
-import { getUser } from "./data";
+import pool, { db } from "./db";
+import { createCommentProps, User } from "./definitions";
 import { redirect } from "next/navigation";
+import { ResultSetHeader } from "mysql2";
 
 export async function createNewUser(user: User) {
   const query = `
@@ -61,3 +60,15 @@ export async function createPost(FormData: FormData) {
   }
   redirect("/");
 }
+
+export const createComment = async ({
+  comment,
+  post_id,
+  uuid,
+  nickname,
+}: createCommentProps) => {
+  const query = `INSERT INTO comments (post_id, uuid, nickname, comment)
+        VALUES (?, ?, ?, ?)`;
+  const queryParams = [post_id, uuid, nickname, comment];
+  return db<ResultSetHeader[]>({ query, queryParams });
+};

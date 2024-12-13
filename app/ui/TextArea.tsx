@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
 
 type TextareaTypes = {
   markdown: string;
