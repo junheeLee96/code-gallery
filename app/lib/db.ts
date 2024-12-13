@@ -13,7 +13,7 @@ const pool: Pool = mysql.createPool({
 
 type QueryParams = {
   query: string;
-  queryParams: string[];
+  queryParams: Array<string | number>;
 };
 
 export const db = async <T>({
@@ -26,6 +26,7 @@ export const db = async <T>({
       queryParams
     );
     const result: T = JSON.parse(JSON.stringify(rows));
+
     return result;
   } catch (error) {
     if (error instanceof Error) {

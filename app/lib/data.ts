@@ -29,12 +29,29 @@ export const getComments = async ({
   postsPerPage = 12,
   queryKey,
 }: InfiniteProps): Promise<any> => {
+  const offset = (page - 1) * postsPerPage;
+
   const CommentCountsQuery = `SELECT COUNT(*) AS totalComments FROM comments WHERE post_id = ?`;
   const CommentQueryParams = [queryKey];
-  const query = "SELECT * FROM posts WHERE post_id = ?";
-  const queryParams = [queryKey];
-  // const [rows] = await db<CommentsTypes[]>({ query, queryParams });
+  const [countRows] = await db<RowDataPacket[]>({
+    query: CommentCountsQuery,
+    queryParams: CommentQueryParams,
+  });
+  const { totalComments } = countRows;
+  const totalCommentPage = Math.ceil(totalComments / postsPerPage);
+
+  const query = "SELECT * FROM comments WHERE post_id = ? LIMIT ?, ?";
+  const queryParams = [queryKey, offset, postsPerPage];
+
+  const comments = await db<CommentsTypes[]>({ query, queryParams });
   // return rows;
+  console.log("rows", comments);
+
+  return {
+    comments,
+    totalPage: totalCommentPage,
+    pageParams: page,
+  };
 };
 
 export const getPosts = async ({
