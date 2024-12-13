@@ -6,11 +6,12 @@ import { LanguageType } from "../stores/types/language-store-type";
 
 type useFetchPostsTypes = {
   language: LanguageType;
+  queryKey: string[];
 };
 
-const useFetchPosts = ({ language }: useFetchPostsTypes) => {
+const useFetchPosts = ({ language, queryKey }: useFetchPostsTypes) => {
   const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery({
-    queryKey: ["products", language],
+    queryKey,
     queryFn: async ({ queryKey, pageParam = 1 }) =>
       await getPosts({
         page: pageParam,

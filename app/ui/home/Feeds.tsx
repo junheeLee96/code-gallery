@@ -13,6 +13,7 @@ export default function Feeds() {
   const { language, setLanguage } = useLanguageStore((state) => state);
   const { data, hasNextPage, fetchNextPage, isLoading } = useFetchPosts({
     language,
+    queryKey: ["posts", language],
   });
 
   const handleScroll = useCallback(() => {

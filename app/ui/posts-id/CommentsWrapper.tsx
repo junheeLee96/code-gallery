@@ -10,6 +10,9 @@ type CommentsWrapperProps = {
 
 export default function CommentsWrapper({ post_id }: CommentsWrapperProps) {
   const [comments, setComments] = useState([]);
+
+  // const { data, fetchNextPage, isLoading, hasNextPage } => useInfi;
+
   return (
     <div>
       <CommentForm post_id={post_id} />
