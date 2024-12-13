@@ -3,33 +3,18 @@
 import { ChangeEvent, useCallback, useEffect } from "react";
 import Post from "../Post";
 import { PostTypes } from "@/app/lib/definitions";
-import useFetchPosts from "@/app/hooks/useFetchPosts";
-import { languages } from "@/app/lib/languages";
 import Languages from "../languages";
 import { useLanguageStore } from "@/app/providers/zustand/language-store-provider";
 import AddCommentBtn from "./add-comment-btn";
+import useInfiniteQueryHook from "@/app/hooks/useFetchPosts";
+import useScrollLoaer from "@/app/hooks/useScrollLoader";
 
 export default function Feeds() {
   const { language, setLanguage } = useLanguageStore((state) => state);
-  const { data, hasNextPage, fetchNextPage, isLoading } = useFetchPosts({
-    language,
+  const { data, hasNextPage, fetchNextPage, isLoading } = useInfiniteQueryHook({
     queryKey: ["posts", language],
   });
-
-  const handleScroll = useCallback(() => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      !hasNextPage
-    )
-      return;
-    fetchNextPage();
-  }, [fetchNextPage, hasNextPage]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
+  useScrollLoaer({ hasNextPage, fetchNextPage });
 
   const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
     console.log(e.target.value);

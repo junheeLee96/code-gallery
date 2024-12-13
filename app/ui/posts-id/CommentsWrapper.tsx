@@ -3,6 +3,7 @@
 import { useState } from "react";
 import CommentForm from "./CommentForm";
 import Comments from "./Comments";
+import useInfiniteQueryHook from "@/app/hooks/useFetchPosts";
 
 type CommentsWrapperProps = {
   post_id: string;
@@ -11,7 +12,9 @@ type CommentsWrapperProps = {
 export default function CommentsWrapper({ post_id }: CommentsWrapperProps) {
   const [comments, setComments] = useState([]);
 
-  // const { data, fetchNextPage, isLoading, hasNextPage } => useInfi;
+  const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQueryHook({
+    queryKey: ["comments", post_id],
+  });
 
   return (
     <div>

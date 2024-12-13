@@ -5,11 +5,10 @@ import { getPosts } from "../lib/data";
 import { LanguageType } from "../stores/types/language-store-type";
 
 type useFetchPostsTypes = {
-  language: LanguageType;
   queryKey: string[];
 };
 
-const useFetchPosts = ({ language, queryKey }: useFetchPostsTypes) => {
+const useInfiniteQueryHook = ({ queryKey }: useFetchPostsTypes) => {
   const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery({
     queryKey,
     queryFn: async ({ queryKey, pageParam = 1 }) =>
@@ -26,4 +25,4 @@ const useFetchPosts = ({ language, queryKey }: useFetchPostsTypes) => {
   return { data, isLoading, hasNextPage, fetchNextPage };
 };
 
-export default useFetchPosts;
+export default useInfiniteQueryHook;
