@@ -4,12 +4,11 @@ import pool, { db } from "./db";
 import { RowDataPacket } from "mysql2";
 import {
   CommentsTypes,
-  PostListProps,
+  InfiniteProps,
   PostListResponse,
   PostTypes,
   User,
 } from "./definitions";
-import { LanguageType } from "../stores/types/language-store-type";
 
 export const getUser = async (uuid: string): Promise<User[]> => {
   const query = `SELECT * FROM users WHERE uuid = ?`;
@@ -25,17 +24,24 @@ export const getPost = async (id: string) => {
   return db<PostTypes[]>({ query, queryParams });
 };
 
-export const getComments = async ({ post_id }: { post_id: string }) => {
+export const getComments = async ({
+  page,
+  postsPerPage = 12,
+  queryKey,
+}: InfiniteProps): Promise<any> => {
+  const CommentCountsQuery = `SELECT COUNT(*) AS totalComments FROM comments WHERE post_id = ?`;
+  const CommentQueryParams = [queryKey];
   const query = "SELECT * FROM posts WHERE post_id = ?";
-  const queryParams = [post_id];
-  return db<CommentsTypes[]>({ query, queryParams });
+  const queryParams = [queryKey];
+  // const [rows] = await db<CommentsTypes[]>({ query, queryParams });
+  // return rows;
 };
 
 export const getPosts = async ({
   page,
   postsPerPage = 12,
   queryKey,
-}: PostListProps): Promise<PostListResponse> => {
+}: InfiniteProps): Promise<PostListResponse> => {
   const offset = (page - 1) * postsPerPage;
   try {
     // 총 게시물 수

@@ -17,7 +17,7 @@ export type PostTypes = {
   reg_dt: Date;
 };
 
-export type PostListProps = {
+export type InfiniteProps = {
   page: number;
   postsPerPage?: number;
   queryKey: string;

@@ -1,23 +1,24 @@
 "use client";
 
-import { ChangeEvent, useCallback, useEffect } from "react";
+import { ChangeEvent } from "react";
 import Post from "../Post";
 import { PostTypes } from "@/app/lib/definitions";
 import Languages from "../languages";
 import { useLanguageStore } from "@/app/providers/zustand/language-store-provider";
 import AddCommentBtn from "./add-comment-btn";
-import useInfiniteQueryHook from "@/app/hooks/useFetchPosts";
+import useInfiniteQueryHook from "@/app/hooks/useInfiniteQueryHook";
 import useScrollLoaer from "@/app/hooks/useScrollLoader";
+import { getPosts } from "@/app/lib/data";
 
 export default function Feeds() {
   const { language, setLanguage } = useLanguageStore((state) => state);
   const { data, hasNextPage, fetchNextPage, isLoading } = useInfiniteQueryHook({
     queryKey: ["posts", language],
+    queryFn: getPosts,
   });
   useScrollLoaer({ hasNextPage, fetchNextPage });
 
   const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
     setLanguage(e.target.value);
   };
 
