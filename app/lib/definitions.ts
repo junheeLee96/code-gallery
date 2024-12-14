@@ -8,7 +8,7 @@ export type User = {
 
 export type PostTypes = {
   idx: number;
-  uuid: string;
+  isAuthor: boolean;
   nickname: string;
   content: string;
   language: string;
@@ -25,6 +25,12 @@ export type InfiniteProps = {
 
 export type PostListResponse = {
   posts: PostTypes[];
+  totalPage: number;
+  pageParams: number;
+};
+
+export type CommentListResponse = {
+  comments: CommentsTypes[];
   totalPage: number;
   pageParams: number;
 };

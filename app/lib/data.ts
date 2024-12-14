@@ -1,8 +1,9 @@
 "use server";
 
-import pool, { db } from "./db";
+import { db } from "./db";
 import { RowDataPacket } from "mysql2";
 import {
+  CommentListResponse,
   CommentsTypes,
   InfiniteProps,
   PostListResponse,
@@ -29,7 +30,7 @@ export const getComments = async ({
   page,
   postsPerPage = 12,
   queryKey,
-}: InfiniteProps): Promise<any> => {
+}: InfiniteProps): Promise<CommentListResponse> => {
   const offset = (page - 1) * postsPerPage;
 
   const CommentCountsQuery = `SELECT COUNT(*) AS totalComments FROM comments WHERE post_id = ?`;
@@ -61,36 +62,50 @@ export const getPosts = async ({
   queryKey,
 }: InfiniteProps): Promise<PostListResponse> => {
   const session = await auth();
-  console.log(session);
-  const uuid = session ? session.user.id : null;
+  const useruuid = session ? session.user.id : null;
   const offset = (page - 1) * postsPerPage;
-  try {
-    // 총 게시물 수
-    const [countRows] = await pool.query<RowDataPacket[]>(`
-      SELECT COUNT(*) AS totalPosts FROM posts
-    `);
-    const totalPage = Math.ceil(countRows[0].totalPosts / postsPerPage);
 
-    let query = `SELECT * FROM posts`;
-    const queryParams: Array<string | number> = [offset, postsPerPage];
+  // count
+  let PostCountQuery = "SELECT COUNT(*) AS totalPosts FROM posts";
+  const PostCountQueryParams = [];
 
-    if (queryKey !== "whole") {
-      // language가 'while'일 경우 전체 조회
-      query += ` WHERE language = ?`;
-      queryParams.unshift(queryKey);
-    }
+  // get posts
+  let PostQuery = "SELECT * FROM posts";
+  const PostQueryParams: Array<string | number> = [offset, postsPerPage];
 
-    query += ` LIMIT ?, ?`;
+  if (queryKey !== "whole") {
+    const optionalQuery = " WHERE language = ?";
+    PostCountQuery += optionalQuery;
+    PostCountQueryParams.push(queryKey);
 
-    const [rows] = await pool.query<RowDataPacket[]>(query, queryParams);
-
-    return {
-      posts: rows as PostTypes[],
-      totalPage,
-      pageParams: page,
-    };
-  } catch (e) {
-    console.error(e);
-    throw new Error("Cannot connect to DB", e as Error);
+    PostQuery += optionalQuery;
+    PostQueryParams.unshift(queryKey);
   }
+  PostQuery += " LIMIT ?, ?";
+
+  const [countRows] = await db<[{ totalPosts: number }]>({
+    query: PostCountQuery,
+    queryParams: PostCountQueryParams,
+  });
+  const totalPage = Math.ceil(countRows.totalPosts / postsPerPage);
+
+  const postRows = await db<(Omit<PostTypes, "isAuthor"> & { uuid: string })[]>(
+    {
+      query: PostQuery,
+      queryParams: PostQueryParams,
+    }
+  );
+
+  const posts: PostTypes[] = postRows.map(({ uuid, ...post }) => ({
+    ...post,
+    isAuthor: useruuid === uuid,
+  }));
+
+  console.log("rows", posts);
+
+  return {
+    posts,
+    totalPage,
+    pageParams: page,
+  };
 };

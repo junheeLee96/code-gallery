@@ -1,5 +1,5 @@
 import { getPost } from "@/app/lib/data";
-import { PostTypes } from "@/app/lib/definitions";
+// import { PostTypes } from "@/app/lib/definitions";
 import Post from "../Post";
 
 type PostWrapperTypes = {
