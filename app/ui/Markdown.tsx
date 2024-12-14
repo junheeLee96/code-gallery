@@ -12,7 +12,6 @@ type MarkdownTypes = {
 export default function Markdown({ markdown }: MarkdownTypes) {
   return (
     <ReactMarkdown
-      children={markdown}
       remarkPlugins={[remarkBreaks]}
       components={{
         code({ node, inline, className, children, ...props }) {
@@ -28,7 +27,7 @@ export default function Markdown({ markdown }: MarkdownTypes) {
             </SyntaxHighlighter>
           ) : (
             <code
-              className={`${className} bg-gray-500 p-2 min-w-full block`}
+              className={`${className} bg-gray-200 p-2 min-w-full block rounded`}
               {...props}
             >
               {children}
@@ -36,6 +35,8 @@ export default function Markdown({ markdown }: MarkdownTypes) {
           );
         },
       }}
-    />
+    >
+      {markdown}
+    </ReactMarkdown>
   );
 }

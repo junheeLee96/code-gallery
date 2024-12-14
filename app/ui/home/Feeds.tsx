@@ -34,7 +34,9 @@ export default function Feeds() {
           {page.posts.map((post: PostTypes, idx: number) => (
             <Wrapper key={post.idx || idx}>
               <Post post={post} />
-              <AddCommentBtn post_id={post.idx} />
+              <div className="mt-3 pt-2 border-t border-gray-300">
+                <AddCommentBtn post_id={post.idx} />
+              </div>
             </Wrapper>
           ))}
         </div>

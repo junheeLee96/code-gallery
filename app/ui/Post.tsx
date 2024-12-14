@@ -6,7 +6,6 @@ type PostPropTypes = {
 };
 
 export default function Post({ post }: PostPropTypes) {
-  console.log(post);
   return (
     <div>
       <Markdown markdown={post.content} />
