@@ -3,7 +3,6 @@
 import Textarea from "../TextArea";
 import Markdown from "../Markdown";
 import { ChangeEvent, useState } from "react";
-import { useSession } from "next-auth/react";
 import Languages from "../Languages";
 
 type PostFormTypes = {
@@ -13,16 +12,20 @@ type PostFormTypes = {
 
 export default function PostForm({ isMarkdownRender, action }: PostFormTypes) {
   const [markdown, setMarkdown] = useState("");
-  const session = useSession();
+  const [language, setLanguage] = useState("javascript");
+
+  const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setLanguage(e.target.value);
+  };
 
   const onMarkdownChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdown(e.target.value);
   };
   return (
     <form action={action}>
-      <Languages />
+      <Languages onChange={onLanguageChange} />
       <Textarea markdown={markdown} onMarkdownChange={onMarkdownChange} />
-      {isMarkdownRender && <Markdown markdown={markdown} />}
+      {isMarkdownRender && <Markdown markdown={markdown} language={language} />}
       <button className="cursor-pointer">submit</button>
     </form>
   );
