@@ -9,5 +9,6 @@ type PostWrapperTypes = {
 export default async function PostWrap({ post_id }: PostWrapperTypes) {
   const post = await getPost(post_id);
 
+  // todo: post_id 내용이 없을 때 처리
   return <div>{post && post.length > 0 ? <Post post={post[0]} /> : ""}</div>;
 }
