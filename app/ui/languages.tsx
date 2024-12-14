@@ -10,11 +10,7 @@ type LanguagesProps = {
   value?: string;
 };
 
-export default function Languages({
-  isWholeRender,
-  onChange,
-  value,
-}: LanguagesProps) {
+export default function Languages({ isWholeRender, onChange }: LanguagesProps) {
   return (
     <select
       id="languages"

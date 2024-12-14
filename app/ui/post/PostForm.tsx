@@ -4,7 +4,7 @@ import Textarea from "../TextArea";
 import Markdown from "../Markdown";
 import { ChangeEvent, useState } from "react";
 import { useSession } from "next-auth/react";
-import Languages from "../languages";
+import Languages from "../Languages";
 
 type PostFormTypes = {
   isMarkdownRender: boolean;

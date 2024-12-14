@@ -9,6 +9,7 @@ import {
   PostTypes,
   User,
 } from "./definitions";
+import { auth } from "@/auth";
 
 export const getUser = async (uuid: string): Promise<User[]> => {
   const query = `SELECT * FROM users WHERE uuid = ?`;
@@ -59,6 +60,9 @@ export const getPosts = async ({
   postsPerPage = 12,
   queryKey,
 }: InfiniteProps): Promise<PostListResponse> => {
+  const session = await auth();
+  console.log(session);
+  const uuid = session ? session.user.id : null;
   const offset = (page - 1) * postsPerPage;
   try {
     // 총 게시물 수
