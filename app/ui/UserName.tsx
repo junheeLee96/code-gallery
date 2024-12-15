@@ -12,7 +12,7 @@ export default function UserName({ nickname, isAuthor }: UserNameProps) {
         <span>
           <CircleUserRound />
         </span>
-        <span className="ml-3">{nickname}</span>
+        <span className="ml-1">{nickname}</span>
       </div>
       {isAuthor && <div></div>}
     </div>

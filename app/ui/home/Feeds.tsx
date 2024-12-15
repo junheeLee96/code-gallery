@@ -11,13 +11,15 @@ import { getPosts } from "@/app/lib/data";
 import Wrapper from "../Wrapper";
 import Languages from "../Languages";
 import UserName from "../UserName";
+import FeedSkeleton from "../skeletons/feed/FeedSkeleton";
 
 export default function Feeds() {
   const { language, setLanguage } = useLanguageStore((state) => state);
-  const { data, hasNextPage, fetchNextPage } = useInfiniteQueryHook({
-    queryKey: ["posts", language],
-    queryFn: getPosts,
-  });
+  const { data, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } =
+    useInfiniteQueryHook({
+      queryKey: ["posts", language],
+      queryFn: getPosts,
+    });
   useScrollLoaer({ hasNextPage, fetchNextPage });
 
   const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -26,7 +28,7 @@ export default function Feeds() {
 
   //todo: isLoading인 경우 스켈레톤
   return (
-    <div>
+    <div className="pb-20">
       <Wrapper>
         <Languages onChange={onLanguageChange} isWholeRender={true} />
       </Wrapper>
@@ -43,6 +45,7 @@ export default function Feeds() {
           ))}
         </div>
       ))}
+      {(isLoading || isFetchingNextPage) && <FeedSkeleton />}
     </div>
   );
 }
