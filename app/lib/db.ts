@@ -13,7 +13,7 @@ const pool: Pool = mysql.createPool({
 
 type QueryParams = {
   query: string;
-  queryParams: Array<string | number>;
+  queryParams: Array<string | number | Date>;
 };
 
 export const db = async <T>({

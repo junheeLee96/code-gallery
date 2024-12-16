@@ -13,11 +13,11 @@ import Languages from "../Languages";
 import UserName from "../UserName";
 import FeedSkeleton from "../skeletons/feed/FeedSkeleton";
 
-export default function Feeds() {
+export default function Feeds({ date }: { date: Date }) {
   const { language, setLanguage } = useLanguageStore((state) => state);
   const { data, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } =
     useInfiniteQueryHook({
-      queryKey: ["posts", language],
+      queryKey: ["posts", language, date],
       queryFn: getPosts,
     });
   useScrollLoaer({ hasNextPage, fetchNextPage });
@@ -25,7 +25,7 @@ export default function Feeds() {
   const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setLanguage(e.target.value);
   };
-
+  console.log(data);
   //todo: isLoading인 경우 스켈레톤
   return (
     <div className="pb-20">

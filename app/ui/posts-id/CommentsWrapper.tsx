@@ -11,13 +11,17 @@ import Wrapper from "../Wrapper";
 
 type CommentsWrapperProps = {
   post_id: string;
+  date: Date;
 };
 
-export default function CommentsWrapper({ post_id }: CommentsWrapperProps) {
+export default function CommentsWrapper({
+  post_id,
+  date,
+}: CommentsWrapperProps) {
   const [comments, setComments] = useState<CommentsTypes[]>([]);
 
   const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQueryHook({
-    queryKey: ["comments", post_id],
+    queryKey: ["comments", post_id, date],
     queryFn: getComments,
   });
   console.log(data);

@@ -25,8 +25,14 @@ export const getPost = async (id: string): Promise<PostTypes[]> => {
 
   const query = `SELECT * FROM posts WHERE idx = ?`;
   const queryParams = [id];
+  return new Promise((resolve) => {
+    setTimeout(async () => {
+      const result = await db<PostTypes[]>({ query, queryParams });
+      resolve(result);
+    }, 2000);
+  });
 
-  return await db<PostTypes[]>({ query, queryParams });
+  return db<PostTypes[]>({ query, queryParams });
 };
 
 export const getComments = async ({
@@ -72,26 +78,33 @@ export const getPosts = async ({
   page,
   postsPerPage = 12,
   queryKey,
+  date,
 }: InfiniteProps): Promise<PostListResponse> => {
   const session = await auth();
   const useruuid = session ? session.user.id : null;
   const offset = (page - 1) * postsPerPage;
 
   // count
-  let PostCountQuery = "SELECT COUNT(*) AS totalPosts FROM posts";
-  const PostCountQueryParams = [];
+  let PostCountQuery =
+    "SELECT COUNT(*) AS totalPosts FROM posts WHERE reg_dt < ?";
+  const PostCountQueryParams: Array<string | number | Date> = [date];
 
   // get posts
-  let PostQuery = "SELECT * FROM posts";
-  const PostQueryParams: Array<string | number> = [offset, postsPerPage];
+  let PostQuery = "SELECT * FROM posts WHERE reg_dt < ?";
+  const PostQueryParams: Array<string | number | Date> = [
+    date,
+    offset,
+    postsPerPage,
+  ];
 
   if (queryKey !== "whole") {
-    const optionalQuery = " WHERE language = ?";
+    const optionalQuery = " and language = ?";
     PostCountQuery += optionalQuery;
     PostCountQueryParams.push(queryKey);
 
     PostQuery += optionalQuery;
-    PostQueryParams.unshift(queryKey);
+    // PostQueryParams.unshift(queryKey);
+    PostQueryParams.splice(1, 0, queryKey);
   }
   PostQuery += " LIMIT ?, ?";
 
@@ -113,7 +126,7 @@ export const getPosts = async ({
     isAuthor: useruuid === uuid,
   }));
 
-  console.log("rows", posts);
+  console.log("posts", posts);
 
   return {
     posts,

@@ -21,6 +21,7 @@ export type InfiniteProps = {
   page: number;
   postsPerPage?: number;
   queryKey: string;
+  date: Date;
 };
 
 export type PostListResponse = {
