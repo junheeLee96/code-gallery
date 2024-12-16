@@ -2,6 +2,7 @@
 
 import { createComment } from "@/app/lib/actions";
 import Textarea from "@/app/ui/TextArea";
+import { Send } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { FormEvent, useState } from "react";
@@ -30,13 +31,20 @@ export default function CommentForm({ post_id }: CommentFormProp) {
     <div>
       <div>댓글달기</div>
       {user ? (
-        <form onSubmit={onSubmit}>
-          <Textarea
-            markdown={comment}
-            onMarkdownChange={(e) => setComment(e.target.value)}
-          />
-          <button>Submit</button>
-        </form>
+        <div>
+          <form onSubmit={onSubmit}>
+            <Textarea
+              className="h-12"
+              markdown={comment}
+              onMarkdownChange={(e) => setComment(e.target.value)}
+            />
+            <div className="w-full flex justify-end mt-1">
+              <button>
+                <Send />
+              </button>
+            </div>
+          </form>
+        </div>
       ) : (
         <div>로그인이 필요합니다</div>
       )}

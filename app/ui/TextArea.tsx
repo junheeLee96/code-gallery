@@ -2,14 +2,16 @@
 
 import React, { ChangeEvent } from "react";
 
-type TextareaTypes = {
+interface TextareaTypes
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   markdown: string;
   onMarkdownChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-};
+}
 
 export default function Textarea({
   markdown,
   onMarkdownChange,
+  className,
 }: TextareaTypes) {
   return (
     <div>
@@ -17,7 +19,9 @@ export default function Textarea({
         value={markdown}
         onChange={onMarkdownChange}
         placeholder="``` code ```을 통해 코드를 작성할 수 있습니다"
-        className="w-full h-[400px] bg-transparent"
+        className={
+          `w-full bg-transparent p-2 border border-gray-200 rounded` + className
+        }
         name="markdownContent"
       />
     </div>

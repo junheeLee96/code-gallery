@@ -24,7 +24,11 @@ export default function PostForm({ isMarkdownRender, action }: PostFormTypes) {
   return (
     <form action={action}>
       <Languages onChange={onLanguageChange} />
-      <Textarea markdown={markdown} onMarkdownChange={onMarkdownChange} />
+      <Textarea
+        markdown={markdown}
+        onMarkdownChange={onMarkdownChange}
+        className="h-[150px]"
+      />
       {isMarkdownRender && <Markdown markdown={markdown} language={language} />}
       <button className="cursor-pointer">submit</button>
     </form>

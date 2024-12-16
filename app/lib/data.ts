@@ -11,6 +11,7 @@ import {
   User,
 } from "./definitions";
 import { auth } from "@/auth";
+import { cache } from "react";
 
 export const getUser = async (uuid: string): Promise<User[]> => {
   const query = `SELECT * FROM users WHERE uuid = ?`;
@@ -19,11 +20,13 @@ export const getUser = async (uuid: string): Promise<User[]> => {
   return db<User[]>({ query, queryParams });
 };
 
-export const getPost = async (id: string) => {
+export const getPost = async (id: string): Promise<PostTypes[]> => {
+  // todo: /posts/[id]의 메타데이터 때문에 캐싱고려
+
   const query = `SELECT * FROM posts WHERE idx = ?`;
   const queryParams = [id];
 
-  return db<PostTypes[]>({ query, queryParams });
+  return await db<PostTypes[]>({ query, queryParams });
 };
 
 export const getComments = async ({
@@ -32,6 +35,8 @@ export const getComments = async ({
   queryKey,
 }: InfiniteProps): Promise<CommentListResponse> => {
   const offset = (page - 1) * postsPerPage;
+  const session = await auth();
+  const useruuid = session ? session.user.id : null;
 
   const CommentCountsQuery = `SELECT COUNT(*) AS totalComments FROM comments WHERE post_id = ?`;
   const CommentQueryParams = [queryKey];
@@ -45,10 +50,17 @@ export const getComments = async ({
   const query = "SELECT * FROM comments WHERE post_id = ? LIMIT ?, ?";
   const queryParams = [queryKey, offset, postsPerPage];
 
-  const comments = await db<CommentsTypes[]>({ query, queryParams });
-  // return rows;
-  console.log("rows", comments);
+  const data = await db<(Omit<CommentsTypes, "isAuthor"> & { uuid: string })[]>(
+    {
+      query,
+      queryParams,
+    }
+  );
 
+  const comments: CommentsTypes[] = data.map(({ uuid, ...comment }) => ({
+    ...comment,
+    isAuthor: useruuid === uuid,
+  }));
   return {
     comments,
     totalPage: totalCommentPage,

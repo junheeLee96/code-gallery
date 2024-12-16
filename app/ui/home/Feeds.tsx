@@ -36,7 +36,6 @@ export default function Feeds() {
         <div key={pageIndex}>
           {page.posts.map((post: PostTypes, idx: number) => (
             <Wrapper key={post.idx || idx}>
-              <UserName nickname={post.nickname} isAuthor={post.isAuthor} />
               <Post post={post} />
               <div className="mt-3 pt-2 border-t border-gray-300">
                 <AddCommentBtn post_id={post.idx} />

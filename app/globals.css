@@ -10,3 +10,7 @@
   background-color: rgb(240, 242, 246);
   color: black;
 }
+
+textarea {
+  resize: none;
+}

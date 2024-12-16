@@ -7,6 +7,7 @@ import useInfiniteQueryHook from "@/app/hooks/useInfiniteQueryHook";
 import { CommentsTypes } from "@/app/lib/definitions";
 import useScrollLoaer from "@/app/hooks/useScrollLoader";
 import { getComments } from "@/app/lib/data";
+import Wrapper from "../Wrapper";
 
 type CommentsWrapperProps = {
   post_id: string;
@@ -24,9 +25,13 @@ export default function CommentsWrapper({ post_id }: CommentsWrapperProps) {
   useScrollLoaer({ fetchNextPage, hasNextPage });
 
   return (
-    <div>
-      <CommentForm post_id={post_id} />
-      <Comments post_id={post_id} />
+    <div className="pb-20">
+      <Wrapper>
+        <CommentForm post_id={post_id} />
+      </Wrapper>
+      <Wrapper>
+        <Comments post_id={post_id} />
+      </Wrapper>
     </div>
   );
 }

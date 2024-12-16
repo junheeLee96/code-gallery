@@ -3,5 +3,9 @@ type CommentsProp = {
 };
 
 export default function Comments({ post_id }: CommentsProp) {
-  return <div>gdgd</div>;
+  return (
+    <div>
+      <div> 댓글</div>
+    </div>
+  );
 }
