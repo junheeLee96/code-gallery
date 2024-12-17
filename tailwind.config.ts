@@ -20,6 +20,7 @@ export default {
         "sign-up-shape": "0px 35% 35% 0px;",
       },
       colors: {
+        "light-gary": "#bbbbbb",
         background: "var(--background)",
         // foreground: "var(--foreground)",
         "nav-background": "var(--nav-background)",

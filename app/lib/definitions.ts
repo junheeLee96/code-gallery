@@ -49,5 +49,5 @@ export type CommentsTypes = {
   isAuthor: boolean;
   nickname: string;
   comment: string;
-  reg_dt: Date;
+  reg_dt: string;
 };

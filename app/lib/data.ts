@@ -1,5 +1,6 @@
 "use server";
 
+import moment from "moment-timezone";
 import { db } from "./db";
 import { RowDataPacket } from "mysql2";
 import {
@@ -11,7 +12,6 @@ import {
   User,
 } from "./definitions";
 import { auth } from "@/auth";
-import { cache } from "react";
 
 export const getUser = async (uuid: string): Promise<User[]> => {
   const query = `SELECT * FROM users WHERE uuid = ?`;
@@ -20,32 +20,48 @@ export const getUser = async (uuid: string): Promise<User[]> => {
   return db<User[]>({ query, queryParams });
 };
 
-export const getPost = async (id: string): Promise<PostTypes[]> => {
+export async function getPost(id: string): Promise<PostTypes[]> {
   // todo: /posts/[id]의 메타데이터 때문에 캐싱고려
 
   const query = `SELECT * FROM posts WHERE idx = ?`;
   const queryParams = [id];
-  return new Promise((resolve) => {
-    setTimeout(async () => {
-      const result = await db<PostTypes[]>({ query, queryParams });
-      resolve(result);
-    }, 2000);
-  });
-
+  // const result = await db<PostTypes[]>({ query, queryParams });
+  // return new Promise((resolve) => {
+  //   setTimeout(async () => {
+  //     resolve(result);
+  //   }, 3000);
+  // });
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
   return db<PostTypes[]>({ query, queryParams });
-};
+}
+
+// export const getPost = async (id: string): Promise<PostTypes[]> => {
+//   // todo: /posts/[id]의 메타데이터 때문에 캐싱고려
+
+//   const query = `SELECT * FROM posts WHERE idx = ?`;
+//   const queryParams = [id];
+//   return new Promise((resolve) => {
+//     setTimeout(async () => {
+//       const result = await db<PostTypes[]>({ query, queryParams });
+//       resolve(result);
+//     }, 2000);
+//   });
+
+//   return db<PostTypes[]>({ query, queryParams });
+// };
 
 export const getComments = async ({
   page,
   postsPerPage = 12,
   queryKey,
+  date,
 }: InfiniteProps): Promise<CommentListResponse> => {
   const offset = (page - 1) * postsPerPage;
   const session = await auth();
   const useruuid = session ? session.user.id : null;
 
-  const CommentCountsQuery = `SELECT COUNT(*) AS totalComments FROM comments WHERE post_id = ?`;
-  const CommentQueryParams = [queryKey];
+  const CommentCountsQuery = `SELECT COUNT(*) AS totalComments FROM comments WHERE post_id = ? and reg_dt < ?`;
+  const CommentQueryParams = [queryKey, date];
   const [countRows] = await db<RowDataPacket[]>({
     query: CommentCountsQuery,
     queryParams: CommentQueryParams,
@@ -53,8 +69,9 @@ export const getComments = async ({
   const { totalComments } = countRows;
   const totalCommentPage = Math.ceil(totalComments / postsPerPage);
 
-  const query = "SELECT * FROM comments WHERE post_id = ? LIMIT ?, ?";
-  const queryParams = [queryKey, offset, postsPerPage];
+  const query =
+    "SELECT * FROM comments WHERE post_id = ? and reg_dt < ? LIMIT ?, ?";
+  const queryParams = [queryKey, date, offset, postsPerPage];
 
   const data = await db<(Omit<CommentsTypes, "isAuthor"> & { uuid: string })[]>(
     {
@@ -63,10 +80,20 @@ export const getComments = async ({
     }
   );
 
-  const comments: CommentsTypes[] = data.map(({ uuid, ...comment }) => ({
-    ...comment,
-    isAuthor: useruuid === uuid,
-  }));
+  const comments: CommentsTypes[] = data.map(
+    ({ uuid, reg_dt, ...comment }) => ({
+      ...comment,
+      reg_dt: moment.utc(reg_dt).tz("Asia/Seoul").format(),
+      isAuthor: useruuid === uuid,
+    })
+  );
+
+  await new Promise((res) =>
+    setTimeout(() => {
+      res(true);
+    }, 3000)
+  );
+
   return {
     comments,
     totalPage: totalCommentPage,

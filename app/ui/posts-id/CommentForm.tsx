@@ -4,7 +4,6 @@ import { createComment } from "@/app/lib/actions";
 import Textarea from "@/app/ui/TextArea";
 import { Send } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 type CommentFormProp = {
@@ -25,7 +24,6 @@ export default function CommentForm({ post_id }: CommentFormProp) {
       nickname: user.user.nickname as string,
     });
     console.log(data);
-    // redirect("/");
   };
   return (
     <div>

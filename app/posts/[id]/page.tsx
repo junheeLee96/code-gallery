@@ -1,41 +1,41 @@
 import PostWrapper from "@/app/ui/posts-id/PostWrapper";
 import { Suspense } from "react";
 import CommentsWrapper from "@/app/ui/posts-id/CommentsWrapper";
-import { getPost } from "@/app/lib/data";
-import { Metadata, ResolvingMetadata } from "next";
 import PostSkeleton from "@/app/ui/skeletons/feed/PostSkeleton";
 
 // type Props = {
 //   params: { id: string };
 // };
-export async function generateMetadata(
-  { params }: { params: { id: string } },
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const post = await getPost(params.id);
 
-  if (!post || post.length === 0) {
-    return {
-      title: "Post Not Found",
-    };
-  }
+// export async function generateMetadata(
+//   // todo: generateMetadata가 있을때 Suspense는 동작하지 않음(의도된 동작) generateMetadata suspense 로 검색
+//   { params }: Props,
+//   parent: ResolvingMetadata
+// ): Promise<Metadata> {
+//   const id = params.id;
 
-  return {
-    title: post[0].nickname + " 님의 게시물",
-    description: post[0].content.substring(0, 160),
-  };
-}
+//   const post = await getPost(id);
 
-export default async function Post(props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
-  const id = params.id;
-  const date = new Date();
+//   if (!post || post.length === 0) {
+//     return {
+//       title: "Post Not Found",
+//       description: "The requested post could not be found.",
+//     };
+//   }
+
+//   return {
+//     title: `${post[0].nickname} 님의 게시물`,
+//     description: post[0].content.substring(0, 160),
+//   };
+// }
+
+export default function Post({ params }: { params: { id: string } }) {
   return (
     <div>
       <Suspense fallback={<PostSkeleton />}>
-        <PostWrapper post_id={id} />
+        <PostWrapper post_id={params.id} />
       </Suspense>
-      <CommentsWrapper post_id={id} date={date} />
+      <CommentsWrapper post_id={params.id} date={new Date()} />
     </div>
   );
 }
