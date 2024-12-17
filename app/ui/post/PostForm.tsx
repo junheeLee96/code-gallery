@@ -6,6 +6,7 @@ import Languages from "../common/Languages";
 import usePostForm from "@/app/hooks/usePostForm";
 import { SendHorizonal } from "lucide-react";
 import Button from "../common/Button";
+import Loading from "../common/Loading";
 
 type PostFormTypes = {
   isMarkdownRender: boolean;
@@ -19,6 +20,7 @@ export default function PostForm({ isMarkdownRender }: PostFormTypes) {
     onContentChange,
     onSubmit,
     error,
+    isLoading,
   } = usePostForm();
   return (
     <>
@@ -32,9 +34,18 @@ export default function PostForm({ isMarkdownRender }: PostFormTypes) {
         {isMarkdownRender && (
           <Markdown markdown={content} language={language} />
         )}
-        <Button className="flex items-center justify-center">
-          <SendHorizonal />
-          <span className="ml-2">게시하기</span>
+        <Button
+          className="flex items-center justify-center"
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <>
+              <SendHorizonal />
+              <span className="ml-2">게시하기</span>
+            </>
+          )}
         </Button>
       </form>
       {error && error}

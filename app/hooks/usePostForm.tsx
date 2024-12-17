@@ -8,6 +8,7 @@ export default function usePostForm() {
   const [content, setContent] = useState("");
   const [language, setLanguage] = useState("javascript");
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setLanguage(e.target.value);
@@ -19,6 +20,7 @@ export default function usePostForm() {
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       await createPost({ content, language });
       redirect("/");
@@ -35,5 +37,6 @@ export default function usePostForm() {
     onContentChange,
     onSubmit,
     error,
+    isLoading,
   };
 }
