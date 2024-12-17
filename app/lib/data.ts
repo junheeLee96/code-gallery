@@ -25,30 +25,8 @@ export async function getPost(id: string): Promise<PostTypes[]> {
 
   const query = `SELECT * FROM posts WHERE idx = ?`;
   const queryParams = [id];
-  // const result = await db<PostTypes[]>({ query, queryParams });
-  // return new Promise((resolve) => {
-  //   setTimeout(async () => {
-  //     resolve(result);
-  //   }, 3000);
-  // });
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
   return db<PostTypes[]>({ query, queryParams });
 }
-
-// export const getPost = async (id: string): Promise<PostTypes[]> => {
-//   // todo: /posts/[id]의 메타데이터 때문에 캐싱고려
-
-//   const query = `SELECT * FROM posts WHERE idx = ?`;
-//   const queryParams = [id];
-//   return new Promise((resolve) => {
-//     setTimeout(async () => {
-//       const result = await db<PostTypes[]>({ query, queryParams });
-//       resolve(result);
-//     }, 2000);
-//   });
-
-//   return db<PostTypes[]>({ query, queryParams });
-// };
 
 export const getComments = async ({
   page,
@@ -86,12 +64,6 @@ export const getComments = async ({
       reg_dt: moment.utc(reg_dt).tz("Asia/Seoul").format(),
       isAuthor: useruuid === uuid,
     })
-  );
-
-  await new Promise((res) =>
-    setTimeout(() => {
-      res(true);
-    }, 3000)
   );
 
   return {
@@ -133,7 +105,7 @@ export const getPosts = async ({
     // PostQueryParams.unshift(queryKey);
     PostQueryParams.splice(1, 0, queryKey);
   }
-  PostQuery += " LIMIT ?, ?";
+  PostQuery += " ORDER BY reg_dt DESC LIMIT ?, ?";
 
   const [countRows] = await db<[{ totalPosts: number }]>({
     query: PostCountQuery,

@@ -9,7 +9,11 @@ type PostPropTypes = {
 export default function Post({ post }: PostPropTypes) {
   return (
     <div>
-      <UserName nickname={post.nickname} isAuthor={post.isAuthor} />
+      <UserName
+        nickname={post.nickname}
+        isAuthor={post.isAuthor}
+        reg_dt={post.reg_dt}
+      />
       <Markdown markdown={post.content} language={post.language} />
     </div>
   );

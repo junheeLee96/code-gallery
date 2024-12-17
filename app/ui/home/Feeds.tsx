@@ -10,7 +10,6 @@ import useScrollLoaer from "@/app/hooks/useScrollLoader";
 import { getPosts } from "@/app/lib/data";
 import Wrapper from "../Wrapper";
 import Languages from "../Languages";
-import UserName from "../UserName";
 import FeedSkeleton from "../skeletons/feed/FeedSkeleton";
 
 export default function Feeds({ date }: { date: Date }) {

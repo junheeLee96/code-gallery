@@ -6,3 +6,8 @@ export const languages = [
   { name: "C#", value: "C#" },
   { name: "C", value: "C" },
 ];
+
+export const sortings = [
+  { name: "최신순", value: "d" },
+  { name: "오래된 순", value: "d" },
+];

@@ -1,7 +1,7 @@
 import { CommentsTypes } from "@/app/lib/definitions";
 import UserName from "../UserName";
-import { timeAgo } from "@/app/lib/utils";
 import Markdown from "../Markdown";
+import TimeAgo from "../TimeAgo";
 
 type CommentProps = {
   comment: CommentsTypes;
@@ -16,9 +16,7 @@ export default function Comment({ comment }: CommentProps) {
       </div>
       <div>{comment.comment}</div>
       <Markdown language="" markdown={comment.comment} />
-      <div className="mt-2 text-light-gary text-sm">
-        {timeAgo(comment.reg_dt.toLocaleString())}
-      </div>
+      <TimeAgo date={comment.reg_dt} />
     </div>
   );
 }

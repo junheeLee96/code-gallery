@@ -14,7 +14,7 @@ export type PostTypes = {
   language: string;
   like: number;
   comment: number;
-  reg_dt: Date;
+  reg_dt: string;
 };
 
 export type CommentsTypes = {
