@@ -1,15 +1,15 @@
 "use client";
 
 import { ChangeEvent } from "react";
-import Post from "../Post";
+import Post from "../common/Post";
 import { PostTypes } from "@/app/lib/definitions";
 import { useLanguageStore } from "@/app/providers/zustand/language-store-provider";
 import AddCommentBtn from "./add-comment-btn";
 import useInfiniteQueryHook from "@/app/hooks/useInfiniteQueryHook";
 import useScrollLoaer from "@/app/hooks/useScrollLoader";
 import { getPosts } from "@/app/lib/data";
-import Wrapper from "../Wrapper";
-import Languages from "../Languages";
+import Wrapper from "../common/Wrapper";
+import Languages from "../common/Languages";
 import FeedSkeleton from "../skeletons/feed/FeedSkeleton";
 
 export default function Feeds({ date }: { date: Date }) {

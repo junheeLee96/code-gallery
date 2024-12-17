@@ -1,4 +1,4 @@
-import { timeAgo } from "../lib/utils";
+import { timeAgo } from "../../lib/utils";
 
 type TimeAgoProps = {
   date: string;

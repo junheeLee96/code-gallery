@@ -1,11 +1,11 @@
 "use client";
 
-import Textarea from "../TextArea";
-import Markdown from "../Markdown";
-import Languages from "../Languages";
+import Textarea from "../common/TextArea";
+import Markdown from "../common/Markdown";
+import Languages from "../common/Languages";
 import usePostForm from "@/app/hooks/usePostForm";
 import { SendHorizonal } from "lucide-react";
-import Button from "../Button";
+import Button from "../common/Button";
 
 type PostFormTypes = {
   isMarkdownRender: boolean;

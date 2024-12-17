@@ -4,7 +4,7 @@ import CommentForm from "./CommentForm";
 import useInfiniteQueryHook from "@/app/hooks/useInfiniteQueryHook";
 import useScrollLoaer from "@/app/hooks/useScrollLoader";
 import { getComments } from "@/app/lib/data";
-import Wrapper from "../Wrapper";
+import Wrapper from "../common/Wrapper";
 import Comment from "./Comment";
 
 type CommentsWrapperProps = {

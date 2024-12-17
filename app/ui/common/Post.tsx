@@ -1,4 +1,4 @@
-import { PostTypes } from "../lib/definitions";
+import { PostTypes } from "../../lib/definitions";
 import Markdown from "./Markdown";
 import UserName from "./UserName";
 

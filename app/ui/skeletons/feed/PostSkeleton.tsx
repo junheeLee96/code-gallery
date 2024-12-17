@@ -1,4 +1,4 @@
-import Wrapper from "../../Wrapper";
+import Wrapper from "../../common/Wrapper";
 
 export default function PostSkeleton() {
   return (

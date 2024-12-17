@@ -1,7 +1,7 @@
 import { getPost } from "@/app/lib/data";
 // import { PostTypes } from "@/app/lib/definitions";
-import Post from "../Post";
-import Wrapper from "../Wrapper";
+import Post from "../common/Post";
+import Wrapper from "../common/Wrapper";
 
 type PostWrapperTypes = {
   post_id: string;

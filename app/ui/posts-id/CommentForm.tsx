@@ -1,6 +1,6 @@
 "use client";
 
-import Textarea from "@/app/ui/TextArea";
+import Textarea from "@/app/ui/common/TextArea";
 import { Send } from "lucide-react";
 import { useSession } from "next-auth/react";
 import useCommentForm from "../../hooks/useCommentForm";

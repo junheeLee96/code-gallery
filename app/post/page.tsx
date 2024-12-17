@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import PostForm from "../ui/post/PostForm";
-import UserName from "../ui/UserName";
-import Wrapper from "../ui/Wrapper";
+import UserName from "../ui/common/UserName";
+import Wrapper from "../ui/common/Wrapper";
 
 export default async function Post() {
   const session = await auth();

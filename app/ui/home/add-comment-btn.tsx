@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Button from "../Button";
+import Button from "../common/Button";
 import { MessageSquareMore } from "lucide-react";
 
 type AddCommentBtnProp = {

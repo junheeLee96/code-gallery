@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent } from "react";
-import { languages } from "../lib/options";
+import { languages } from "../../lib/options";
 
 type LanguagesProps = {
   // "전체" 옵션 활성화
