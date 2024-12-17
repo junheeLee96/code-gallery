@@ -1,4 +1,3 @@
-// src/stores/counter-store.ts
 import { createStore } from "zustand/vanilla";
 import { LanguageState, LanguageStore } from "./types/language-store-type";
 

@@ -11,7 +11,7 @@ import { LanguageStore } from "@/app/stores/types/language-store-type";
 
 export type LanguageStoreApi = ReturnType<typeof createLanguageStore>;
 
-export const CounterStoreContext = createContext<LanguageStoreApi | undefined>(
+export const LanguageStoreContext = createContext<LanguageStoreApi | undefined>(
   undefined
 );
 
@@ -28,20 +28,20 @@ export const LanugeageStoreProvider = ({
   }
 
   return (
-    <CounterStoreContext.Provider value={storeRef.current}>
+    <LanguageStoreContext.Provider value={storeRef.current}>
       {children}
-    </CounterStoreContext.Provider>
+    </LanguageStoreContext.Provider>
   );
 };
 
 export const useLanguageStore = <T,>(
   selector: (store: LanguageStore) => T
 ): T => {
-  const LanguageStoreContext = useContext(CounterStoreContext);
+  const languageStoreContext = useContext(LanguageStoreContext);
 
-  if (!LanguageStoreContext) {
+  if (!languageStoreContext) {
     throw new Error(`useCounterStore must be used within CounterStoreProvider`);
   }
 
-  return useStore(LanguageStoreContext, selector);
+  return useStore(languageStoreContext, selector);
 };
