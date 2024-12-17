@@ -33,7 +33,7 @@ export default function Markdown({ markdown, language }: MarkdownTypes) {
             <code
               className={`${
                 className ?? ""
-              } bg-gray-200 p-2 min-w-full block rounded`}
+              } bg-markdown-bg p-2 min-w-full block rounded text-white`}
               {...props}
             >
               {children}

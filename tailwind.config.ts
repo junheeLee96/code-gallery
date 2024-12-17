@@ -20,6 +20,7 @@ export default {
         "sign-up-shape": "0px 35% 35% 0px;",
       },
       colors: {
+        "markdown-bg": "rgb(35,35,31)",
         "light-gary": "#bbbbbb",
         background: "var(--background)",
         // foreground: "var(--foreground)",

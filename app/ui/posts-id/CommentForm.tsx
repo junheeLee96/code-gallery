@@ -3,7 +3,9 @@
 import Textarea from "@/app/ui/TextArea";
 import { Send } from "lucide-react";
 import { useSession } from "next-auth/react";
-import useCommentForm from "./useCommentForm";
+import useCommentForm from "../../hooks/useCommentForm";
+import Comment from "./Comment";
+import { CommentsTypes } from "@/app/lib/definitions";
 
 type CommentFormProp = {
   post_id: string;
@@ -11,27 +13,14 @@ type CommentFormProp = {
 
 export default function CommentForm({ post_id }: CommentFormProp) {
   const { data: user } = useSession();
-  const { comment, isLoading, error, onCommentChange, onSubmit } =
+  const { comment, isLoading, error, onCommentChange, onSubmit, comments } =
     useCommentForm({
       uuid: user?.user.id as string,
       nickname: user?.user.nickname as string,
       post_id,
     });
-  // const [comment, setComment] = useState("");
 
-  // const onSubmit = async (e: FormEvent) => {
-  //   if (!user || !user.user) return;
-  //   e.preventDefault();
-  //   const data = await createComment({
-  //     comment,
-  //     post_id,
-  //     uuid: user.user.id,
-  //     nickname: user.user.nickname as string,
-  //   });
-  //   console.log(data);
-  // };
-
-  if (!user) return <div>로그인이 필요합니다.</div>;
+  if (!user) return null;
 
   return (
     <div>
@@ -53,6 +42,9 @@ export default function CommentForm({ post_id }: CommentFormProp) {
           </div>
         </form>
       </div>
+      {comments.map((comment: CommentsTypes, idx: number) => (
+        <Comment comment={comment} key={idx} />
+      ))}
     </div>
   );
 }

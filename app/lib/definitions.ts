@@ -45,7 +45,7 @@ export type createCommentProps = {
 
 export type CommentsTypes = {
   idx: number;
-  post_id: number;
+  post_id: string;
   isAuthor: boolean;
   nickname: string;
   comment: string;
