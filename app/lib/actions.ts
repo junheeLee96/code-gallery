@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import pool, { db } from "./db";
-import { createCommentProps, User } from "./definitions";
+import { createCommentProps, createPostProps, User } from "./definitions";
 import { redirect } from "next/navigation";
 import { ResultSetHeader } from "mysql2";
 
@@ -12,7 +12,6 @@ export async function createNewUser(user: User) {
         VALUES (?, ?, ?, ?, ?, ?)
     `;
 
-  // `pool.query`에 쿼리와 파라미터를 전달합니다.
   const reg_dt = new Date();
   const values = [
     user.uuid,
@@ -32,18 +31,15 @@ export async function createNewUser(user: User) {
   }
 }
 
-export async function createPost(FormData: FormData) {
+export async function createPost({ content, language }: createPostProps) {
   const session = await auth();
   console.log(session);
   const uuid = session?.user?.id;
 
   if (!uuid) {
-    throw new Error("로그인 필");
+    throw new Error("로그인이 필요합니다.");
   }
   const nickname = session.user.nickname;
-  const language = FormData.get("language");
-
-  const content = FormData.get("markdownContent");
 
   const query = `
         INSERT INTO posts (uuid, nickname, content, language)

@@ -2,35 +2,42 @@
 
 import Textarea from "../TextArea";
 import Markdown from "../Markdown";
-import { ChangeEvent, useState } from "react";
 import Languages from "../Languages";
+import usePostForm from "@/app/hooks/usePostForm";
+import { SendHorizonal } from "lucide-react";
+import Button from "../Button";
 
 type PostFormTypes = {
   isMarkdownRender: boolean;
-  action: (FormData: FormData) => void;
 };
 
-export default function PostForm({ isMarkdownRender, action }: PostFormTypes) {
-  const [markdown, setMarkdown] = useState("");
-  const [language, setLanguage] = useState("javascript");
-
-  const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setLanguage(e.target.value);
-  };
-
-  const onMarkdownChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setMarkdown(e.target.value);
-  };
+export default function PostForm({ isMarkdownRender }: PostFormTypes) {
+  const {
+    content,
+    language,
+    onLanguageChange,
+    onContentChange,
+    onSubmit,
+    error,
+  } = usePostForm();
   return (
-    <form action={action}>
-      <Languages onChange={onLanguageChange} />
-      <Textarea
-        markdown={markdown}
-        onMarkdownChange={onMarkdownChange}
-        className="h-[150px]"
-      />
-      {isMarkdownRender && <Markdown markdown={markdown} language={language} />}
-      <button className="cursor-pointer">submit</button>
-    </form>
+    <>
+      <form onSubmit={onSubmit}>
+        <Languages onChange={onLanguageChange} />
+        <Textarea
+          markdown={content}
+          onMarkdownChange={onContentChange}
+          className="h-[350px]"
+        />
+        {isMarkdownRender && (
+          <Markdown markdown={content} language={language} />
+        )}
+        <Button className="flex items-center justify-center">
+          <SendHorizonal />
+          <span className="ml-2">게시하기</span>
+        </Button>
+      </form>
+      {error && error}
+    </>
   );
 }

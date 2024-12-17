@@ -20,7 +20,8 @@ export default function Textarea({
         onChange={onMarkdownChange}
         placeholder="``` code ```을 통해 코드를 작성할 수 있습니다"
         className={
-          `w-full bg-transparent p-2 border border-gray-200 rounded` + className
+          `w-full bg-transparent p-2 border border-gray-200 rounded ` +
+          className
         }
         name="markdownContent"
       />

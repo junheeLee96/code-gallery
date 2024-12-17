@@ -17,11 +17,32 @@ export type PostTypes = {
   reg_dt: Date;
 };
 
+export type CommentsTypes = {
+  idx: number;
+  post_id: string;
+  isAuthor: boolean;
+  nickname: string;
+  comment: string;
+  reg_dt: string;
+};
+
+export type createPostProps = {
+  content: string;
+  language: string;
+};
+
 export type InfiniteProps = {
   page: number;
   postsPerPage?: number;
   queryKey: string;
   date: Date;
+};
+
+export type createCommentProps = {
+  uuid: string;
+  post_id: string;
+  nickname: string;
+  comment: string;
 };
 
 export type PostListResponse = {
@@ -34,20 +55,4 @@ export type CommentListResponse = {
   comments: CommentsTypes[];
   totalPage: number;
   pageParams: number;
-};
-
-export type createCommentProps = {
-  uuid: string;
-  post_id: string;
-  nickname: string;
-  comment: string;
-};
-
-export type CommentsTypes = {
-  idx: number;
-  post_id: string;
-  isAuthor: boolean;
-  nickname: string;
-  comment: string;
-  reg_dt: string;
 };
