@@ -2,6 +2,7 @@
 
 import { ChangeEvent } from "react";
 import { languages } from "../../lib/options";
+import Select from "./Select";
 
 type LanguagesProps = {
   // "전체" 옵션 활성화
@@ -12,12 +13,7 @@ type LanguagesProps = {
 
 export default function Languages({ isWholeRender, onChange }: LanguagesProps) {
   return (
-    <select
-      className="block bg-white border border-gray-300 text-gray-900 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-5"
-      id="languages"
-      name="language"
-      onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange?.(e)}
-    >
+    <Select onChange={onChange && onChange}>
       {languages.map((lang, idx) =>
         !isWholeRender && lang.value === "whole" ? null : (
           <option key={idx} value={lang.value}>
@@ -25,6 +21,6 @@ export default function Languages({ isWholeRender, onChange }: LanguagesProps) {
           </option>
         )
       )}
-    </select>
+    </Select>
   );
 }

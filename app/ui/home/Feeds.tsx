@@ -11,6 +11,7 @@ import { getPosts } from "@/app/lib/data";
 import Wrapper from "../common/Wrapper";
 import Languages from "../common/Languages";
 import FeedSkeleton from "../skeletons/feed/FeedSkeleton";
+import Sorting from "./Sorting";
 
 export default function Feeds({ date }: { date: Date }) {
   const { language, setLanguage } = useLanguageStore((state) => state);
@@ -24,12 +25,18 @@ export default function Feeds({ date }: { date: Date }) {
   const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setLanguage(e.target.value);
   };
-  console.log(data);
   //todo: isLoading인 경우 스켈레톤
   return (
     <div className="pb-20">
       <Wrapper>
-        <Languages onChange={onLanguageChange} isWholeRender={true} />
+        <div className="flex">
+          <div className="mr-2">
+            <Languages onChange={onLanguageChange} isWholeRender={true} />
+          </div>
+          <div>
+            <Sorting />
+          </div>
+        </div>
       </Wrapper>
       {data?.pages.map((page, pageIndex) => (
         <div key={pageIndex}>
