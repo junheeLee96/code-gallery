@@ -8,12 +8,16 @@ type LanguagesProps = {
   // "전체" 옵션 활성화
   isWholeRender?: boolean;
   onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
-  value?: string;
+  value: string;
 };
 
-export default function Languages({ isWholeRender, onChange }: LanguagesProps) {
+export default function Languages({
+  isWholeRender,
+  onChange,
+  value,
+}: LanguagesProps) {
   return (
-    <Select onChange={onChange && onChange}>
+    <Select onChange={onChange && onChange} value={value}>
       {languages.map((lang, idx) =>
         !isWholeRender && lang.value === "whole" ? null : (
           <option key={idx} value={lang.value}>

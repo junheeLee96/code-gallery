@@ -12,9 +12,12 @@ import Wrapper from "../common/Wrapper";
 import Languages from "../common/Languages";
 import FeedSkeleton from "../skeletons/feed/FeedSkeleton";
 import Sorting from "./Sorting";
+import { useSortingStore } from "@/app/providers/zustand/sorting-store.provider";
 
 export default function Feeds({ date }: { date: Date }) {
+  const { sorting, setSorting } = useSortingStore((state) => state);
   const { language, setLanguage } = useLanguageStore((state) => state);
+  // todo: sorting도 쿼리키에 포함
   const { data, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } =
     useInfiniteQueryHook({
       queryKey: ["posts", language, date],
@@ -25,16 +28,24 @@ export default function Feeds({ date }: { date: Date }) {
   const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setLanguage(e.target.value);
   };
-  //todo: isLoading인 경우 스켈레톤
+
+  const onSortingChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSorting(e.target.value);
+  };
+
   return (
     <div className="pb-20">
       <Wrapper>
         <div className="flex">
           <div className="mr-2">
-            <Languages onChange={onLanguageChange} isWholeRender={true} />
+            <Languages
+              onChange={onLanguageChange}
+              isWholeRender={true}
+              value={language}
+            />
           </div>
           <div>
-            <Sorting />
+            <Sorting onChange={onSortingChange} value={sorting} />
           </div>
         </div>
       </Wrapper>

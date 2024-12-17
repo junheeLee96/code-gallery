@@ -25,7 +25,7 @@ export default function PostForm({ isMarkdownRender }: PostFormTypes) {
   return (
     <>
       <form onSubmit={onSubmit}>
-        <Languages onChange={onLanguageChange} />
+        <Languages onChange={onLanguageChange} value={language} />
         <Textarea
           markdown={content}
           onMarkdownChange={onContentChange}
