@@ -35,7 +35,9 @@ export default function Post({ params }: { params: { id: string } }) {
       <Suspense fallback={<PostSkeleton />}>
         <PostWrapper post_id={params.id} />
       </Suspense>
-      <CommentsWrapper post_id={params.id} date={new Date()} />
+      <Suspense fallback="loading..zzzz">
+        <CommentsWrapper post_id={params.id} date={new Date()} />
+      </Suspense>
     </div>
   );
 }

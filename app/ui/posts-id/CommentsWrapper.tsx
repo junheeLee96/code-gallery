@@ -6,6 +6,7 @@ import useScrollLoaer from "@/app/hooks/useScrollLoader";
 import { getComments } from "@/app/lib/data";
 import Wrapper from "../common/Wrapper";
 import Comment from "./Comment";
+import CommentsSkeleton from "../skeletons/comments/CommentsSkeleton";
 
 type CommentsWrapperProps = {
   post_id: string;
@@ -16,7 +17,7 @@ export default function CommentsWrapper({
   post_id,
   date,
 }: CommentsWrapperProps) {
-  const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQueryHook({
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQueryHook({
     queryKey: ["comments", post_id, date],
     queryFn: getComments,
   });
@@ -27,13 +28,14 @@ export default function CommentsWrapper({
   return (
     <div className="pb-20">
       <Wrapper>
+        <CommentsSkeleton />
         <CommentForm post_id={post_id} />
         {data?.pages.map((comments) =>
           comments.comments.map((comment, idx) => (
             <Comment comment={comment} key={idx} />
           ))
         )}
-        {isLoading && <div>load</div>}
+        {/* {isLoading && <div>load</div>} */}
       </Wrapper>
     </div>
   );

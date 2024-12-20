@@ -1,6 +1,6 @@
 "use client";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { InfiniteProps } from "../lib/definitions";
 
 type PagedResponse = {
@@ -17,7 +17,7 @@ const useInfiniteQueryHook = <T extends PagedResponse>({
   queryFn,
 }: useFetchPostsTypes<T>) => {
   const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
+    useSuspenseInfiniteQuery({
       // queryKey = [key, id, Date]
       queryKey,
       queryFn: async ({ queryKey, pageParam = 1 }) =>
