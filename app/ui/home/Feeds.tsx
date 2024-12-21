@@ -10,7 +10,6 @@ import useScrollLoaer from "@/app/hooks/useScrollLoader";
 import { getPosts } from "@/app/lib/data";
 import Wrapper from "../common/Wrapper";
 import Languages from "../common/Languages";
-import FeedSkeleton from "../skeletons/feed/FeedSkeleton";
 import Sorting from "./Sorting";
 import { useSortingStore } from "@/app/providers/zustand/sorting-store.provider";
 
@@ -61,7 +60,6 @@ export default function Feeds({ date }: { date: Date }) {
           ))}
         </div>
       ))}
-      {(isLoading || isFetchingNextPage) && <FeedSkeleton />}
     </div>
   );
 }

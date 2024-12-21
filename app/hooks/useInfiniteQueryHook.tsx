@@ -20,8 +20,8 @@ const useInfiniteQueryHook = <T extends PagedResponse>({
     useSuspenseInfiniteQuery({
       // queryKey = [key, id, Date]
       queryKey,
-      queryFn: async ({ queryKey, pageParam = 1 }) =>
-        await queryFn({
+      queryFn: ({ queryKey, pageParam = 1 }) =>
+        queryFn({
           page: pageParam,
           queryKey: queryKey[1] as string,
           date: queryKey[2] as Date,
