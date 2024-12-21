@@ -1,69 +1,11 @@
 "use client";
 
-import { createNewUser } from "@/app/lib/actions";
-import { User } from "@/app/lib/definitions";
-import { useSession } from "next-auth/react";
-import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "../common/Button";
+import useSignUpForm from "@/app/hooks/useSignUpForm";
 
-type SignUpFormTypes = {
-  onSuccess: () => void;
-  onError: (err: Error) => void;
-};
-const hasWhitespace = /\s/;
-
-export default function SignUpForm({ onSuccess, onError }: SignUpFormTypes) {
-  const { data: session, update } = useSession();
-
-  const [nickname, setNickname] = useState("");
-  const [error, setError] = useState<null | string>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setNickname(value);
-    if (hasWhitespace.test(value)) {
-      setError("공백을 포함하지 않아야합니다.");
-    } else if (value.length > 8) {
-      setError("닉네임은 8자 이하여야합니다.");
-    } else {
-      setError(null);
-    }
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (error) return;
-    if (!session?.user) return;
-    if (nickname === "") {
-      setError("1글자 이상이어야합니다.");
-      return;
-    }
-    setIsLoading(true);
-    const { user } = session;
-    const userInfo: User = {
-      uuid: user.id as string,
-      email: user.email as string,
-      image: user.image as string,
-      user_name: user.name as string,
-      nickname,
-    };
-    try {
-      await createNewUser(userInfo);
-      setIsLoading(true);
-      await update({
-        ...session,
-        user: {
-          ...session?.user,
-          isNewUser: false,
-          nickname,
-        },
-      });
-      onSuccess();
-    } catch (e) {
-      onError(e as Error);
-    }
-  };
+export default function SignUpForm() {
+  const { nickname, error, isLoading, onInputChange, handleSubmit } =
+    useSignUpForm();
 
   return (
     <form
@@ -97,13 +39,6 @@ export default function SignUpForm({ onSuccess, onError }: SignUpFormTypes) {
         <Button type="submit" disabled={isLoading}>
           가입하기
         </Button>
-        {/* <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          disabled={isLoading}
-        >
-          가입하기
-        </button> */}
       </div>
     </form>
   );

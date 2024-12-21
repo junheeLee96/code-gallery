@@ -34,7 +34,7 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <header className="fixed top-[0] left-[0] w-full bg-nav-background h-[56px] shadow-md">
-            <div className="w-full h-full flex items-center justify-between px-8 lg:px-48 ">
+            <div className="w-full h-full flex items-center justify-between px-8 ">
               <Link href="/">
                 <Image
                   src="/image/logo.png"
@@ -44,7 +44,6 @@ export default function RootLayout({
                 />
               </Link>
               <div className="flex items-center">
-                <span className="mr-1">SIGN</span>
                 <AuthController />
               </div>
             </div>

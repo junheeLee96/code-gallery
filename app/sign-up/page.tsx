@@ -9,7 +9,7 @@ export default function SignUp() {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return null;
   }
   if (!session) {
     router.push("/login");
@@ -18,17 +18,9 @@ export default function SignUp() {
     router.push("/");
   }
 
-  const onSuccess = async () => {
-    router.push("/");
-  };
-
-  const onError = (err: Error) => {
-    // todo: 에러 컨트롤
-  };
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <SignUpForm onSuccess={onSuccess} onError={onError} />
+      <SignUpForm />
     </div>
   );
 }
