@@ -7,7 +7,9 @@ export default function AuthController() {
   return (
     <div className="cursor-pointer">
       <Button>
-        <Link href="/login">로그인하기</Link>
+        <Link href="/login" className="font-semibold">
+          로그인하기
+        </Link>
       </Button>
     </div>
   );

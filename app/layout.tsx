@@ -49,8 +49,8 @@ export default function RootLayout({
             </div>
           </header>
           <div className="min-w-screen min-h-screen flex justify-center pt-[56px]">
-            <div className="w-full g:w-[680px] h-full ">
-              <div className="w-full ">{children}</div>
+            <div className="w-full g:w-[680px] min-h-full ">
+              <div className="w-full h-full">{children}</div>
             </div>
           </div>
         </body>

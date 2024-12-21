@@ -1,6 +1,8 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
+import Button from "../ui/common/Button";
+import Image from "next/image";
 
 export default function LoginButton() {
   const { data: session } = useSession();
@@ -19,11 +21,18 @@ export default function LoginButton() {
     );
   }
   return (
-    <button
-      onClick={() => signIn("google", { callbackUrl: "/sign-up" })}
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-    >
-      Sign in with Google
-    </button>
+    <div className="h-full flex items-center justify-center ">
+      <Button
+        onClick={() => signIn("google", { callbackUrl: "/sign-up" })}
+        className="font-bold py-2 px-4 rounded w-fit"
+      >
+        <Image
+          src="/image/google_light.png"
+          width={200}
+          height={50}
+          alt="구글로 로그인하기"
+        />
+      </Button>
+    </div>
   );
 }
