@@ -35,6 +35,7 @@ export default function PostForm({ isMarkdownRender }: PostFormTypes) {
           <Markdown markdown={content} language={language} />
         )}
         <Button
+          type="submit"
           className="flex items-center justify-center"
           disabled={isLoading}
         >

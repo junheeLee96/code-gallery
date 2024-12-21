@@ -2,8 +2,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import AuthController from "./ui/auth/AuthController";
 import { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
 import Providers from "./providers";
+import Image from "next/image";
+import Link from "next/link";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,7 +35,14 @@ export default function RootLayout({
         >
           <header className="fixed top-[0] left-[0] w-full bg-nav-background h-[56px] shadow-md">
             <div className="w-full h-full flex items-center justify-between px-8 lg:px-48 ">
-              <div>Code Gal</div>
+              <Link href="/">
+                <Image
+                  src="/image/logo.png"
+                  width={100}
+                  height={80}
+                  alt="CodeGallery"
+                />
+              </Link>
               <div className="flex items-center">
                 <span className="mr-1">SIGN</span>
                 <AuthController />

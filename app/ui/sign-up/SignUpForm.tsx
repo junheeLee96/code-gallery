@@ -3,7 +3,8 @@
 import { createNewUser } from "@/app/lib/actions";
 import { User } from "@/app/lib/definitions";
 import { useSession } from "next-auth/react";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import Button from "../common/Button";
 
 type SignUpFormTypes = {
   onSuccess: () => void;
@@ -93,13 +94,16 @@ export default function SignUpForm({ onSuccess, onError }: SignUpFormTypes) {
       </div>
       <div className="h-[35px] text-red-500">{error && error}</div>
       <div className="flex items-center justify-between">
-        <button
+        <Button type="submit" disabled={isLoading}>
+          가입하기
+        </Button>
+        {/* <button
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           disabled={isLoading}
         >
           가입하기
-        </button>
+        </button> */}
       </div>
     </form>
   );
