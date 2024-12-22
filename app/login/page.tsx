@@ -9,14 +9,13 @@ export default function LoginButton() {
 
   if (session && session.user) {
     return (
-      <div className="flex items-center space-x-4">
-        <p className="text-sm">Signed in as {session.user.email}</p>
-        <button
+      <div className="h-full flex items-center justify-center space-x-4">
+        <Button
           onClick={() => signOut({ callbackUrl: "/", redirect: true })}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          className="font-bold py-2 px-4 rounded w-fit flex justify-center"
         >
           Sign out
-        </button>
+        </Button>
       </div>
     );
   }
@@ -24,7 +23,7 @@ export default function LoginButton() {
     <div className="h-full flex items-center justify-center ">
       <Button
         onClick={() => signIn("google", { callbackUrl: "/sign-up" })}
-        className="font-bold py-2 px-4 rounded w-fit"
+        className="font-bold py-2 px-4 rounded w-fit flex justify-center"
       >
         <Image
           src="/image/google_light.png"
