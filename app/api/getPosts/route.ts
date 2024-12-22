@@ -8,9 +8,11 @@ export async function GET(request: Request) {
   const useruuid = searchParams.get("uuid") as string;
   const page = Number(searchParams.get("page"));
   const language = searchParams.get("language") as string;
-  const date = new Date(searchParams.get("date") ?? new Date());
+  const dateString = searchParams.get("date");
+  const date = dateString
+    ? new Date(decodeURIComponent(dateString))
+    : new Date();
   const offset = (page - 1) * postsPerPage;
-  console.log("date = ", date);
   // count
   let PostCountQuery =
     "SELECT COUNT(*) AS totalPosts FROM posts WHERE reg_dt < ?";

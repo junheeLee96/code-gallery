@@ -12,7 +12,10 @@ export async function GET(request: Request) {
   const useruuid = session?.user?.id;
 
   const { searchParams } = new URL(request.url);
-  const date = new Date(searchParams.get("date") ?? new Date());
+  const dateString = searchParams.get("date");
+  const date = dateString
+    ? new Date(decodeURIComponent(dateString))
+    : new Date();
 
   const page = Number(searchParams.get("page"));
   const post_id = searchParams.get("post_id") as string;

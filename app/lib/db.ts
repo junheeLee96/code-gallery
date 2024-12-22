@@ -26,7 +26,6 @@ export const db = async <T>({
       queryParams
     );
     const result: T = JSON.parse(JSON.stringify(rows));
-
     return result;
   } catch (error) {
     if (error instanceof Error) {
