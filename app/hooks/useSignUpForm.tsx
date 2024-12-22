@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { User } from "../lib/definitions";
 import { useSession } from "next-auth/react";
 import { createNewUser } from "../lib/actions";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const hasWhitespace = /\s/;
 

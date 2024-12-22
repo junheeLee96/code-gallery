@@ -1,15 +1,15 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import SignUpForm from "../ui/sign-up/SignUpForm";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
   const router = useRouter();
   const { data: session, status } = useSession();
 
   if (status === "loading") {
-    return null;
+    return <div />;
   }
   if (!session) {
     router.push("/login");
