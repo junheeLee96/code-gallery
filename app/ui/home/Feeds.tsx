@@ -3,7 +3,6 @@
 import { ChangeEvent } from "react";
 import Post from "../common/Post";
 import { PostTypes } from "@/app/lib/definitions";
-import { useLanguageStore } from "@/app/providers/zustand/language-store-provider";
 import AddCommentBtn from "./add-comment-btn";
 import useInfiniteQueryHook from "@/app/hooks/useInfiniteQueryHook";
 import useScrollLoaer from "@/app/hooks/useScrollLoader";
@@ -11,7 +10,7 @@ import { getPosts } from "@/app/lib/data";
 import Wrapper from "../common/Wrapper";
 import Languages from "../common/Languages";
 import Sorting from "./Sorting";
-import { useSortingStore } from "@/app/providers/zustand/sorting-store.provider";
+import { useLanguageStore, useSortingStore } from "@/app/providers/zustand";
 
 export default function Feeds({ date }: { date: Date }) {
   const { sorting, setSorting } = useSortingStore((state) => state);
@@ -30,6 +29,7 @@ export default function Feeds({ date }: { date: Date }) {
   const onSortingChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSorting(e.target.value);
   };
+  console.log(data);
 
   return (
     <div className="pb-20">

@@ -33,11 +33,12 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <header className="fixed top-[0] left-[0] w-full bg-nav-background h-[56px] shadow-md">
+          <header className="fixed z-11 top-[0] left-[0] w-full bg-nav-background h-[56px] shadow-md">
             <div className="w-full h-full flex items-center justify-between px-8 ">
               <Link href="/">
                 <Image
                   src="/image/logo.png"
+                  priority
                   width={100}
                   height={80}
                   alt="CodeGallery"
