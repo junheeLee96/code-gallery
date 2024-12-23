@@ -7,14 +7,10 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  console.log("params = ", params);
   const post_id = params.id;
-  console.log("post_id = ", post_id);
-
   if (!post_id) {
     return NextResponse.json({ error: "Post ID is required" }, { status: 400 });
   }
-
   try {
     const query = `SELECT * FROM posts WHERE idx = ?`;
     const queryParams = [post_id];

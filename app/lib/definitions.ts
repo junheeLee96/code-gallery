@@ -56,3 +56,12 @@ export type CommentListResponse = {
   totalPage: number;
   pageParams: number;
 };
+
+interface InfiniteQueryBaseResponse {
+  totalPage: number;
+  pageParams: number;
+}
+
+export interface InfiniteQueryResponse<T> extends InfiniteQueryBaseResponse {
+  [key: string]: T | number;
+}

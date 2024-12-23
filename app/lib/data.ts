@@ -1,7 +1,7 @@
 // todo: 에러처리
 
 import { client } from "../api/client";
-import { CommentsTypes, PostTypes } from "./definitions";
+import { CommentsTypes, InfiniteQueryResponse, PostTypes } from "./definitions";
 
 const URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -19,10 +19,10 @@ export const getPosts = async ({
   page: number;
   queryKey: string;
   date: Date;
-}): Promise<PostTypes[]> => {
+}): Promise<InfiniteQueryResponse<PostTypes[]>> => {
   const isoDate = date.toISOString();
   const encodedDate = encodeURIComponent(isoDate);
-  return client<PostTypes[]>("/api/getPosts", {
+  return client<Promise<InfiniteQueryResponse<PostTypes[]>>>("/api/getPosts", {
     params: {
       page: String(page),
       language: queryKey,
@@ -39,21 +39,19 @@ export const getComments = async ({
   page: number;
   queryKey: string;
   date: Date;
-}): Promise<CommentsTypes[]> => {
+}): Promise<InfiniteQueryResponse<CommentsTypes[]>> => {
   const isoDate = date.toISOString();
   const encodedDate = encodeURIComponent(isoDate);
-  return client<CommentsTypes[]>("/api/getComments", {
-    params: {
-      page: String(page),
-      post_id: queryKey,
-      date: encodedDate,
-    },
-  });
-  // const res = await fetch(
-  //   `${URL}api/getComments?page=${page}&post_id=${queryKey}&date=${encodedDate}`
-  // );
-  // const data = await res.json();
-  // return data;
+  return client<Promise<InfiniteQueryResponse<CommentsTypes[]>>>(
+    "/api/getComments",
+    {
+      params: {
+        page: String(page),
+        post_id: queryKey,
+        date: encodedDate,
+      },
+    }
+  );
 };
 
 export const getPost = async (post_id: string): Promise<PostTypes[]> => {

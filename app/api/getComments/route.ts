@@ -1,5 +1,5 @@
 import { db } from "@/app/lib/db";
-import { CommentsTypes } from "@/app/lib/definitions";
+import { CommentsTypes, InfiniteQueryResponse } from "@/app/lib/definitions";
 import { auth } from "@/auth";
 import moment from "moment-timezone";
 import { RowDataPacket } from "mysql2";
@@ -7,7 +7,9 @@ import { NextResponse } from "next/server";
 
 const postsPerPage = 12;
 
-export async function GET(request: Request) {
+export async function GET(
+  request: Request
+): Promise<NextResponse<InfiniteQueryResponse<CommentsTypes[]>>> {
   const session = await auth();
   const useruuid = session?.user?.id;
 

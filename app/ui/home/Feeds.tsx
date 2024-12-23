@@ -17,11 +17,10 @@ export default function Feeds({ date }: { date: Date }) {
   const { sorting, setSorting } = useSortingStore((state) => state);
   const { language, setLanguage } = useLanguageStore((state) => state);
   // todo: sorting도 쿼리키에 포함
-  const { data, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } =
-    useInfiniteQueryHook({
-      queryKey: ["posts", language, date],
-      queryFn: getPosts,
-    });
+  const { data, hasNextPage, fetchNextPage } = useInfiniteQueryHook({
+    queryKey: ["posts", language, date],
+    queryFn: getPosts,
+  });
   useScrollLoaer({ hasNextPage, fetchNextPage });
 
   const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {

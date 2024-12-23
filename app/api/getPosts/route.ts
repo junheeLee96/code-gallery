@@ -1,9 +1,11 @@
 import { db } from "@/app/lib/db";
-import { PostTypes } from "@/app/lib/definitions";
+import { InfiniteQueryResponse, PostTypes } from "@/app/lib/definitions";
 import { NextResponse } from "next/server";
 
 const postsPerPage = 12;
-export async function GET(request: Request) {
+export async function GET(
+  request: Request
+): Promise<NextResponse<InfiniteQueryResponse<PostTypes[]>>> {
   const { searchParams } = new URL(request.url);
   const useruuid = searchParams.get("uuid") as string;
   const page = Number(searchParams.get("page"));
@@ -13,6 +15,7 @@ export async function GET(request: Request) {
     ? new Date(decodeURIComponent(dateString))
     : new Date();
   const offset = (page - 1) * postsPerPage;
+
   // count
   let PostCountQuery =
     "SELECT COUNT(*) AS totalPosts FROM posts WHERE reg_dt < ?";
@@ -32,7 +35,6 @@ export async function GET(request: Request) {
     PostCountQueryParams.push(language);
 
     PostQuery += optionalQuery;
-    // PostQueryParams.unshift(queryKey);
     PostQueryParams.splice(1, 0, language);
   }
   PostQuery += " ORDER BY reg_dt DESC LIMIT ?, ?";
@@ -54,8 +56,6 @@ export async function GET(request: Request) {
     ...post,
     isAuthor: useruuid === uuid,
   }));
-
-  console.log("posts", posts);
 
   return NextResponse.json({
     posts,
