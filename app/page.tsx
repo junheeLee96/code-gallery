@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Feeds from "./ui/home/Feeds";
 import FeedSkeleton from "./ui/skeletons/feed/FeedSkeleton";
-import Filters from "./ui/home/filters";
+import Filters from "./ui/home/Filters";
 
 export default async function Home() {
   const date = new Date();

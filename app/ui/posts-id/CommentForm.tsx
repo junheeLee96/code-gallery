@@ -36,7 +36,7 @@ export default function CommentForm({ post_id }: CommentFormProp) {
             onMarkdownChange={onCommentChange}
           />
           <div className="w-full flex justify-end mt-1">
-            <button disabled={isLoading}>
+            <button disabled={isLoading} type="submit">
               <Send />
             </button>
           </div>

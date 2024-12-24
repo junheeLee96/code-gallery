@@ -29,21 +29,27 @@ export default function Filters() {
   };
 
   useEffect(() => {
+    if (ref.current) {
+      ref.current.style.backgroundColor = "white";
+    }
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <div className="h-[56px] sticky top-0 " ref={ref}>
-      <ul className="flex h-full ">
-        <li className="mr-2 flex items-center">
+    <div
+      className="h-[56px] sticky top-0 rounded-xl flex items-center"
+      ref={ref}
+    >
+      <ul className="flex gap-5">
+        <li className="">
           <Languages
             onChange={onLanguageChange}
             isWholeRender={true}
             value={language}
           />
         </li>
-        <li className="flex items-center">
+        <li>
           <Sorting onChange={onSortingChange} value={sorting} />
         </li>
       </ul>

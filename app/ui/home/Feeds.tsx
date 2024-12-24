@@ -1,6 +1,5 @@
 "use client";
 
-import { ChangeEvent } from "react";
 import Post from "../common/Post";
 import { PostTypes } from "@/app/lib/definitions";
 import AddCommentBtn from "./add-comment-btn";
@@ -8,10 +7,7 @@ import useInfiniteQueryHook from "@/app/hooks/useInfiniteQueryHook";
 import useScrollLoaer from "@/app/hooks/useScrollLoader";
 import { getPosts } from "@/app/lib/data";
 import Wrapper from "../common/Wrapper";
-import Languages from "../common/Languages";
-import Sorting from "./Sorting";
 import { useLanguageStore, useSortingStore } from "@/app/providers/zustand";
-import Filters from "./filters";
 
 export default function Feeds({ date }: { date: Date }) {
   const { sorting } = useSortingStore((state) => state);
