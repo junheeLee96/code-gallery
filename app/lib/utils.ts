@@ -15,3 +15,19 @@ export function timeAgo(date: string): string {
     return rtf.format(-Math.floor(diffInSeconds / 86400), "day");
   }
 }
+
+export function truncateText(input: string): [boolean, string] {
+  const lines = input.split("\n");
+
+  // 줄바꿈이 6줄 이상일 경우
+  if (lines.length > 6) {
+    return [true, lines.slice(0, 6).join("\n") + "\n..."];
+  }
+  // 500자 이상일 경우
+  if (input.length > 500) {
+    return [true, input.substring(0, 50) + "..."];
+  }
+
+  // 기본적으로 원본 텍스트 반환
+  return [false, input];
+}
