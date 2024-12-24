@@ -5,7 +5,6 @@ import Wrapper from "../ui/common/Wrapper";
 
 export default async function Post() {
   const session = await auth();
-  console.log(session);
   return (
     <Wrapper>
       <div className="w-full h-full flex flex-col">

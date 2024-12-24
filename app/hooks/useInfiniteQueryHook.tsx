@@ -2,6 +2,7 @@
 
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { InfiniteQueryResponse } from "../lib/definitions";
+import { useEffect } from "react";
 
 type queryFnParams = {
   page: number;
@@ -22,25 +23,42 @@ const useInfiniteQueryHook = <T,>({
   queryKey,
   queryFn,
 }: useInfiniteQueryHookProps<T>) => {
-  const { data, fetchNextPage, isLoading, hasNextPage, isFetchingNextPage } =
-    useSuspenseInfiniteQuery({
-      // queryKey = [key, id, Date]
-      queryKey,
-      queryFn: ({ queryKey, pageParam = 1 }) =>
-        queryFn({
-          page: pageParam,
-          queryKey: queryKey[1] as string,
-          date: queryKey[2] as Date,
-        }),
-      getNextPageParam: (lastPage, pages) => {
-        return lastPage.totalPage <= pages.length
-          ? undefined
-          : pages.length + 1;
-      },
-      initialPageParam: 1,
-    });
+  const {
+    data,
+    fetchNextPage,
+    isLoading,
+    hasNextPage,
+    isFetchingNextPage,
+    error,
+    isError,
+  } = useSuspenseInfiniteQuery({
+    // queryKey = [key, id, Date]
+    queryKey,
+    queryFn: ({ queryKey, pageParam = 1 }) =>
+      queryFn({
+        page: pageParam,
+        queryKey: queryKey[1] as string,
+        date: queryKey[2] as Date,
+      }),
+    getNextPageParam: (lastPage, pages) => {
+      return lastPage.totalPage <= pages.length ? undefined : pages.length + 1;
+    },
+    initialPageParam: 1,
+  });
 
-  return { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage };
+  useEffect(() => {
+    if (isError && error) {
+      alert(`Error: ${error.message}`);
+    }
+  }, [error, isError]);
+
+  return {
+    data,
+    isLoading,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  };
 };
 
 export default useInfiniteQueryHook;

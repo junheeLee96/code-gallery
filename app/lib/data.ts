@@ -1,5 +1,3 @@
-// todo: 에러처리
-
 import { client } from "../api/client";
 import { CommentsTypes, InfiniteQueryResponse, PostTypes } from "./definitions";
 

@@ -58,7 +58,10 @@ export default function useSignUpForm() {
       });
       router.push("/");
     } catch (e) {
-      // todo: error처리
+      const message = e instanceof Error ? e.message : "회원가입 실패";
+      console.error(message);
+      alert("에러가 발생했습니다.");
+      setIsLoading(false);
     }
   };
 
