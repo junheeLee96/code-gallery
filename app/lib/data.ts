@@ -1,12 +1,17 @@
 import { client } from "../api/client";
-import { CommentsTypes, InfiniteQueryResponse, PostTypes } from "./definitions";
-
-const URL = process.env.NEXT_PUBLIC_API_URL;
+import {
+  CommentsTypes,
+  InfiniteQueryResponse,
+  PostTypes,
+  User,
+} from "./definitions";
 
 export const getUser = async (uuid: string) => {
-  const res = await fetch(`${URL}/api/getUser?uuid=${uuid}`);
-  const data = await res.json();
-  return data;
+  return client<User>(`/api/getUser`, {
+    params: {
+      uuid,
+    },
+  });
 };
 
 export const getPosts = async ({
