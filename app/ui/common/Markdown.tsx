@@ -8,41 +8,49 @@ import remarkBreaks from "remark-breaks";
 type MarkdownTypes = {
   markdown: string;
   language: string;
+  height?: number;
 };
 
-export default function Markdown({ markdown, language }: MarkdownTypes) {
+export default function Markdown({
+  markdown,
+  language,
+  height,
+}: MarkdownTypes) {
   return (
-    <ReactMarkdown
-      remarkPlugins={[remarkBreaks]}
-      components={{
-        code({ node, inline, className, children, ...props }) {
-          const match = /language-(\w+)/.exec(
-            `language-${language}` || undefined
-          );
-
-          return !inline && match ? (
-            <SyntaxHighlighter
-              language={match[1]}
-              PreTag="div"
-              style={okaidia}
-              {...props}
-            >
-              {String(children).replace(/\n$/, "")}
-            </SyntaxHighlighter>
-          ) : (
-            <code
-              className={`${
-                className ?? ""
-              } bg-markdown-bg p-2 min-w-full block rounded text-white`}
-              {...props}
-            >
-              {children}
-            </code>
-          );
-        },
-      }}
+    <div
+      className="overflow-scroll py-3"
+      style={{ height: height ? `${height}px` : "550px" }}
     >
-      {markdown}
-    </ReactMarkdown>
+      <ReactMarkdown
+        remarkPlugins={[remarkBreaks]}
+        components={{
+          code({ node, inline, className, children, ...props }) {
+            const match = /language-(\w+)/.exec(`language-${language}` || "");
+
+            return !inline && match ? (
+              <SyntaxHighlighter
+                language={match[1]}
+                PreTag="div"
+                style={okaidia}
+                {...props}
+              >
+                {String(children).replace(/\n$/, "")}
+              </SyntaxHighlighter>
+            ) : (
+              <code
+                className={`${
+                  className ?? ""
+                } bg-markdown-bg p-2 min-w-full block rounded text-white`}
+                {...props}
+              >
+                {children}
+              </code>
+            );
+          },
+        }}
+      >
+        {markdown}
+      </ReactMarkdown>
+    </div>
   );
 }

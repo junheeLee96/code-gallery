@@ -11,10 +11,11 @@ import Wrapper from "../common/Wrapper";
 import Languages from "../common/Languages";
 import Sorting from "./Sorting";
 import { useLanguageStore, useSortingStore } from "@/app/providers/zustand";
+import Filters from "./filters";
 
 export default function Feeds({ date }: { date: Date }) {
-  const { sorting, setSorting } = useSortingStore((state) => state);
-  const { language, setLanguage } = useLanguageStore((state) => state);
+  const { sorting } = useSortingStore((state) => state);
+  const { language } = useLanguageStore((state) => state);
   // todo: sorting도 쿼리키에 포함
   const { data, hasNextPage, fetchNextPage } = useInfiniteQueryHook({
     queryKey: ["posts", language, date],
@@ -22,31 +23,8 @@ export default function Feeds({ date }: { date: Date }) {
   });
   useScrollLoaer({ hasNextPage, fetchNextPage });
 
-  const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setLanguage(e.target.value);
-  };
-
-  const onSortingChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSorting(e.target.value);
-  };
-  console.log(data);
-
   return (
     <div className="pb-20">
-      <Wrapper>
-        <div className="flex">
-          <div className="mr-2">
-            <Languages
-              onChange={onLanguageChange}
-              isWholeRender={true}
-              value={language}
-            />
-          </div>
-          <div>
-            <Sorting onChange={onSortingChange} value={sorting} />
-          </div>
-        </div>
-      </Wrapper>
       {data?.pages.map((page, pageIndex) => (
         <div key={pageIndex}>
           {page.posts.map((post: PostTypes, idx: number) => (

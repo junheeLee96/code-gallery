@@ -1,10 +1,8 @@
 import localFont from "next/font/local";
 import "./globals.css";
-import AuthController from "./ui/auth/AuthController";
 import { Metadata } from "next";
 import Providers from "./providers";
-import Image from "next/image";
-import Link from "next/link";
+import Header from "./ui/common/header";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,22 +31,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <header className="fixed z-11 top-[0] left-[0] w-full bg-nav-background h-[56px] shadow-md">
-            <div className="w-full h-full flex items-center justify-between px-8 ">
-              <Link href="/">
-                <Image
-                  src="/image/logo.png"
-                  priority
-                  width={100}
-                  height={80}
-                  alt="CodeGallery"
-                />
-              </Link>
-              <div className="flex items-center">
-                <AuthController />
-              </div>
-            </div>
-          </header>
+          <Header />
           <div className="min-w-screen min-h-screen flex justify-center pt-[56px]">
             <div className="w-full g:w-[680px] min-h-full ">
               <div className="w-full h-full">{children}</div>

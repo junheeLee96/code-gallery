@@ -14,6 +14,8 @@ export default function ReactQueryProvider({
   return (
     <QueryClientProvider client={queryClient}>
       {children}
+
+      {/* todo: ReactQueryDevtools 동작안함 */}
       {/* <ReactQueryDevtools
         initialIsOpen={process.env.NEXT_PUBLIC_MODE === "local"}
       /> */}

@@ -24,7 +24,7 @@ export default {
         "light-gary": "#bbbbbb",
         background: "var(--background)",
         // foreground: "var(--foreground)",
-        "nav-background": "var(--nav-background)",
+        "nav-background": "rgb(240, 242, 246)",
         "postcard-background": "var(--postcard-background)",
         "btn-hover-background": "var(--btn-hover-background)",
         "btn-hover-text": "#000",
