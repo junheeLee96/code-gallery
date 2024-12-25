@@ -15,7 +15,6 @@ export async function GET(
     const query = `SELECT * FROM posts WHERE idx = ?`;
     const queryParams = [post_id];
     const data = await db<PostTypes[]>({ query, queryParams });
-    console.log("postPost  = ", data);
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching post:", error);
