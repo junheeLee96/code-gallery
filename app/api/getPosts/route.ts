@@ -1,5 +1,6 @@
 import { db } from "@/app/lib/db";
 import { InfiniteQueryResponse, PostTypes } from "@/app/lib/definitions";
+import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
 const postsPerPage = 12;
@@ -7,7 +8,8 @@ export async function GET(
   request: Request
 ): Promise<NextResponse<InfiniteQueryResponse<PostTypes[]>>> {
   const { searchParams } = new URL(request.url);
-  const useruuid = searchParams.get("uuid") as string;
+  const session = await auth();
+  const useruuid = session?.user?.id;
   const page = Number(searchParams.get("page"));
   const language = searchParams.get("language") as string;
   const dateString = searchParams.get("date");
