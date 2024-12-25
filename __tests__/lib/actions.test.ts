@@ -5,7 +5,6 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { ResultSetHeader } from "mysql2";
 
-// Mock the db function
 jest.mock("@/app/lib/db", () => ({
   db: jest.fn(),
 }));
@@ -13,12 +12,10 @@ jest.mock("@/auth", () => ({
   auth: jest.fn(),
 }));
 
-// Mock the redirect function
 jest.mock("next/navigation", () => ({
   redirect: jest.fn(),
 }));
 
-// Don't mock the entire actions module, just import the function
 jest.unmock("@/app/lib/actions");
 
 describe("createNewUser 함수 테스트", () => {
