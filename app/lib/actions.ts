@@ -1,19 +1,23 @@
 "use server";
 
 import { auth } from "@/auth";
-import pool, { db } from "./db";
+import { db } from "./db";
 import { createCommentProps, createPostProps, User } from "./definitions";
 import { redirect } from "next/navigation";
 import { ResultSetHeader } from "mysql2";
 
 export async function createNewUser(user: User) {
+  if (!user || !user.uuid || !user.nickname) {
+    throw new Error("User is not logged");
+  }
+
   const query = `
         INSERT INTO users (uuid, user_name,nickname, email, image,reg_dt)
         VALUES (?, ?, ?, ?, ?, ?)
     `;
 
   const reg_dt = new Date();
-  const values = [
+  const queryParams = [
     user.uuid,
     user.user_name,
     user.nickname,
@@ -21,14 +25,7 @@ export async function createNewUser(user: User) {
     user.image,
     reg_dt,
   ];
-
-  try {
-    await pool.query(query, values);
-    return { message: "complete insert new user" };
-  } catch (err) {
-    console.error("Error inserting new user:", err);
-    throw new Error("Cannot insert new user into the database");
-  }
+  await db<ResultSetHeader>({ query, queryParams });
 }
 
 export async function createPost({ content, language }: createPostProps) {
@@ -46,14 +43,15 @@ export async function createPost({ content, language }: createPostProps) {
         VALUES (?, ?, ?, ?)
     `;
 
-  const values = [uuid, nickname, content, language];
-  try {
-    await pool.query(query, values);
-    // return { message: "complete insert new post" };
-  } catch (e) {
-    console.error(e);
-    throw new Error("Cannot insert new Post", e as Error);
-  }
+  const queryParams = [uuid, nickname, content, language];
+  await db<ResultSetHeader>({ query, queryParams });
+  // try {
+  //   await pool.query(query, values);
+  //   // return { message: "complete insert new post" };
+  // } catch (e) {
+  //   console.error(e);
+  //   throw new Error("Cannot insert new Post", e as Error);
+  // }
   redirect("/");
 }
 

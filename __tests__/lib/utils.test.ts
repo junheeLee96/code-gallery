@@ -1,7 +1,5 @@
 import { timeAgo, truncateText } from "@/app/lib/utils";
 
-// timeAgo.test.ts
-
 describe("timeAgo 함수", () => {
   it("몇 초전이 잘 리턴되는지 확인", () => {
     const date = new Date(Date.now() - 30 * 1000).toISOString(); // 30초 전
@@ -27,8 +25,6 @@ describe("timeAgo 함수", () => {
     expect(result).toBe("3일 전");
   });
 });
-
-// truncateText.test.ts
 
 describe("truncateText 함수", () => {
   it("6줄 이상이면 ...텍스트가 잘라지는지 확인", () => {
