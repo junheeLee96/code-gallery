@@ -63,7 +63,6 @@ describe("usePostForm", () => {
 
     expect(redirect).toHaveBeenCalledWith("/");
   });
-
   test("제출 중 에러가 발생하면 에러 상태를 설정해야 한다", async () => {
     const { result } = renderHook(() => usePostForm());
     const testError = new Error("Test error");
