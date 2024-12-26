@@ -12,9 +12,15 @@ describe("useCommentForm", () => {
     nickname: "Test User",
     post_id: "test-post-id",
   };
+  let consoleErrorSpy: jest.SpyInstance;
 
   beforeEach(() => {
     jest.clearAllMocks();
+    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
   });
 
   test("초기값 세팅을 확인한다.", () => {
@@ -26,7 +32,7 @@ describe("useCommentForm", () => {
     expect(result.current.error).toBeNull();
   });
 
-  it("should update comment state on change", () => {
+  it("코멘트가 바뀌면 값을 저장해야한다.", () => {
     const { result } = renderHook(() => useCommentForm(mockProps));
 
     act(() => {

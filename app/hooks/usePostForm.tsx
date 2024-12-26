@@ -27,6 +27,7 @@ export default function usePostForm() {
     } catch (e) {
       console.error(e as Error);
       setError(e);
+      setIsLoading(false);
     }
   };
 
