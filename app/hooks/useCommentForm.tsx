@@ -47,6 +47,7 @@ export default function useCommentForm({
     } catch (e) {
       console.error(e as Error);
       setError("오류가 발생했습니다. 새로고침 후 다시 시도해주세요.");
+      setIsLoading(false);
     }
   };
 
