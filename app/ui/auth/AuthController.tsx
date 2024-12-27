@@ -19,7 +19,4 @@ export default function AuthController() {
       )}
     </div>
   );
-  // }
-
-  // return <div>로그가웃</div>;
 }

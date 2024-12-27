@@ -9,7 +9,7 @@ export default function SignUp() {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
-    return <div />;
+    return <div data-testid="loading" />;
   }
   if (!session) {
     router.push("/login");
