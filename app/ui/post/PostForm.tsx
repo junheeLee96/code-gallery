@@ -29,7 +29,7 @@ export default function PostForm({ isMarkdownRender }: PostFormTypes) {
         <Textarea
           markdown={content}
           onMarkdownChange={onContentChange}
-          className="h-[350px]"
+          className="h-[350px] mt-5"
         />
         {isMarkdownRender && (
           <Markdown markdown={content} language={language} />
