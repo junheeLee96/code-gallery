@@ -38,7 +38,7 @@ export default function Filters() {
 
   return (
     <div
-      className="h-[56px] sticky top-0 rounded-xl flex items-center"
+      className="h-[56px] sticky top-0 rounded-xl flex items-center pl-4"
       ref={ref}
     >
       <ul className="flex gap-5">

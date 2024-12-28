@@ -45,13 +45,7 @@ export async function createPost({ content, language }: createPostProps) {
 
   const queryParams = [uuid, nickname, content, language];
   await db<ResultSetHeader>({ query, queryParams });
-  // try {
-  //   await pool.query(query, values);
-  //   // return { message: "complete insert new post" };
-  // } catch (e) {
-  //   console.error(e);
-  //   throw new Error("Cannot insert new Post", e as Error);
-  // }
+
   redirect("/");
 }
 
