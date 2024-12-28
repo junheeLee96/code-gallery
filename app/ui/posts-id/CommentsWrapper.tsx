@@ -21,7 +21,6 @@ export default function CommentsWrapper({
     queryKey: ["comments", post_id, date],
     queryFn: getComments,
   });
-  console.log(data);
 
   useScrollLoaer({ fetchNextPage, hasNextPage });
 

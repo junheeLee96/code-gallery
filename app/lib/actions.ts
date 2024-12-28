@@ -58,5 +58,11 @@ export const createComment = async ({
   const query = `INSERT INTO comments (post_id, uuid, nickname, comment)
         VALUES (?, ?, ?, ?)`;
   const queryParams = [post_id, uuid, nickname, comment];
+  const commentCountQuery =
+    "UPDATE posts SET comment = comment + 1 WHERE idx = ?;";
+  db<ResultSetHeader[]>({
+    query: commentCountQuery,
+    queryParams: [queryParams[0]],
+  });
   return db<ResultSetHeader[]>({ query, queryParams });
 };
