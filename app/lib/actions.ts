@@ -66,3 +66,19 @@ export const createComment = async ({
   });
   return db<ResultSetHeader[]>({ query, queryParams });
 };
+
+export const createLike = async (
+  post_id: string
+): Promise<ResultSetHeader[] | { message: string }> => {
+  const session = await auth();
+  const uuid = session?.user?.id;
+  if (!uuid) return { message: "로그인이 필요합니다. 로그인하시겠습니까?" };
+
+  const likeQuery = `UPDATE posts SET \`like\` = \`like\` + 1 WHERE idx = ?;`;
+  const likeParams = [post_id];
+
+  const query = "INSERT INTO likes (uuid, post_id) VALUES (?, ?);";
+  const queryParams = [uuid, post_id];
+  await db<ResultSetHeader[]>({ query: likeQuery, queryParams: likeParams });
+  return db<ResultSetHeader[]>({ query, queryParams });
+};
