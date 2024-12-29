@@ -5,6 +5,7 @@ import { PostTypes } from "../../lib/definitions";
 import Markdown from "./Markdown";
 import UserName from "./UserName";
 import { truncateText } from "@/app/lib/utils";
+import Like from "./Like";
 
 type PostPropTypes = {
   post: PostTypes;
@@ -39,6 +40,9 @@ export default function Post({ post }: PostPropTypes) {
           더보기
         </button>
       )}
+      <div>
+        <Like id={post.idx} />
+      </div>
     </div>
   );
 }
