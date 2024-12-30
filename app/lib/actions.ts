@@ -36,7 +36,7 @@ export async function createPost({ content, language }: createPostProps) {
   if (!uuid) {
     throw new Error("로그인이 필요합니다.");
   }
-  const nickname = session.user.nickname;
+  const nickname = session.user.nickname as string;
 
   const query = `
         INSERT INTO posts (uuid, nickname, content, language)

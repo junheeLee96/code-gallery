@@ -15,6 +15,7 @@ export type PostTypes = {
   like: number;
   comment: number;
   reg_dt: string;
+  initialLike: boolean;
 };
 
 export type CommentsTypes = {

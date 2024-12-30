@@ -1,6 +1,7 @@
 import { db } from "@/app/lib/db";
 import { InfiniteQueryResponse, PostTypes } from "@/app/lib/definitions";
 import { auth } from "@/auth";
+import { ResultSetHeader } from "mysql2";
 import { NextResponse } from "next/server";
 
 const postsPerPage = 12;
@@ -54,8 +55,12 @@ export async function GET(
     }
   );
 
+  const postIdArray = postRows.map((post) => post.idx);
+  const likesObject = await isLike(postIdArray, useruuid as string);
+
   const posts: PostTypes[] = postRows.map(({ uuid, ...post }) => ({
     ...post,
+    initialLike: likesObject[post.idx],
     isAuthor: useruuid === uuid,
   }));
 
@@ -64,4 +69,32 @@ export async function GET(
     totalPage,
     pageParams: page,
   });
+}
+
+async function isLike(
+  postIdArray: number[],
+  uuid: string
+): Promise<{ [key: number]: boolean }> {
+  const likesObject: { [key: number]: boolean } = {};
+  const promise_arr = postIdArray.map((post_id) => {
+    const query = "SELECT * FROM likes WHERE post_id = ? AND uuid = ? ;";
+    const queryParams = [post_id, uuid];
+    return db<ResultSetHeader[]>({ query, queryParams }).then((response) => ({
+      post_id,
+      response,
+    }));
+  });
+
+  return Promise.all(promise_arr)
+    .then((response_arr) => {
+      console.log("response_arr = ", response_arr);
+      response_arr.forEach(({ post_id, response }) => {
+        likesObject[post_id] = response.length > 0;
+      });
+      return likesObject;
+    })
+    .catch((error) => {
+      console.log(error);
+      return likesObject;
+    });
 }

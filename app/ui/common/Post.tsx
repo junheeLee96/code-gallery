@@ -41,7 +41,11 @@ export default function Post({ post }: PostPropTypes) {
         </button>
       )}
       <div>
-        <Like id={post.idx} />
+        <Like
+          id={String(post.idx)}
+          likeCount={post.like}
+          isInitialLiked={post.initialLike}
+        />
       </div>
     </div>
   );

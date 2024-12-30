@@ -7,14 +7,13 @@ import { useRouter } from "next/navigation";
 
 type LikeProps = {
   id: string;
-  isInitialLiked?: boolean;
+  isInitialLiked: boolean;
+  likeCount: number;
 };
 
-export default function Like({ id, isInitialLiked }: LikeProps) {
+export default function Like({ id, isInitialLiked, likeCount }: LikeProps) {
   const router = useRouter();
-  const [isAnimating, setIsAnimating] = useState(
-    isInitialLiked ? isInitialLiked : false
-  );
+  const [isAnimating, setIsAnimating] = useState(isInitialLiked);
   const handleClick = async () => {
     if (isAnimating) return;
     const response = await createLike(id);
@@ -29,11 +28,14 @@ export default function Like({ id, isInitialLiked }: LikeProps) {
   };
 
   return (
-    <div
-      className={`heart ${isAnimating ? "is_animating" : ""} bg-${
-        isAnimating ? "right" : "left"
-      }`}
-      onClick={handleClick}
-    />
+    <div className="flex items-center">
+      <div
+        className={`heart ${isAnimating ? "is_animating" : ""} bg-${
+          isAnimating ? "right" : "left"
+        }`}
+        onClick={handleClick}
+      />
+      <span>{likeCount}</span>
+    </div>
   );
 }
