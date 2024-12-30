@@ -68,16 +68,21 @@ export const createComment = async ({
 };
 
 export const createLike = async (
-  post_id: string
+  post_id: string,
+  isLike: boolean
 ): Promise<ResultSetHeader[] | { message: string }> => {
   const session = await auth();
   const uuid = session?.user?.id;
   if (!uuid) return { message: "로그인이 필요합니다. 로그인하시겠습니까?" };
 
-  const likeQuery = `UPDATE posts SET \`like\` = \`like\` + 1 WHERE idx = ?;`;
+  const likeQuery = isLike
+    ? `UPDATE posts SET \`like\` = \`like\` + 1 WHERE idx = ?;`
+    : "UPDATE posts SET `like` = `like` - 1 WHERE idx = ?;";
   const likeParams = [post_id];
 
-  const query = "INSERT INTO likes (uuid, post_id) VALUES (?, ?);";
+  const query = isLike
+    ? "INSERT INTO likes (uuid, post_id) VALUES (?, ?);"
+    : "DELETE FROM likes WHERE uuid = ? AND post_id = ?  ;";
   const queryParams = [uuid, post_id];
   await db<ResultSetHeader[]>({ query: likeQuery, queryParams: likeParams });
   return db<ResultSetHeader[]>({ query, queryParams });
