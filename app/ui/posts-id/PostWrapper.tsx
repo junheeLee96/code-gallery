@@ -3,10 +3,6 @@ import { getPost } from "@/app/lib/data";
 import Post from "../common/Post";
 import Wrapper from "../common/Wrapper";
 
-type PostWrapperTypes = {
-  post_id: string;
-};
-
 export default async function PostWrapper({ post_id }: { post_id: string }) {
   const post = await getPost(post_id);
 

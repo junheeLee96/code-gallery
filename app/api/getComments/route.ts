@@ -42,7 +42,6 @@ export async function GET(
     query: commentCountsQuery,
     queryParams: commentQueryParams,
   });
-  console.log("countRows = ", countRows);
   const { totalComments } = countRows;
   const totalCommentPage = Math.ceil(totalComments / commentsPerPage);
 
