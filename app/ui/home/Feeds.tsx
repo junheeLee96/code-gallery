@@ -23,7 +23,7 @@ export default function Feeds({ date }: { date: Date }) {
     <div className="pb-20">
       {data?.pages.map((page, pageIndex) => (
         <div key={pageIndex}>
-          {page.posts.map((post: PostTypes, idx: number) => (
+          {page?.data.map((post: PostTypes, idx: number) => (
             <Wrapper key={post.idx || idx}>
               <Post post={post} />
               <div className="mt-3 pt-2 border-t border-gray-300">

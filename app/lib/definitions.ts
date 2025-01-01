@@ -65,5 +65,5 @@ interface InfiniteQueryBaseResponse {
 }
 
 export interface InfiniteQueryResponse<T> extends InfiniteQueryBaseResponse {
-  posts: T;
+  data: T;
 }

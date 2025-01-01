@@ -161,9 +161,8 @@ export async function GET(
         posts[posts.length - 1].reg_dt
       ).getTime()}_${posts[posts.length - 1].like}`
     : null;
-  console.log(nextCursor);
   return NextResponse.json({
-    posts: formattedPosts,
+    data: formattedPosts,
     nextCursor,
     totalPosts: countRows.totalPosts,
     pageParams: cursor ? parseInt(cursor.split("_")[0]) : 1,

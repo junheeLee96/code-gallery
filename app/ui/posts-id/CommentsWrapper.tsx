@@ -30,7 +30,7 @@ export default function CommentsWrapper({
         <CommentsSkeleton />
         <CommentForm post_id={post_id} />
         {data?.pages.map((comments) =>
-          comments.comments.map((comment, idx) => (
+          comments?.data.map((comment, idx) => (
             <Comment comment={comment} key={idx} />
           ))
         )}

@@ -4,8 +4,8 @@ import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { InfiniteQueryResponse } from "../lib/definitions";
 import { useEffect } from "react";
 
-type queryFnParams = {
-  cursor?: string;
+export type queryFnParams = {
+  cursor: string;
   queryKey: string;
   date: Date;
   sorting: string;
@@ -36,7 +36,6 @@ const useInfiniteQueryHook = <T,>({
   } = useSuspenseInfiniteQuery({
     queryKey,
     queryFn: ({ queryKey, pageParam = 1 }) => {
-      console.log("pageParam = ", pageParam);
       return queryFn({
         cursor: String(pageParam),
         queryKey: queryKey[1] as string,

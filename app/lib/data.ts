@@ -1,4 +1,5 @@
 import { client } from "../api/client";
+import { queryFnParams } from "../hooks/useInfiniteQueryHook";
 import {
   CommentsTypes,
   InfiniteQueryResponse,
@@ -18,12 +19,7 @@ export const getPosts = async ({
   queryKey,
   date,
   sorting,
-}: {
-  cursor: string;
-  queryKey: string;
-  date: Date;
-  sorting: string;
-}): Promise<InfiniteQueryResponse<PostTypes[]>> => {
+}: queryFnParams): Promise<InfiniteQueryResponse<PostTypes[]>> => {
   const isoDate = date.toISOString();
   const encodedDate = encodeURIComponent(isoDate);
   return client<Promise<InfiniteQueryResponse<PostTypes[]>>>("/api/getPosts", {
@@ -37,11 +33,11 @@ export const getPosts = async ({
 };
 
 export const getComments = async ({
-  page,
+  cursor,
   queryKey,
   date,
 }: {
-  page: number;
+  cursor: string;
   queryKey: string;
   date: Date;
 }): Promise<InfiniteQueryResponse<CommentsTypes[]>> => {
@@ -51,7 +47,7 @@ export const getComments = async ({
     "/api/getComments",
     {
       params: {
-        page: String(page),
+        cursor,
         post_id: queryKey,
         date: encodedDate,
       },
