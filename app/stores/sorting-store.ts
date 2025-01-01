@@ -2,11 +2,11 @@ import { createStore } from "zustand/vanilla";
 import { SortingState, SortingStore } from "./types/sorting-store-type";
 
 export const initSortingStore = (): SortingState => {
-  return { sorting: "reg_dt DESC" };
+  return { sorting: "recent" };
 };
 
 export const defaultInitState: SortingState = {
-  sorting: "reg_dt DESC",
+  sorting: "recent",
 };
 
 export const createSortingStore = (

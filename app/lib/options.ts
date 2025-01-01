@@ -8,6 +8,8 @@ export const languages = [
 ];
 
 export const sortings = [
-  { name: "최신순", value: "reg_dt DESC" },
-  { name: "오래된 순", value: "reg_dt ASC" },
+  { name: "최신순", value: "recent" },
+  { name: "오래된 순", value: "old" },
+  { name: "좋아요 순", value: "like" },
+  { name: "좋아요 낮은 순", value: "least_likes" },
 ];

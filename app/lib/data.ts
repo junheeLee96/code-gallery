@@ -13,23 +13,25 @@ export const getUser = async (uuid: string) => {
     },
   });
 };
-
 export const getPosts = async ({
-  page,
+  cursor,
   queryKey,
   date,
+  sorting,
 }: {
-  page: number;
+  cursor: string;
   queryKey: string;
   date: Date;
+  sorting: string;
 }): Promise<InfiniteQueryResponse<PostTypes[]>> => {
   const isoDate = date.toISOString();
   const encodedDate = encodeURIComponent(isoDate);
   return client<Promise<InfiniteQueryResponse<PostTypes[]>>>("/api/getPosts", {
     params: {
-      page: String(page),
+      cursor,
       language: queryKey,
       date: encodedDate,
+      sorting,
     },
   });
 };

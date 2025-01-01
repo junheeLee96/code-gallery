@@ -8,15 +8,13 @@ import useScrollLoaer from "@/app/hooks/useScrollLoader";
 import { getPosts } from "@/app/lib/data";
 import Wrapper from "../common/Wrapper";
 import { useLanguageStore, useSortingStore } from "@/app/providers/zustand";
-import { useEffect } from "react";
 
 export default function Feeds({ date }: { date: Date }) {
   const { sorting } = useSortingStore((state) => state);
   const { language } = useLanguageStore((state) => state);
-  // todo: sorting도 쿼리키에 포함
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQueryHook({
-    queryKey: ["posts", language, date],
+    queryKey: ["posts", language, date, sorting],
     queryFn: getPosts,
   });
   useScrollLoaer({ hasNextPage, fetchNextPage });

@@ -59,10 +59,11 @@ export type CommentListResponse = {
 };
 
 interface InfiniteQueryBaseResponse {
-  totalPage: number;
+  nextCursor: string | null;
+  totalPosts: number;
   pageParams: number;
 }
 
 export interface InfiniteQueryResponse<T> extends InfiniteQueryBaseResponse {
-  [key: string]: T | number;
+  posts: T;
 }

@@ -5,17 +5,19 @@ import { InfiniteQueryResponse } from "../lib/definitions";
 import { useEffect } from "react";
 
 type queryFnParams = {
-  page: number;
+  cursor?: string;
   queryKey: string;
   date: Date;
+  sorting: string;
 };
 
 interface useInfiniteQueryHookProps<T> {
   queryKey: Array<string | Date>;
   queryFn: ({
-    page,
+    cursor,
     queryKey,
     date,
+    sorting,
   }: queryFnParams) => Promise<InfiniteQueryResponse<T>>;
 }
 
@@ -32,16 +34,18 @@ const useInfiniteQueryHook = <T,>({
     error,
     isError,
   } = useSuspenseInfiniteQuery({
-    // queryKey = [key, id, Date]
     queryKey,
-    queryFn: ({ queryKey, pageParam = 1 }) =>
-      queryFn({
-        page: pageParam,
+    queryFn: ({ queryKey, pageParam = 1 }) => {
+      console.log("pageParam = ", pageParam);
+      return queryFn({
+        cursor: String(pageParam),
         queryKey: queryKey[1] as string,
         date: queryKey[2] as Date,
-      }),
-    getNextPageParam: (lastPage, pages) => {
-      return lastPage.totalPage <= pages.length ? undefined : pages.length + 1;
+        sorting: queryKey[3] as string,
+      });
+    },
+    getNextPageParam: (lastPage) => {
+      return lastPage.nextCursor || undefined;
     },
     initialPageParam: 1,
   });

@@ -46,7 +46,7 @@ export async function createPost({ content, language }: createPostProps) {
   const queryParams = [uuid, nickname, content, language];
   await db<ResultSetHeader>({ query, queryParams });
 
-  redirect("/");
+  // redirect("/");
 }
 
 export const createComment = async ({

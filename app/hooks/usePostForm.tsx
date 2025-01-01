@@ -23,6 +23,7 @@ export default function usePostForm() {
     setIsLoading(true);
     try {
       await createPost({ content, language });
+      setIsLoading(false);
     } catch (e) {
       console.error(e as Error);
       setError(e);
