@@ -2,6 +2,7 @@ import PostWrapper from "@/app/ui/posts-id/PostWrapper";
 import { Suspense } from "react";
 import CommentsWrapper from "@/app/ui/posts-id/CommentsWrapper";
 import PostSkeleton from "@/app/ui/skeletons/feed/PostSkeleton";
+import CommentsSkeleton from "@/app/ui/skeletons/comments/CommentsSkeleton";
 
 // type Props = {
 //   params: { id: string };
@@ -35,7 +36,7 @@ export default function Post({ params }: { params: { id: string } }) {
       <Suspense fallback={<PostSkeleton />}>
         <PostWrapper post_id={params.id} />
       </Suspense>
-      <Suspense fallback="loading..zzzz">
+      <Suspense fallback={<CommentsSkeleton />}>
         <CommentsWrapper post_id={params.id} date={new Date()} />
       </Suspense>
     </div>

@@ -27,7 +27,6 @@ export default function CommentsWrapper({
   return (
     <div className="pb-20">
       <Wrapper>
-        <CommentsSkeleton />
         <CommentForm post_id={post_id} />
         {data?.pages.map((comments) =>
           comments?.data.map((comment, idx) => (
