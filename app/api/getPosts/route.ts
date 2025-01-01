@@ -23,13 +23,15 @@ export async function GET(
   // Parse cursor
   let cursorValue: number | undefined;
   let cursorDate: Date | undefined;
+  let cursorLikes: number | undefined;
   if (cursor) {
-    const [valueStr, dateStr] = cursor.split("_");
+    const [valueStr, dateStr, likesStr] = cursor.split("_");
     cursorValue = parseInt(valueStr);
     const parsedDate = new Date(parseInt(dateStr));
     if (!isNaN(parsedDate.getTime())) {
       cursorDate = parsedDate;
     }
+    cursorLikes = parseInt(likesStr);
   }
 
   // count
@@ -59,7 +61,11 @@ export async function GET(
   }
 
   // 커서 기반 페이지네이션 처리
-  if (cursorValue !== undefined && cursorDate !== undefined) {
+  if (
+    cursorValue !== undefined &&
+    cursorDate !== undefined &&
+    cursorLikes !== undefined
+  ) {
     switch (sorting) {
       case "old":
         PostQuery += " AND (p.reg_dt > ? OR (p.reg_dt = ? AND p.idx > ?))";
@@ -71,13 +77,27 @@ export async function GET(
         break;
       case "like":
         PostQuery +=
-          " AND (COALESCE(l.like_count, 0) < ? OR (COALESCE(l.like_count, 0) = ? AND p.idx > ?))";
-        PostQueryParams.push(cursorValue, cursorValue, cursorValue);
+          " AND (COALESCE(l.like_count, 0) < ? OR (COALESCE(l.like_count, 0) = ? AND p.reg_dt < ?) OR (COALESCE(l.like_count, 0) = ? AND p.reg_dt = ? AND p.idx < ?))";
+        PostQueryParams.push(
+          cursorLikes,
+          cursorLikes,
+          cursorDate,
+          cursorLikes,
+          cursorDate,
+          cursorValue
+        );
         break;
       case "least_likes":
         PostQuery +=
-          " AND (COALESCE(l.like_count, 0) > ? OR (COALESCE(l.like_count, 0) = ? AND p.idx > ?))";
-        PostQueryParams.push(cursorValue, cursorValue, cursorValue);
+          " AND (COALESCE(l.like_count, 0) > ? OR (COALESCE(l.like_count, 0) = ? AND p.reg_dt < ?) OR (COALESCE(l.like_count, 0) = ? AND p.reg_dt = ? AND p.idx > ?))";
+        PostQueryParams.push(
+          cursorLikes,
+          cursorLikes,
+          cursorDate,
+          cursorLikes,
+          cursorDate,
+          cursorValue
+        );
         break;
     }
   }
@@ -96,7 +116,7 @@ export async function GET(
       break;
     case "least_likes":
       PostQuery +=
-        " ORDER BY COALESCE(l.like_count, 0) ASC, p.reg_dt ASC, p.idx ASC";
+        " ORDER BY COALESCE(l.like_count, 0) ASC, p.reg_dt DESC, p.idx ASC";
       break;
     default:
       PostQuery += " ORDER BY p.reg_dt DESC, p.idx DESC";
@@ -104,9 +124,6 @@ export async function GET(
 
   PostQuery += " LIMIT ?";
   PostQueryParams.push(postsPerPage + 1);
-
-  console.log("Final PostQuery:", PostQuery);
-  console.log("Final PostQueryParams:", PostQueryParams);
 
   const [countRows] = await db<[{ totalPosts: number }]>({
     query: PostCountQuery,
@@ -122,8 +139,6 @@ export async function GET(
     query: PostQuery,
     queryParams: PostQueryParams,
   });
-
-  console.log("Query results:", postRows);
 
   const hasNextPage = postRows.length > postsPerPage;
   const posts = postRows.slice(0, postsPerPage);
@@ -144,9 +159,9 @@ export async function GET(
   const nextCursor = hasNextPage
     ? `${posts[posts.length - 1].idx}_${new Date(
         posts[posts.length - 1].reg_dt
-      ).getTime()}`
+      ).getTime()}_${posts[posts.length - 1].like}`
     : null;
-
+  console.log(nextCursor);
   return NextResponse.json({
     posts: formattedPosts,
     nextCursor,
