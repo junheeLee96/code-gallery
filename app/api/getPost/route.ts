@@ -10,7 +10,7 @@ export async function GET(
   const { searchParams } = new URL(request.url);
   const post_id = searchParams.get("post_id");
   if (!post_id) {
-    return NextResponse.json({ error: "Post ID is required", status: 400 });
+    return NextResponse.json({ error: "Post ID is required" }, { status: 400 });
   }
   const session = await auth();
   console.log("user:", session);
@@ -23,7 +23,7 @@ export async function GET(
       queryParams,
     });
     if (data.length === 0) {
-      return NextResponse.json({ error: "Not Exist post", status: 404 });
+      return NextResponse.json({ error: "Not Exist post" }, { status: 404 });
     }
 
     const initialLike = await isLike(post_id, useruuid);

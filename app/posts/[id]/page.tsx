@@ -12,29 +12,25 @@ type Props = {
   params: { id: string };
 };
 
-export async function generateMetadata(
-  // todo: generateMetadata가 있을때 Suspense는 동작하지 않음(의도된 동작) generateMetadata suspense 로 검색
-  { params }: Props
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const id = params.id;
+  try {
+    const post = await getPost(id);
 
-  const post = await getPost(id);
-  console.log("generateMetadata = ", post);
-  if (post.error && post.status === 404) {
-    notFound();
-  }
-
-  if (!post || post.length === 0) {
     return {
-      title: "Post Not Found",
-      description: "The requested post could not be found.",
+      title: `${post[0].title}` || "Post",
+      description: post[0].content.substring(0, 160),
+    };
+  } catch (e) {
+    if (e instanceof Error && "statusCode" in e && e.statusCode === 404) {
+      notFound();
+    }
+    console.error("An unexpected error occurred:", e);
+    return {
+      title: "Error",
+      description: "There was an error loading this post.",
     };
   }
-
-  return {
-    title: `${post[0].title}` || "",
-    description: post[0].content.substring(0, 160),
-  };
 }
 
 export default async function Post({ params }: { params: { id: string } }) {
