@@ -55,6 +55,12 @@ export const getComments = async ({
   );
 };
 
-export const getPost = async (post_id: string): Promise<PostTypes[]> => {
-  return client<PostTypes[]>(`/api/getPost/${post_id}`);
+export const getPost = async (
+  post_id: string
+): Promise<PostTypes[] | Record<string, string>> => {
+  return client<PostTypes[]>(`/api/getPost`, {
+    params: {
+      post_id,
+    },
+  });
 };

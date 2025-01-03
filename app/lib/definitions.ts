@@ -10,6 +10,7 @@ export type PostTypes = {
   idx: number;
   isAuthor: boolean;
   nickname: string;
+  title: string;
   content: string;
   language: string;
   like: number;

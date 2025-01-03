@@ -3,7 +3,7 @@
  */
 
 // request is not defined라는 에러 때문에 위에 것을 선언해야함
-import { GET } from "@/app/api/getPost/[id]/route";
+import { GET } from "@/app/api/getPost/route";
 import { db } from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 

@@ -5,6 +5,8 @@ import PostSkeleton from "@/app/ui/skeletons/feed/PostSkeleton";
 import CommentsSkeleton from "@/app/ui/skeletons/comments/CommentsSkeleton";
 import { Metadata } from "next";
 import { getPost } from "@/app/lib/data";
+import Example from "./zz";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: { id: string };
@@ -17,6 +19,10 @@ export async function generateMetadata(
   const id = params.id;
 
   const post = await getPost(id);
+  console.log("generateMetadata = ", post);
+  if (post.error && post.status === 404) {
+    notFound();
+  }
 
   if (!post || post.length === 0) {
     return {
@@ -26,14 +32,15 @@ export async function generateMetadata(
   }
 
   return {
-    title: `${post[0].nickname} 님의 게시물`,
+    title: `${post[0].title}` || "",
     description: post[0].content.substring(0, 160),
   };
 }
 
-export default function Post({ params }: { params: { id: string } }) {
+export default async function Post({ params }: { params: { id: string } }) {
   return (
     <div>
+      {/* <Example /> */}
       <Suspense fallback={<PostSkeleton />}>
         <PostWrapper post_id={params.id} />
       </Suspense>

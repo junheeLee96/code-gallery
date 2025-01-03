@@ -1,32 +1,37 @@
 import { db } from "@/app/lib/db";
 import { PostTypes } from "@/app/lib/definitions";
-import { auth } from "@/auth";
 import { ResultSetHeader } from "mysql2";
-// import { auth } from "@/auth";
+import { auth } from "@/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const post_id = params.id;
+  request: NextRequest
+): Promise<NextResponse<PostTypes[] | { error: string }>> {
+  const { searchParams } = new URL(request.url);
+  const post_id = searchParams.get("post_id");
   if (!post_id) {
-    return NextResponse.json({ error: "Post ID is required" }, { status: 400 });
+    return NextResponse.json({ error: "Post ID is required", status: 400 });
   }
   const session = await auth();
-  console.log("session = ", session);
+  console.log("user:", session);
   const useruuid = session?.user?.id;
   try {
     const query = `SELECT * FROM posts WHERE idx = ?`;
     const queryParams = [post_id];
-    const data = await db<PostTypes[]>({ query, queryParams });
-    if (data.length === 0) NextResponse.json([]);
+    const data = await db<(PostTypes & { uuid: string })[]>({
+      query,
+      queryParams,
+    });
+    if (data.length === 0) {
+      return NextResponse.json({ error: "Not Exist post", status: 404 });
+    }
+
     const initialLike = await isLike(post_id, useruuid);
     const fommattingData = data.map(({ uuid, ...post }) => ({
       ...post,
       initialLike,
     }));
-    console.log("fommattingData =", fommattingData);
+
     return NextResponse.json(fommattingData);
   } catch (error) {
     console.error("Error fetching post:", error);
@@ -43,7 +48,6 @@ async function isLike(post_id: string, uuid: string | undefined) {
   const query = "SELECT * FROM likes WHERE post_id = ? AND uuid = ? ;";
   const queryParams = [post_id, uuid];
   const likeData = await db<ResultSetHeader[]>({ query, queryParams });
-  console.log("likeData = ", likeData);
   if (likeData.length > 0) return true;
   return false;
 }
