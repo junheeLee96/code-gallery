@@ -4,12 +4,14 @@ import { useLanguageStore, useSortingStore } from "@/app/providers/zustand";
 import Languages from "../common/Languages";
 import Sorting from "./Sorting";
 import { ChangeEvent, useEffect, useRef } from "react";
+import TimePeriods from "./TimePeriods";
 
 export default function Filters() {
   const ref = useRef<null | HTMLDivElement>(null);
 
   const { sorting, setSorting } = useSortingStore((state) => state);
   const { language, setLanguage } = useLanguageStore((state) => state);
+
   const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setLanguage(e.target.value);
   };
@@ -51,6 +53,12 @@ export default function Filters() {
         </li>
         <li>
           <Sorting onChange={onSortingChange} value={sorting} />
+        </li>
+        <li>
+          <Sorting onChange={onSortingChange} value={sorting} />
+        </li>
+        <li>
+          <TimePeriods />
         </li>
       </ul>
     </div>

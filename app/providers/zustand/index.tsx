@@ -6,6 +6,7 @@ import {
   SortingStoreProvider,
   useSortingStore,
 } from "./sorting-store.provider";
+import { TimePeriodStoreProvider } from "./timePeriods-store-provider";
 
 type ZustandProvidersTypes = {
   children: React.ReactNode;
@@ -14,7 +15,9 @@ type ZustandProvidersTypes = {
 export function ZustandProviders({ children }: ZustandProvidersTypes) {
   return (
     <SortingStoreProvider>
-      <LanugeageStoreProvider>{children}</LanugeageStoreProvider>
+      <TimePeriodStoreProvider>
+        <LanugeageStoreProvider>{children}</LanugeageStoreProvider>
+      </TimePeriodStoreProvider>
     </SortingStoreProvider>
   );
 }
