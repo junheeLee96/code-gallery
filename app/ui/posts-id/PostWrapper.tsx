@@ -16,7 +16,7 @@ export default function PostWrapper({ post_id }: { post_id: string }) {
         setPost(post[0]);
       }
     })();
-  }, []);
+  }, [post_id]);
 
   return <Wrapper>{post && <Post post={post} isTruncated={false} />}</Wrapper>;
 }

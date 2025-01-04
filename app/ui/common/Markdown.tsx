@@ -17,7 +17,7 @@ export default function Markdown({ markdown, language }: MarkdownTypes) {
       <ReactMarkdown
         remarkPlugins={[remarkBreaks]}
         components={{
-          code({ node, inline, className, children, ...props }) {
+          code({ inline, className, children, ...props }) {
             const match = /language-(\w+)/.exec(`language-${language}` || "");
 
             return !inline && match ? (
