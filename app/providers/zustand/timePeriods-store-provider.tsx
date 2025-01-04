@@ -4,7 +4,7 @@ import {
   createTimePeriodStore,
   initTimePeriodStore,
 } from "@/app/stores/timePeriod-store";
-import { TimePeriodState } from "@/app/stores/types/timePeriods-store-type";
+import { TimePeriodStore } from "@/app/stores/types/timePeriods-store-type";
 import { createContext, ReactNode, useContext, useRef } from "react";
 import { useStore } from "zustand";
 
@@ -34,7 +34,7 @@ export const TimePeriodStoreProvider = ({
 };
 
 export const useTimePeriodStore = <T,>(
-  selector: (store: TimePeriodState) => T
+  selector: (store: TimePeriodStore) => T
 ): T => {
   const timePeriodStoreContext = useContext(TimePeriodStoreContext);
 

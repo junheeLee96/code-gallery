@@ -17,7 +17,7 @@ export const createTimePeriodStore = (
 ) => {
   return createStore<TimePeriodStore>()((set) => ({
     ...initState,
-    setTimePeriod: (period) =>
-      set((state) => ({ ...state, timePeriod: period })),
+    setTimePeriod: (timePeriod) =>
+      set((state) => ({ ...state, timePeriod: timePeriod })),
   }));
 };
