@@ -37,9 +37,9 @@ const useInfiniteQueryHook = <T,>({
     isError,
   } = useSuspenseInfiniteQuery({
     queryKey,
-    queryFn: ({ queryKey, pageParam = 1 }) => {
+    queryFn: ({ queryKey, pageParam = "1" }) => {
       return queryFn({
-        cursor: String(pageParam),
+        cursor: pageParam,
         queryKey: queryKey[1] as string,
         date: queryKey[2] as Date,
         sorting: queryKey[3] as string,
@@ -49,7 +49,7 @@ const useInfiniteQueryHook = <T,>({
     getNextPageParam: (lastPage) => {
       return lastPage.nextCursor || undefined;
     },
-    initialPageParam: 1,
+    initialPageParam: "1",
   });
 
   useEffect(() => {
