@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { PostTypes } from "../../lib/definitions";
 import Markdown from "./Markdown";
 import UserName from "./UserName";
-import { truncateText } from "@/app/lib/utils";
 import Like from "./Like";
 
 type PostPropTypes = {

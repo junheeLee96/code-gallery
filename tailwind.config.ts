@@ -7,7 +7,7 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    screens: { g: "720px" },
+    screens: { g: "720px", lg: "1024px" },
     extend: {
       height: {
         "screen-without-header": "calc(100vh - 56px)",
