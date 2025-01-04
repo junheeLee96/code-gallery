@@ -9,6 +9,7 @@ export type queryFnParams = {
   queryKey: string;
   date: Date;
   sorting: string;
+  timePeriod: string;
 };
 
 interface useInfiniteQueryHookProps<T> {
@@ -18,6 +19,7 @@ interface useInfiniteQueryHookProps<T> {
     queryKey,
     date,
     sorting,
+    timePeriod,
   }: queryFnParams) => Promise<InfiniteQueryResponse<T>>;
 }
 
@@ -41,6 +43,7 @@ const useInfiniteQueryHook = <T,>({
         queryKey: queryKey[1] as string,
         date: queryKey[2] as Date,
         sorting: queryKey[3] as string,
+        timePeriod: (queryKey[4] as string) || "",
       });
     },
     getNextPageParam: (lastPage) => {

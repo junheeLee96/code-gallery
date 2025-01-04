@@ -19,6 +19,7 @@ export const getPosts = async ({
   queryKey,
   date,
   sorting,
+  timePeriod,
 }: queryFnParams): Promise<InfiniteQueryResponse<PostTypes[]>> => {
   const isoDate = date.toISOString();
   const encodedDate = encodeURIComponent(isoDate);
@@ -28,6 +29,7 @@ export const getPosts = async ({
       language: queryKey,
       date: encodedDate,
       sorting,
+      timePeriod,
     },
   });
 };

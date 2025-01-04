@@ -7,15 +7,20 @@ import useInfiniteQueryHook from "@/app/hooks/useInfiniteQueryHook";
 import useScrollLoaer from "@/app/hooks/useScrollLoader";
 import { getPosts } from "@/app/lib/data";
 import Wrapper from "../common/Wrapper";
-import { useLanguageStore, useSortingStore } from "@/app/providers/zustand";
+import {
+  useLanguageStore,
+  useSortingStore,
+  useTimePeriodStore,
+} from "@/app/providers/zustand";
 import { truncateText } from "@/app/lib/utils";
 
 export default function Feeds({ date }: { date: Date }) {
   const { sorting } = useSortingStore((state) => state);
   const { language } = useLanguageStore((state) => state);
+  const { timePeriod } = useTimePeriodStore((state) => state);
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQueryHook({
-    queryKey: ["posts", language, date, sorting],
+    queryKey: ["posts", language, date, sorting, timePeriod],
     queryFn: getPosts,
   });
   useScrollLoaer({ hasNextPage, fetchNextPage });

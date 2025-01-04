@@ -6,7 +6,10 @@ import {
   SortingStoreProvider,
   useSortingStore,
 } from "./sorting-store.provider";
-import { TimePeriodStoreProvider } from "./timePeriods-store-provider";
+import {
+  TimePeriodStoreProvider,
+  useTimePeriodStore,
+} from "./timePeriods-store-provider";
 
 type ZustandProvidersTypes = {
   children: React.ReactNode;
@@ -22,4 +25,4 @@ export function ZustandProviders({ children }: ZustandProvidersTypes) {
   );
 }
 
-export { useSortingStore, useLanguageStore };
+export { useSortingStore, useLanguageStore, useTimePeriodStore };

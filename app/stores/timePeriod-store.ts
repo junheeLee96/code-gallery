@@ -1,7 +1,7 @@
 import { createStore } from "zustand/vanilla";
 import {
   TimePeriodState,
-  timePeriodStore,
+  TimePeriodStore,
 } from "./types/timePeriods-store-type";
 
 export const initTimePeriodStore = (): TimePeriodState => {
@@ -15,9 +15,9 @@ export const defaultInitState: TimePeriodState = {
 export const createTimePeriodStore = (
   initState: TimePeriodState = defaultInitState
 ) => {
-  return createStore<timePeriodStore>()((set) => ({
+  return createStore<TimePeriodStore>()((set) => ({
     ...initState,
-    setTimePeriod: (timePeriod: string) =>
-      set((state) => ({ ...state, timePeriod: timePeriod })),
+    setTimePeriod: (period) =>
+      set((state) => ({ ...state, timePeriod: period })),
   }));
 };

@@ -16,9 +16,32 @@ export async function GET(
   const sorting = searchParams.get("sorting") || "recent";
   const language = searchParams.get("language") as string;
   const dateString = searchParams.get("date");
+  const timePeriod = searchParams.get("timePeriod");
   const date = dateString
     ? new Date(decodeURIComponent(dateString))
     : new Date();
+
+  // 새로운 변수 선언하여 timePeriod에 따라 조정
+  let startDate = new Date(date);
+
+  switch (timePeriod) {
+    case "day":
+      startDate.setDate(date.getDate() - 1);
+      break;
+    case "week":
+      startDate.setDate(date.getDate() - 7);
+      break;
+    case "month":
+      startDate.setMonth(date.getMonth() - 1);
+      break;
+    case "year":
+      startDate.setFullYear(date.getFullYear() - 1);
+      break;
+    case "whole":
+    default:
+      startDate = new Date(0); // 전체 기간에 대해 검색
+      break;
+  }
 
   // Parse cursor
   let cursorValue: number | undefined;
@@ -36,8 +59,8 @@ export async function GET(
 
   // count
   let PostCountQuery =
-    "SELECT COUNT(*) AS totalPosts FROM posts WHERE reg_dt <= ?";
-  const PostCountQueryParams: Array<string | number | Date> = [date];
+    "SELECT COUNT(*) AS totalPosts FROM posts WHERE reg_dt BETWEEN ? AND ?";
+  const PostCountQueryParams: Array<string | number | Date> = [startDate, date];
 
   // get posts
   let PostQuery = `
@@ -48,9 +71,10 @@ export async function GET(
       FROM likes 
       GROUP BY post_id
     ) l ON p.idx = l.post_id 
-    WHERE p.reg_dt <= ?
+    WHERE p.reg_dt BETWEEN ? AND ?
   `;
-  const PostQueryParams: Array<string | number | Date> = [date];
+
+  const PostQueryParams: Array<string | number | Date> = [startDate, date];
 
   if (language !== "whole") {
     const optionalQuery = " AND p.language = ?";

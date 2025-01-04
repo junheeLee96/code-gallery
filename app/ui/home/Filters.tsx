@@ -1,24 +1,21 @@
 "use client";
 
-import { useLanguageStore, useSortingStore } from "@/app/providers/zustand";
 import Languages from "../common/Languages";
 import Sorting from "./Sorting";
-import { ChangeEvent, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import TimePeriods from "./TimePeriods";
+import useFilter from "@/app/hooks/useFilter";
 
 export default function Filters() {
   const ref = useRef<null | HTMLDivElement>(null);
-
-  const { sorting, setSorting } = useSortingStore((state) => state);
-  const { language, setLanguage } = useLanguageStore((state) => state);
-
-  const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setLanguage(e.target.value);
-  };
-
-  const onSortingChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSorting(e.target.value);
-  };
+  const {
+    timePeriod,
+    sorting,
+    language,
+    onLanguageChange,
+    onSortingChange,
+    onTimePeriodsChange,
+  } = useFilter();
 
   const onScroll = () => {
     if (!ref.current) return;
@@ -58,7 +55,7 @@ export default function Filters() {
           <Sorting onChange={onSortingChange} value={sorting} />
         </li>
         <li>
-          <TimePeriods />
+          <TimePeriods onChange={onTimePeriodsChange} value={timePeriod} />
         </li>
       </ul>
     </div>

@@ -1,8 +1,20 @@
 import { timePeriods } from "@/app/lib/options";
-import { useTimePeriodStore } from "@/app/providers/zustand/timePeriods-store-provider";
+import Select from "../common/Select";
+import { ChangeEvent } from "react";
 
-export default function TimePeriods() {
-  const { timePeriod, setTimePeriod } = useTimePeriodStore((state) => state);
-  console.log(timePeriod);
-  return <div></div>;
+type TimePeriodsProps = {
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  value: string;
+};
+
+export default function TimePeriods({ onChange, value }: TimePeriodsProps) {
+  return (
+    <Select onChange={onChange} value={value}>
+      {timePeriods.map((period, idx) => (
+        <option key={idx} value={period.value}>
+          {period.name}
+        </option>
+      ))}
+    </Select>
+  );
 }

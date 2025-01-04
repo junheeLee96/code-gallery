@@ -5,7 +5,7 @@ export type TimePeriodState = {
 };
 
 export type timePeriodActions = {
-  setTimePeriod: (timePeriod: string) => void;
+  setTimePeriod: (period: string) => void;
 };
 
-export type timePeriodStore = TimePeriodState & timePeriodActions;
+export type TimePeriodStore = TimePeriodState & timePeriodActions;
