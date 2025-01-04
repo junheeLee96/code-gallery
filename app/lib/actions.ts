@@ -28,7 +28,11 @@ export async function createNewUser(user: User) {
   await db<ResultSetHeader>({ query, queryParams });
 }
 
-export async function createPost({ content, language }: createPostProps) {
+export async function createPost({
+  title,
+  content,
+  language,
+}: createPostProps) {
   const session = await auth();
   console.log(session);
   const uuid = session?.user?.id;
@@ -39,14 +43,12 @@ export async function createPost({ content, language }: createPostProps) {
   const nickname = session.user.nickname as string;
 
   const query = `
-        INSERT INTO posts (uuid, nickname, content, language)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO posts (uuid, nickname, title,content, language)
+        VALUES (?, ?, ?, ?, ?)
     `;
 
-  const queryParams = [uuid, nickname, content, language];
+  const queryParams = [uuid, nickname, title, content, language];
   await db<ResultSetHeader>({ query, queryParams });
-
-  // redirect("/");
 }
 
 export const createComment = async ({

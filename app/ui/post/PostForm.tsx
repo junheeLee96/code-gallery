@@ -7,6 +7,7 @@ import usePostForm from "@/app/hooks/usePostForm";
 import { SendHorizonal } from "lucide-react";
 import Button from "../common/Button";
 import Loading from "../common/Loading";
+import Input from "../common/input";
 
 type PostFormTypes = {
   isMarkdownRender: boolean;
@@ -14,9 +15,11 @@ type PostFormTypes = {
 
 export default function PostForm({ isMarkdownRender }: PostFormTypes) {
   const {
+    title,
     content,
     language,
     onLanguageChange,
+    onTitleChange,
     onContentChange,
     onSubmit,
     error,
@@ -26,6 +29,13 @@ export default function PostForm({ isMarkdownRender }: PostFormTypes) {
     <>
       <form onSubmit={onSubmit}>
         <Languages onChange={onLanguageChange} value={language} />
+        <div>
+          <Input
+            title={title}
+            onInputChange={onTitleChange}
+            placeholder="제목을 적어주세요."
+          />
+        </div>
         <Textarea
           markdown={content}
           onMarkdownChange={onContentChange}

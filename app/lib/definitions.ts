@@ -29,6 +29,7 @@ export type CommentsTypes = {
 };
 
 export type createPostProps = {
+  title: string;
   content: string;
   language: string;
 };

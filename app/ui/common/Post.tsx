@@ -9,23 +9,24 @@ import Like from "./Like";
 
 type PostPropTypes = {
   post: PostTypes;
+  truncatedPost?: string;
+  isTruncated: boolean;
 };
 
-export default function Post({ post }: PostPropTypes) {
-  const [content, setContent] = useState<string>(post.content);
-  const [isTruncated, setIsTruncated] = useState(false);
+export default function Post({
+  post,
+  truncatedPost,
+  isTruncated,
+}: PostPropTypes) {
+  const [content, setContent] = useState<string>(
+    truncatedPost ? truncatedPost : post.content
+  );
+  const [isTruncatedFlag, setIsTruncatedFlag] = useState(isTruncated);
 
   const handleIsTruncated = () => {
-    if (!isTruncated) return;
-    setIsTruncated(false);
     setContent(post.content);
+    setIsTruncatedFlag(false);
   };
-
-  useEffect(() => {
-    const [truncate, newContent] = truncateText(post.content);
-    setIsTruncated(truncate);
-    setContent(newContent);
-  }, [post]);
 
   return (
     <div>
@@ -35,7 +36,7 @@ export default function Post({ post }: PostPropTypes) {
         reg_dt={post.reg_dt}
       />
       <Markdown markdown={content} language={post.language} />
-      {isTruncated && (
+      {isTruncatedFlag && (
         <button onClick={handleIsTruncated} className="text-sm">
           더보기
         </button>

@@ -12,12 +12,11 @@ export default function PostWrapper({ post_id }: { post_id: string }) {
   useEffect(() => {
     (async () => {
       const post = await getPost(post_id);
-      console.log("post  =", post);
       if (post.length > 0) {
         setPost(post[0]);
       }
     })();
   }, []);
 
-  return <Wrapper>{post && <Post post={post} />}</Wrapper>;
+  return <Wrapper>{post && <Post post={post} isTruncated={false} />}</Wrapper>;
 }

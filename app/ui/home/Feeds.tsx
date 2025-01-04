@@ -8,6 +8,7 @@ import useScrollLoaer from "@/app/hooks/useScrollLoader";
 import { getPosts } from "@/app/lib/data";
 import Wrapper from "../common/Wrapper";
 import { useLanguageStore, useSortingStore } from "@/app/providers/zustand";
+import { truncateText } from "@/app/lib/utils";
 
 export default function Feeds({ date }: { date: Date }) {
   const { sorting } = useSortingStore((state) => state);
@@ -23,14 +24,21 @@ export default function Feeds({ date }: { date: Date }) {
     <div className="pb-20">
       {data?.pages.map((page, pageIndex) => (
         <div key={pageIndex}>
-          {page?.data.map((post: PostTypes, idx: number) => (
-            <Wrapper key={post.idx || idx}>
-              <Post post={post} />
-              <div className="mt-3 pt-2 border-t border-gray-300">
-                <AddCommentBtn post_id={post.idx} />
-              </div>
-            </Wrapper>
-          ))}
+          {page?.data.map((post: PostTypes, idx: number) => {
+            const [isTruncated, newContent] = truncateText(post.content);
+            return (
+              <Wrapper key={post.idx || idx}>
+                <Post
+                  post={post}
+                  truncatedPost={newContent}
+                  isTruncated={isTruncated}
+                />
+                <div className="mt-3 pt-2 border-t border-gray-300">
+                  <AddCommentBtn post_id={post.idx} />
+                </div>
+              </Wrapper>
+            );
+          })}
         </div>
       ))}
     </div>

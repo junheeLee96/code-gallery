@@ -18,8 +18,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const post = await getPost(id);
 
     return {
-      title: `${post[0].title}` || "Post",
-      description: post[0].content.substring(0, 160),
+      title: `${post[0].title}` || "",
+      description: post[0].content.substring(0, 150),
     };
   } catch (e) {
     if (e instanceof Error && "statusCode" in e && e.statusCode === 404) {

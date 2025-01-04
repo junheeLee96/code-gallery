@@ -1,10 +1,11 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { createPost } from "../lib/actions";
 import { redirect } from "next/navigation";
 
 export default function usePostForm() {
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [language, setLanguage] = useState("javascript");
   const [error, setError] = useState(null);
@@ -12,6 +13,11 @@ export default function usePostForm() {
 
   const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setLanguage(e.target.value);
+  };
+
+  const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setTitle(value);
   };
 
   const onContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -22,8 +28,9 @@ export default function usePostForm() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await createPost({ content, language });
+      await createPost({ title, content, language });
       setIsLoading(false);
+      // redirect("/");
     } catch (e) {
       console.error(e as Error);
       setError(e);
@@ -32,9 +39,11 @@ export default function usePostForm() {
   };
 
   return {
+    title,
     content,
     language,
     onLanguageChange,
+    onTitleChange,
     onContentChange,
     onSubmit,
     error,

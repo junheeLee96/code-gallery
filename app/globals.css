@@ -15,6 +15,7 @@ textarea {
   resize: none;
 }
 
+input,
 textarea:focus {
   outline: none;
 }
