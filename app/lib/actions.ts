@@ -67,7 +67,6 @@ export const createComment = async ({
   });
   return db<ResultSetHeader[]>({ query, queryParams });
 };
-
 export const createLike = async (
   post_id: string,
   isLike: boolean
