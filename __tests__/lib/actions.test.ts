@@ -3,7 +3,6 @@ import { createCommentProps, User } from "@/app/lib/definitions";
 import { db } from "@/app/lib/db";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { ResultSetHeader } from "mysql2";
 
 jest.mock("@/app/lib/db", () => ({
   db: jest.fn(),

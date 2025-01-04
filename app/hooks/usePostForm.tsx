@@ -1,8 +1,7 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { createPost } from "../lib/actions";
-import { redirect } from "next/navigation";
 
 export default function usePostForm() {
   const [title, setTitle] = useState("");

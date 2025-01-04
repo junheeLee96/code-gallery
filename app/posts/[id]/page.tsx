@@ -5,7 +5,6 @@ import PostSkeleton from "@/app/ui/skeletons/feed/PostSkeleton";
 import CommentsSkeleton from "@/app/ui/skeletons/comments/CommentsSkeleton";
 import { Metadata } from "next";
 import { getPost } from "@/app/lib/data";
-import Example from "./zz";
 import { notFound } from "next/navigation";
 
 type Props = {

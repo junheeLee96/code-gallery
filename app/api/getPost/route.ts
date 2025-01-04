@@ -30,6 +30,7 @@ export async function GET(
     const fommattingData = data.map(({ uuid, ...post }) => ({
       ...post,
       initialLike,
+      isAuthor: useruuid === uuid,
     }));
 
     return NextResponse.json(fommattingData);

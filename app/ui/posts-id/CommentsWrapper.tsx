@@ -6,7 +6,6 @@ import useScrollLoaer from "@/app/hooks/useScrollLoader";
 import { getComments } from "@/app/lib/data";
 import Wrapper from "../common/Wrapper";
 import Comment from "./Comment";
-import CommentsSkeleton from "../skeletons/comments/CommentsSkeleton";
 
 type CommentsWrapperProps = {
   post_id: string;

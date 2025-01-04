@@ -3,7 +3,6 @@
 import { auth } from "@/auth";
 import { db } from "./db";
 import { createCommentProps, createPostProps, User } from "./definitions";
-import { redirect } from "next/navigation";
 import { ResultSetHeader } from "mysql2";
 
 export async function createNewUser(user: User) {

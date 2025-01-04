@@ -13,10 +13,7 @@ type MarkdownTypes = {
 
 export default function Markdown({ markdown, language }: MarkdownTypes) {
   return (
-    <div
-      className="overflow-scroll py-3"
-      // style={{ height: height ? `${height}px` : "550px" }}
-    >
+    <div className="overflow-scroll py-3">
       <ReactMarkdown
         remarkPlugins={[remarkBreaks]}
         components={{
