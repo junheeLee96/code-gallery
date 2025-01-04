@@ -7,7 +7,7 @@ export default function usePostForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [language, setLanguage] = useState("javascript");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const onLanguageChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -31,8 +31,8 @@ export default function usePostForm() {
       setIsLoading(false);
       // redirect("/");
     } catch (e) {
-      console.error(e as Error);
-      setError(e);
+      console.error(e);
+      setError(e instanceof Error ? e : new Error("An unknown error occurred"));
       setIsLoading(false);
     }
   };
