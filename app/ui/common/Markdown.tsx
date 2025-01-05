@@ -4,11 +4,21 @@ import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import remarkBreaks from "remark-breaks";
+import { ComponentPropsWithoutRef, CSSProperties } from "react";
 
 type MarkdownTypes = {
   markdown: string;
   language: string;
   height?: number;
+};
+
+type CodeProps = ComponentPropsWithoutRef<"code"> & {
+  inline?: boolean;
+};
+
+// SyntaxHighlighter의 style prop 타입 정의
+type SyntaxHighlighterStyleProps = {
+  [key: string]: CSSProperties;
 };
 
 export default function Markdown({ markdown, language }: MarkdownTypes) {
@@ -17,14 +27,14 @@ export default function Markdown({ markdown, language }: MarkdownTypes) {
       <ReactMarkdown
         remarkPlugins={[remarkBreaks]}
         components={{
-          code({ inline, className, children, ...props }) {
+          code({ inline, className, children, ...props }: CodeProps) {
             const match = /language-(\w+)/.exec(`language-${language}` || "");
 
             return !inline && match ? (
               <SyntaxHighlighter
                 language={match[1]}
                 PreTag="div"
-                style={okaidia}
+                style={okaidia as SyntaxHighlighterStyleProps}
                 {...props}
               >
                 {String(children).replace(/\n$/, "")}
