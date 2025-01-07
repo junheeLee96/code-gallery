@@ -5,15 +5,24 @@ import Post from "../common/Post";
 import Wrapper from "../common/Wrapper";
 import { useEffect, useState } from "react";
 import { PostTypes } from "@/app/lib/definitions";
+import { notFound } from "next/navigation";
 
 export default function PostWrapper({ post_id }: { post_id: string }) {
   const [post, setPost] = useState<null | PostTypes>(null);
 
   useEffect(() => {
     (async () => {
-      const post = await getPost(post_id);
-      if (post.length > 0) {
-        setPost(post[0]);
+      try {
+        const [post] = await getPost(post_id);
+        if (post) {
+          setPost(post);
+        } else {
+          notFound();
+        }
+      } catch (e) {
+        if (e instanceof Error && "statusCode" in e && e.statusCode === 404) {
+          notFound();
+        }
       }
     })();
   }, [post_id]);

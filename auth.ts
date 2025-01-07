@@ -1,6 +1,13 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { getUser } from "./app/lib/data";
+import { db } from "./app/lib/db";
+import { User } from "./app/lib/definitions";
+
+async function getUser(uuid: string) {
+  const query = `SELECT * FROM users WHERE uuid = ?`;
+  const queryParams = [uuid];
+  return await db<User[]>({ query, queryParams });
+}
 
 export const { handlers, auth } = NextAuth({
   providers: [
@@ -11,7 +18,8 @@ export const { handlers, auth } = NextAuth({
   ],
   callbacks: {
     async signIn({ profile, user }) {
-      const isExistingUser = await getUser(profile?.sub as string);
+      // const isExistingUser = await getUser(profile?.sub as string);
+      const [isExistingUser] = await getUser(profile?.sub as string);
       console.log("isExistingUser = ", isExistingUser);
       if (!isExistingUser) {
         user.isNewUser = true;
