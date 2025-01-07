@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { db } from "@/app/lib/db";
 import { PostTypes } from "@/app/lib/definitions";
+import { auth } from "@/auth";
 
 type Props = {
   params: { id: string };
@@ -14,6 +15,8 @@ type Props = {
 
 async function getPost(post_id: string) {
   const query = `SELECT * FROM posts WHERE idx = ?`;
+  const session = await auth();
+  console.log("session = ", session);
   const queryParams = [post_id];
   return await db<PostTypes[]>({
     query,
@@ -29,7 +32,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     // const post = await getPost(id);
     const [post] = await getPost(post_id);
-    console.log("post  = ", post);
     if (!post) {
       return {
         title: "페이지를 찾을 수 없습니다.",
