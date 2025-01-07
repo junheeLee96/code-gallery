@@ -1,7 +1,7 @@
 // getPosts.test.ts
 
 import { client } from "@/app/api/client";
-import { getComments, getPost, getPosts, getUser } from "@/app/lib/data";
+import { getComments, getPost, getPosts, getUser } from "@/app/lib/client-data";
 import { InfiniteQueryResponse, PostTypes } from "@/app/lib/definitions";
 jest.mock("@/app/api/client", () => ({
   client: jest.fn(),

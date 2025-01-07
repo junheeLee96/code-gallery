@@ -5,7 +5,7 @@ import { PostTypes } from "@/app/lib/definitions";
 import AddCommentBtn from "./add-comment-btn";
 import useInfiniteQueryHook from "@/app/hooks/useInfiniteQueryHook";
 import useScrollLoaer from "@/app/hooks/useScrollLoader";
-import { getPosts } from "@/app/lib/data";
+import { getPosts } from "@/app/lib/client-data";
 import Wrapper from "../common/Wrapper";
 import {
   useLanguageStore,

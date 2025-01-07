@@ -1,13 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { db } from "./app/lib/db";
-import { User } from "./app/lib/definitions";
-
-async function getUser(uuid: string) {
-  const query = `SELECT * FROM users WHERE uuid = ?`;
-  const queryParams = [uuid];
-  return await db<User[]>({ query, queryParams });
-}
+import { getUser } from "./app/lib/server-data";
 
 export const { handlers, auth } = NextAuth({
   providers: [
