@@ -11,7 +11,6 @@ export const { handlers, auth } = NextAuth({
   ],
   callbacks: {
     async signIn({ profile, user }) {
-      // const isExistingUser = await getUser(profile?.sub as string);
       const [isExistingUser] = await getUser(profile?.sub as string);
       console.log("isExistingUser = ", isExistingUser);
       if (!isExistingUser) {
