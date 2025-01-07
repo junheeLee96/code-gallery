@@ -13,7 +13,6 @@ type Props = {
 };
 
 async function getPost(post_id: string) {
-  console.log("zzzzzzzzzz");
   const query = `SELECT * FROM posts WHERE idx = ?`;
   const queryParams = [post_id];
   return await db<PostTypes[]>({

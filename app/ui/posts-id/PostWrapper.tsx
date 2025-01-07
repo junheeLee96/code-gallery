@@ -5,11 +5,11 @@ import Post from "../common/Post";
 import Wrapper from "../common/Wrapper";
 import { useEffect, useState } from "react";
 import { PostTypes } from "@/app/lib/definitions";
-import { notFound } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function PostWrapper({ post_id }: { post_id: string }) {
   const [post, setPost] = useState<null | PostTypes>(null);
-
+  const router = useRouter();
   useEffect(() => {
     (async () => {
       try {
@@ -17,12 +17,12 @@ export default function PostWrapper({ post_id }: { post_id: string }) {
         if (post) {
           setPost(post);
         } else {
-          notFound();
+          // notFound();
         }
       } catch (e) {
         if (e instanceof Error && "statusCode" in e && e.statusCode === 404) {
           console.log("404!!");
-          notFound();
+          router.push("/404");
         }
       }
     })();
