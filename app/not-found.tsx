@@ -8,7 +8,7 @@ export default function NotFound() {
       </h1>
       <p className="mb-4">죄송합니다. 찾을 수 없는 페이지입니다.</p>
       <Link href="/" className="text-blue-500 hover:underline">
-        Go back to home
+        홈으로 돌아가기
       </Link>
     </div>
   );

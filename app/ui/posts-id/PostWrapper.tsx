@@ -21,6 +21,7 @@ export default function PostWrapper({ post_id }: { post_id: string }) {
         }
       } catch (e) {
         if (e instanceof Error && "statusCode" in e && e.statusCode === 404) {
+          console.log("404!!");
           notFound();
         }
       }
