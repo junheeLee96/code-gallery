@@ -27,7 +27,6 @@ export const client = async <T>(
   try {
     const response = await fetch(url, config);
     const data = await response.json();
-    console.log("data = ", data);
     if (!response.ok) {
       const error = new Error(
         data.message || "요청에 실패했습니다."

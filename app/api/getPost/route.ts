@@ -13,7 +13,6 @@ export async function GET(
     return NextResponse.json({ error: "Post ID is required" }, { status: 400 });
   }
   const session = await auth();
-  console.log("user:", session);
   const useruuid = session?.user?.id;
   try {
     const query = `SELECT * FROM posts WHERE idx = ?`;

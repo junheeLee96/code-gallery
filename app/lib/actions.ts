@@ -33,7 +33,6 @@ export async function createPost({
   language,
 }: createPostProps) {
   const session = await auth();
-  console.log(session);
   const uuid = session?.user?.id;
 
   if (!uuid) {
