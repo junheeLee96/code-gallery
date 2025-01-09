@@ -36,7 +36,7 @@ export async function getPost(post_id: string): Promise<null | PostTypes[]> {
   if (!data || data.length === 0) return null;
 
   const initialLike = await isLike(post_id, useruuid);
-  const fommattingData = data.map(({ uuid, ...post }) => ({
+  const fommattingData: PostTypes[] = data.map(({ uuid, ...post }) => ({
     ...post,
     initialLike,
     isAuthor: useruuid === uuid,

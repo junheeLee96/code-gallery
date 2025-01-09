@@ -5,24 +5,11 @@ import PostSkeleton from "@/app/ui/skeletons/feed/PostSkeleton";
 import CommentsSkeleton from "@/app/ui/skeletons/comments/CommentsSkeleton";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { db } from "@/app/lib/db";
-import { PostTypes } from "@/app/lib/definitions";
-import { auth } from "@/auth";
+import { getPost } from "@/app/lib/server-data";
 
 type Props = {
   params: { id: string };
 };
-
-async function getPost(post_id: string) {
-  const query = `SELECT * FROM posts WHERE idx = ?`;
-  const session = await auth();
-  console.log("session = ", session);
-  const queryParams = [post_id];
-  return await db<PostTypes[]>({
-    query,
-    queryParams,
-  });
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post_id = params.id;
@@ -31,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     // api route는 클라이언트 컴포넌트를 위한 것이므로 직접 db에 접근하여 성능향상(api route를 거치지 않기에 불필요한 네트워크 방지)
 
     // const post = await getPost(id);
-    const [post] = await getPost(post_id);
+    const post = await getPost(post_id);
     if (!post) {
       return {
         title: "페이지를 찾을 수 없습니다.",
@@ -40,8 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 
     return {
-      title: `${post.title}` || "",
-      description: post.content.substring(0, 150),
+      title: `${post[0].title}` || "",
+      description: post[0].content.substring(0, 150),
     };
   } catch (e) {
     if (e instanceof Error && "statusCode" in e && e.statusCode === 404) {
