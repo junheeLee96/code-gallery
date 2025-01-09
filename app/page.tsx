@@ -1,7 +1,7 @@
-import { Suspense } from "react";
-import Feeds from "./ui/home/Feeds";
-import FeedSkeleton from "./ui/skeletons/feed/FeedSkeleton";
-import Filters from "./ui/home/Filters";
+// import { Suspense } from "react";
+// import Feeds from "./ui/home/Feeds";
+// import FeedSkeleton from "./ui/skeletons/feed/FeedSkeleton";
+// import Filters from "./ui/home/Filters";
 
 export async function generateMetadata() {
   return {
@@ -11,13 +11,14 @@ export async function generateMetadata() {
 }
 
 export default async function Home() {
-  const date = new Date();
+  // const date = new Date();
   return (
     <main className="min-h-screen pt-5">
-      <Filters />
+      HI
+      {/* <Filters />
       <Suspense fallback={<FeedSkeleton />}>
         <Feeds date={date} />
-      </Suspense>
+      </Suspense> */}
     </main>
   );
 }
