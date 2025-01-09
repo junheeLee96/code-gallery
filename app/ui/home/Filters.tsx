@@ -52,9 +52,6 @@ export default function Filters() {
           <Sorting onChange={onSortingChange} value={sorting} />
         </li>
         <li>
-          <Sorting onChange={onSortingChange} value={sorting} />
-        </li>
-        <li>
           <TimePeriods onChange={onTimePeriodsChange} value={timePeriod} />
         </li>
       </ul>
