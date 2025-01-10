@@ -26,7 +26,6 @@ ARG NEXTAUTH_SECRET
 ARG NEXT_PUBLIC_REDIRECT_URI
 ARG NEXT_PUBLIC_API_URL
 
-
 # Set environment variables
 ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
 ENV GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
@@ -39,6 +38,17 @@ ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
 ENV NEXT_PUBLIC_REDIRECT_URI=$NEXT_PUBLIC_REDIRECT_URI
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
+# Create a .env.local file with the environment variables
+RUN echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> .env.local && \
+    echo "GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET" >> .env.local && \
+    echo "DB_HOST=$DB_HOST" >> .env.local && \
+    echo "DB_PORT=$DB_PORT" >> .env.local && \
+    echo "DB_USER=$DB_USER" >> .env.local && \
+    echo "DB_NAME=$DB_NAME" >> .env.local && \
+    echo "DB_PASSWORD=$DB_PASSWORD" >> .env.local && \
+    echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env.local && \
+    echo "NEXT_PUBLIC_REDIRECT_URI=$NEXT_PUBLIC_REDIRECT_URI" >> .env.local && \
+    echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" >> .env.local
 
 # Build app
 RUN npm run build
