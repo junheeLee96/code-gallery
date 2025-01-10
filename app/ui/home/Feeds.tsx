@@ -7,19 +7,19 @@ import useInfiniteQueryHook from "@/app/hooks/useInfiniteQueryHook";
 import useScrollLoaer from "@/app/hooks/useScrollLoader";
 import { getPosts } from "@/app/lib/client-data";
 import Wrapper from "../common/Wrapper";
-import {
-  useLanguageStore,
-  useSortingStore,
-  useTimePeriodStore,
-} from "@/app/providers/zustand";
+// import {
+//   useLanguageStore,
+//   useSortingStore,
+//   useTimePeriodStore,
+// } from "@/app/providers/zustand";
 import { truncateText } from "@/app/lib/utils";
 
 export default function Feeds() {
-  const { sorting } = useSortingStore((state) => state);
-  const { language } = useLanguageStore((state) => state);
-  const { timePeriod } = useTimePeriodStore((state) => state);
+  // const { sorting } = useSortingStore((state) => state);
+  // const { language } = useLanguageStore((state) => state);
+  // const { timePeriod } = useTimePeriodStore((state) => state);
 
-  console.log(sorting, language, timePeriod);
+  // console.log(sorting, language, timePeriod);
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQueryHook({
     queryKey: ["posts"],
