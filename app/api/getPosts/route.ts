@@ -20,6 +20,10 @@ export async function GET(
   const date = dateString
     ? new Date(decodeURIComponent(dateString))
     : new Date();
+  // const timePeriod: string = "whole";
+  // const language: string = "whole";
+  // const sorting: string = "recent";
+  // const date = new Date();
 
   // 새로운 변수 선언하여 timePeriod에 따라 조정
   let startDate = new Date(date);

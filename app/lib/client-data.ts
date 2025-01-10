@@ -1,26 +1,43 @@
 import { client } from "../api/client";
-import { queryFnParams } from "../hooks/useInfiniteQueryHook";
+// import { queryFnParams } from "../hooks/useInfiniteQueryHook";
 import { CommentsTypes, InfiniteQueryResponse, PostTypes } from "./definitions";
 
 export const getPosts = async ({
   cursor,
-  queryKey,
-  date,
-  sorting,
-  timePeriod,
-}: queryFnParams): Promise<InfiniteQueryResponse<PostTypes[]>> => {
-  const isoDate = date.toISOString();
+}: {
+  cursor: string;
+}): Promise<InfiniteQueryResponse<PostTypes[]>> => {
+  const isoDate = new Date().toISOString();
   const encodedDate = encodeURIComponent(isoDate);
   return client<Promise<InfiniteQueryResponse<PostTypes[]>>>("/api/getPosts", {
     params: {
       cursor,
-      language: queryKey,
+      language: "whole",
       date: encodedDate,
-      sorting,
-      timePeriod,
+      sorting: "recent",
+      timePeriod: "whole",
     },
   });
 };
+// export const getPosts = async ({
+//   cursor,
+//   queryKey,
+//   date,
+//   sorting,
+//   timePeriod,
+// }: queryFnParams): Promise<InfiniteQueryResponse<PostTypes[]>> => {
+//   const isoDate = date.toISOString();
+//   const encodedDate = encodeURIComponent(isoDate);
+//   return client<Promise<InfiniteQueryResponse<PostTypes[]>>>("/api/getPosts", {
+//     params: {
+//       cursor,
+//       language: queryKey,
+//       date: encodedDate,
+//       sorting,
+//       timePeriod,
+//     },
+//   });
+// };
 
 export const getComments = async ({
   cursor,
