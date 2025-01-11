@@ -20,6 +20,7 @@ export default function Post({
   const [content, setContent] = useState<string>(
     truncatedPost ? truncatedPost : post.content
   );
+
   const [isTruncatedFlag, setIsTruncatedFlag] = useState(isTruncated);
 
   const handleIsTruncated = () => {
