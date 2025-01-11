@@ -19,8 +19,6 @@ export default function Feeds({ date }: { date: Date }) {
   const { language } = useLanguageStore((state) => state);
   const { timePeriod } = useTimePeriodStore((state) => state);
 
-  console.log(sorting, language, timePeriod);
-
   const { data, hasNextPage, fetchNextPage } = useInfiniteQueryHook({
     queryKey: ["posts", language, date, sorting, timePeriod],
     queryFn: getPosts,
