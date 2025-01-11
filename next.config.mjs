@@ -15,6 +15,11 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  unstable_excludeFiles: [
+    "**/pages/**/*.js",
+    "**/pages/**/*.ts",
+    "**/pages/**/*.tsx",
+  ],
 };
 
 export default nextConfig;
