@@ -1,6 +1,6 @@
 "use client";
 
-import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { InfiniteQueryResponse } from "../lib/definitions";
 import { useEffect } from "react";
 
@@ -35,7 +35,7 @@ const useInfiniteQueryHook = <T,>({
     isFetchingNextPage,
     error,
     isError,
-  } = useSuspenseInfiniteQuery({
+  } = useInfiniteQuery({
     queryKey,
     queryFn: ({ queryKey, pageParam = "1" }) => {
       return queryFn({

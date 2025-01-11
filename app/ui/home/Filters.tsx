@@ -9,9 +9,9 @@ import useFilter from "@/app/hooks/useFilter";
 export default function Filters() {
   const ref = useRef<null | HTMLDivElement>(null);
   const {
-    // timePeriod,
-    // sorting,
-    // language,
+    timePeriod,
+    sorting,
+    language,
     onLanguageChange,
     onSortingChange,
     onTimePeriodsChange,
@@ -45,14 +45,14 @@ export default function Filters() {
           <Languages
             onChange={onLanguageChange}
             isWholeRender={true}
-            value={"javascript"}
+            value={language}
           />
         </li>
         <li>
-          <Sorting onChange={onSortingChange} value={"recent"} />
+          <Sorting onChange={onSortingChange} value={sorting} />
         </li>
         <li>
-          <TimePeriods onChange={onTimePeriodsChange} value={"whole"} />
+          <TimePeriods onChange={onTimePeriodsChange} value={timePeriod} />
         </li>
       </ul>
     </div>

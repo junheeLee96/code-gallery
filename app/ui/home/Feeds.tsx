@@ -14,7 +14,7 @@ import {
 } from "@/app/providers/zustand";
 import { truncateText } from "@/app/lib/utils";
 
-export default function Feeds() {
+export default function Feeds({ date }: { date: Date }) {
   const { sorting } = useSortingStore((state) => state);
   const { language } = useLanguageStore((state) => state);
   const { timePeriod } = useTimePeriodStore((state) => state);
@@ -22,8 +22,7 @@ export default function Feeds() {
   console.log(sorting, language, timePeriod);
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQueryHook({
-    queryKey: ["posts"],
-    // queryKey: ["posts", language, date, sorting, timePeriod],
+    queryKey: ["posts", language, date, sorting, timePeriod],
     queryFn: getPosts,
   });
   useScrollLoaer({ hasNextPage, fetchNextPage });
