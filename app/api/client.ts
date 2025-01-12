@@ -36,7 +36,6 @@ export const client = async <T>(
       error.code = data.code;
       throw error;
     }
-
     return data;
   } catch (error) {
     if (error instanceof Error) {
