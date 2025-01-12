@@ -24,6 +24,7 @@ export const client = async <T>(
 
   const queryString = params ? `?${new URLSearchParams(params)}` : "";
   const url = `${API_URL}${endPoint}${queryString}`;
+
   try {
     const response = await fetch(url, config);
     const data = await response.json();
