@@ -9,7 +9,6 @@ export async function createNewUser(user: User) {
   if (!user || !user.uuid || !user.nickname) {
     throw new Error("User is not logged");
   }
-
   const query = `
         INSERT INTO users (uuid, user_name,nickname, email, image,reg_dt)
         VALUES (?, ?, ?, ?, ?, ?)
