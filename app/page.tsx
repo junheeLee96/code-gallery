@@ -6,7 +6,7 @@ import Filters from "./ui/home/Filters";
 export async function generateMetadata() {
   return {
     title: "codeGallery",
-    description: "ekdtlsdml",
+    description: "Share your dumb code.",
   };
 }
 
