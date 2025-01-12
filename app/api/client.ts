@@ -34,7 +34,6 @@ export const client = async <T>(
       ) as ApiError;
       error.statusCode = response.status;
       error.code = data.code;
-
       throw error;
     }
 
