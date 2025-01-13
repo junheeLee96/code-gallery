@@ -1,6 +1,5 @@
 import { getPost } from "@/app/lib/server-data";
 import Wrapper from "@/app/ui/common/Wrapper";
-import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 
 interface EditPostPageProps {
