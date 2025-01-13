@@ -3,6 +3,7 @@ import "./globals.css";
 import { Metadata } from "next";
 import Providers from "./providers";
 import Header from "./ui/common/header";
+import Head from "next/head";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,6 +19,14 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "CodeGallery",
   description: "code-gallery",
+  icons: {
+    icon: [
+      { url: "/image/favicon.ico", sizes: "any" },
+      { url: "/image/favicon-16x16.png", sizes: "16x16" },
+      { url: "/image/favicon-32x32.png", sizes: "32x32" },
+    ],
+    apple: [{ url: "/image/apple-touch-icon.png" }],
+  },
 };
 
 export default function RootLayout({
@@ -27,6 +36,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* <Head>
+        <link rel="icon" href="/image/favicon.ico" sizes="any" />
+      </Head> */}
       <Providers>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}

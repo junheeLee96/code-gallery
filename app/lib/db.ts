@@ -29,6 +29,7 @@ export const db = async <T>({
     const result: T = JSON.parse(JSON.stringify(rows));
     return result;
   } catch (error) {
+    console.error(error);
     if (error instanceof Error) {
       throw error;
     }
