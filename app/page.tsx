@@ -5,7 +5,6 @@ import Filters from "./ui/home/Filters";
 
 export default async function Home() {
   const date = new Date();
-
   return (
     <main className="min-h-screen pt-5">
       <Filters />
