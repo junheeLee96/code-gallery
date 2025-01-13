@@ -56,7 +56,6 @@ RUN echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> .env.local && \
     echo "NEXT_PUBLIC_REDIRECT_URI=$NEXT_PUBLIC_REDIRECT_URI" >> .env.local && \
     echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" >> .env.local
 
-# Build app
 RUN npm run build
 
 # Expose the listening port
