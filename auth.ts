@@ -27,6 +27,7 @@ export const { handlers, auth } = NextAuth({
         token.name = profile.name;
         token.email = profile.email;
       }
+
       if (user) {
         token.isNewUser = user.isNewUser;
         token.nickname = user.nickname;
