@@ -23,7 +23,6 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-          AUTH_TRUST_HOST: ${{ secrets.AUTH_TRUST_HOST }}
 
           NEXT_PUBLIC_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_REDIRECT_URI }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
@@ -38,7 +37,6 @@ jobs:
             --build-arg DB_NAME=$DB_NAME \
             --build-arg DB_PASSWORD=$DB_PASSWORD \
             --build-arg AUTH_SECRET=$AUTH_SECRET \
-            --build-arg AUTH_TRUST_HOST=$AUTH_TRUST_HOST \
             --build-arg NEXT_PUBLIC_REDIRECT_URI=$NEXT_PUBLIC_REDIRECT_URI \
             --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
             -t code-gallery .
@@ -71,7 +69,6 @@ jobs:
               -e DB_NAME=${{ secrets.DB_NAME }} \
               -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
               -e AUTH_SECRET=${{ secrets.AUTH_SECRET }} \
-              -e AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }} \
               -e NEXT_PUBLIC_REDIRECT_URI=${{ secrets.NEXT_PUBLIC_REDIRECT_URI }} \
               -e NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
               ${{ secrets.DOCKER_USERNAME }}/code-gallery:${{ github.sha }}
