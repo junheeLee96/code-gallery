@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { deletePost } from "../lib/actions";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 type useActionButtonProps = {
   post_id: string;
