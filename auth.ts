@@ -9,7 +9,7 @@ export const { handlers, auth } = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
-  trustHost: true,
+  // trustHost: true,
   callbacks: {
     async signIn({ profile, user }) {
       const [isExistingUser] = await getUser(profile?.sub as string);
