@@ -33,6 +33,7 @@ export default function Post({
       <UserName
         nickname={post.nickname}
         isAuthor={post.isAuthor}
+        post_id={String(post.idx)}
         reg_dt={post.reg_dt}
       />
       <Markdown markdown={content} language={post.language} />

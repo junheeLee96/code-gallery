@@ -85,3 +85,34 @@ export const createLike = async (
   await db<ResultSetHeader[]>({ query: likeQuery, queryParams: likeParams });
   return db<ResultSetHeader[]>({ query, queryParams });
 };
+
+export const deletePost = async (post_id: string) => {
+  try {
+    const session = await auth();
+    const useruuid = session?.user?.id;
+
+    const UserQuery = "SELECT * FROM posts WHERE idx = ?";
+    const UserQueryParams = [post_id];
+    const [author] = await db<User[]>({
+      query: UserQuery,
+      queryParams: UserQueryParams,
+    });
+
+    // author가 아니라면 403 반환
+    if (author.uuid !== useruuid) {
+      return {
+        message: "User is not Author",
+      };
+    }
+
+    const deleteQuery = "DELETE FROM posts WHERE idx = ?";
+    const deleteQueryParams = [post_id];
+
+    await db({ query: deleteQuery, queryParams: deleteQueryParams });
+
+    return { message: "Delete successfully" };
+  } catch (error) {
+    console.error("Error processing request:", error);
+    throw new Error("An unknown error occurred");
+  }
+};
