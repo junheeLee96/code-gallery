@@ -101,7 +101,7 @@ export const deletePost = async (post_id: string) => {
     // author가 아니라면 403 반환
     if (author.uuid !== useruuid) {
       return {
-        message: "User is not Author",
+        message: "권한이 없습니다.",
       };
     }
 

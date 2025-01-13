@@ -21,10 +21,11 @@ export default function useActionButton({ post_id }: useActionButtonProps) {
     setIsLoading(true);
     try {
       const data = await deletePost(post_id);
-      console.log("data = ", data);
       if (data.message === "Delete successfully") {
         alert("성공적으로 삭제되었습니다.");
         router.push("/");
+      } else {
+        alert(data.message);
       }
     } catch (e) {
       console.error(e);

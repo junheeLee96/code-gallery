@@ -6,7 +6,7 @@ type UserNameProps = {
   nickname: string;
   isAuthor: boolean;
   reg_dt?: string;
-  post_id: string;
+  post_id?: string;
 };
 
 export default function UserName({
@@ -24,7 +24,7 @@ export default function UserName({
           </span>
           <span className="ml-1">{nickname}</span>
         </div>
-        {isAuthor && <ActionsButtons post_id={post_id} />}
+        {isAuthor && post_id && <ActionsButtons post_id={post_id} />}
       </div>
       {reg_dt && <TimeAgo date={reg_dt} />}
     </div>
