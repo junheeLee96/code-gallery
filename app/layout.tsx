@@ -3,7 +3,6 @@ import "./globals.css";
 import { Metadata } from "next";
 import Providers from "./providers";
 import Header from "./ui/common/header";
-import Head from "next/head";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,7 +17,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "CodeGallery",
-  description: "code-gallery",
+  description: "Share your dumb code.",
   icons: {
     icon: [
       { url: "/image/favicon.ico", sizes: "any" },
@@ -35,22 +34,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      {/* <Head>
-        <link rel="icon" href="/image/favicon.ico" sizes="any" />
-      </Head> */}
-      <Providers>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className="antialiased">
+        <Providers>
           <Header />
           <div className="min-w-screen min-h-screen flex justify-center pt-[56px]">
-            <div className="w-full g:w-[680px] min-h-full ">
+            <div className="w-full lg:w-[680px] min-h-full">
               <div className="w-full h-full">{children}</div>
             </div>
           </div>
-        </body>
-      </Providers>
+        </Providers>
+      </body>
     </html>
   );
 }

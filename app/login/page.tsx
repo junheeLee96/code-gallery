@@ -30,6 +30,7 @@ export default function LoginButton() {
           width={200}
           height={50}
           alt="구글로 로그인하기"
+          style={{ width: "100%", height: "auto" }}
         />
       </Button>
     </div>

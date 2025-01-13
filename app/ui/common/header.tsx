@@ -14,6 +14,7 @@ export default function Header() {
             width={100}
             height={80}
             alt="CodeGallery"
+            style={{ width: "100%", height: "auto" }}
           />
         </Link>
         <div className="flex items-center">
