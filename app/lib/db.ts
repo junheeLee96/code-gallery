@@ -16,27 +16,46 @@ type QueryParams = {
   queryParams: Array<string | number | Date>;
 };
 
+const executeQuery = async <T>(
+  query: string,
+  queryParams: Array<string | number | Date>,
+  retries: number = 10
+): Promise<T> => {
+  let attempt = 0;
+  while (attempt < retries) {
+    const connection = await pool.getConnection();
+    try {
+      const [rows] = await connection.query<RowDataPacket[] | ResultSetHeader>(
+        query,
+        queryParams
+      );
+      const result: T = JSON.parse(JSON.stringify(rows));
+      return result;
+    } catch (error) {
+      attempt++;
+      console.error(`Attempt ${attempt} - Error processing request:`, error);
+      if (attempt >= retries) {
+        if (error instanceof Error) {
+          throw new Error(`Failed after ${attempt} attempts: ${error.message}`);
+        }
+        throw new Error(
+          `Failed after ${attempt} attempts: An unknown error occurred`
+        );
+      }
+      // 잠시 대기 후 재시도
+      await new Promise((res) => setTimeout(res, 30000)); //
+    } finally {
+      connection.release();
+    }
+  }
+  throw new Error("Unexpected error");
+};
+
 export const db = async <T>({
   query,
   queryParams,
 }: QueryParams): Promise<T> => {
-  const connection = await pool.getConnection();
-  try {
-    const [rows] = await connection.query<RowDataPacket[] | ResultSetHeader>(
-      query,
-      queryParams
-    );
-    const result: T = JSON.parse(JSON.stringify(rows));
-    return result;
-  } catch (error) {
-    console.error(error);
-    if (error instanceof Error) {
-      throw error;
-    }
-    throw new Error("알 수 없는 오류가 발생했습니다.");
-  } finally {
-    connection.release();
-  }
+  return await executeQuery<T>(query, queryParams);
 };
 
 export default pool;
