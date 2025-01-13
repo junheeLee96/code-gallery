@@ -37,6 +37,7 @@ jobs:
             --build-arg DB_NAME=$DB_NAME \
             --build-arg DB_PASSWORD=$DB_PASSWORD \
             --build-arg NEXTAUTH_SECRET=$NEXTAUTH_SECRET \
+            --build-arg NEXTAUTH_URL=$NEXTAUTH_URL \
             --build-arg NEXT_PUBLIC_REDIRECT_URI=$NEXT_PUBLIC_REDIRECT_URI \
             --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
             -t code-gallery .
@@ -69,6 +70,7 @@ jobs:
               -e DB_NAME=${{ secrets.DB_NAME }} \
               -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
               -e NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} \
+              -e NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} \
               -e NEXT_PUBLIC_REDIRECT_URI=${{ secrets.NEXT_PUBLIC_REDIRECT_URI }} \
               -e NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
               ${{ secrets.DOCKER_USERNAME }}/code-gallery:${{ github.sha }}
