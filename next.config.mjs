@@ -8,7 +8,7 @@ const nextConfig = {
     DB_USER: process.env.DB_USER,
     DB_NAME: process.env.DB_NAME,
     DB_PASSWORD: process.env.DB_PASSWORD,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    AUTH_SECRET: process.env.AUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXT_PUBLIC_REDIRECT_URI: process.env.NEXT_PUBLIC_REDIRECT_URI,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
