@@ -16,7 +16,7 @@ export default function UserName({
   post_id,
 }: UserNameProps) {
   return (
-    <div className="w-full mb-3 pb-3 border-b border-gray-300">
+    <div className="w-full mb-3 pb-3 border-b border-gray-300 dark:border-black">
       <div className="w-full flex justify-between items-center  ">
         <div className="flex items-center">
           <span>

@@ -4,7 +4,7 @@ export default function CommentsSkeleton() {
   return (
     <div className="bg-white">
       {array.map((_, key) => (
-        <div className="mb-8 bg-nav-background rounded " key={key}>
+        <div className="mb-8 bg-white rounded " key={key}>
           <div>
             <div className="w-full mb-3 pb-3 border-b border-gray-300">
               <div className="w-full flex justify-between items-center  ">

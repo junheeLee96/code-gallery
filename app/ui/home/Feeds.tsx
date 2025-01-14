@@ -38,7 +38,7 @@ export default function Feeds({ date }: { date: Date }) {
                   truncatedPost={newContent}
                   isTruncated={isTruncated}
                 />
-                <div className="mt-3 pt-2 border-t border-gray-300">
+                <div className="mt-3 pt-2 border-t border-gray-300 dark:border-black">
                   <AddCommentBtn post_id={post.idx} />
                 </div>
               </Wrapper>

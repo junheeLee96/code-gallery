@@ -35,10 +35,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="antialiased">
+      <body className="antialiased text-black dark:text-white">
         <Providers>
           <Header />
-          <div className="min-w-screen min-h-screen flex justify-center pt-[56px]">
+          <div className="min-w-screen min-h-screen flex justify-center pt-[56px] bg-white dark:bg-dark-bg">
             <div className="w-full lg:w-[680px] min-h-full">
               <div className="w-full h-full">{children}</div>
             </div>

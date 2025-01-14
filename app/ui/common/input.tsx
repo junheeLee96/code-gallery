@@ -19,7 +19,7 @@ export default function Input({
       value={title}
       placeholder={placeholder ? placeholder : ""}
       onChange={onInputChange}
-      className="w-full border border-gray-200 rounded p-1 mt-2"
+      className="w-full border border-gray-200 rounded p-1 mt-2 bg-white dark:bg-dark-bg dark:border-black"
     />
   );
 }

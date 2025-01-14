@@ -54,7 +54,7 @@ const useInfiniteQueryHook = <T,>({
 
   useEffect(() => {
     if (isError && error) {
-      alert(`Error: ${error.message}`);
+      console.error(`Error: ${error.message}`);
     }
   }, [error, isError]);
 

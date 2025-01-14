@@ -6,7 +6,7 @@ export default function SignUp() {
   return (
     <span
       onClick={onSignUp}
-      className="inline-block border-r border-t border-b boder-1 rounded-sign-up-shape  px-5 py-1 hover:bg-btn-hover-background hover:text-btn-hover-text"
+      className="inline-block border-r border-t border-b boder-1   px-5 py-1 "
     >
       UP
     </span>

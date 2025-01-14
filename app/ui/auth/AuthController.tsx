@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Button from "../common/Button";
 import { signOut, useSession } from "next-auth/react";
 
 export default function AuthController() {
@@ -9,13 +8,20 @@ export default function AuthController() {
   return (
     <div className="cursor-pointer">
       {session?.user.nickname ? (
-        <Button onClick={() => signOut({ callbackUrl: "/", redirect: true })}>
-          <span>로그아웃</span>
-        </Button>
+        <button onClick={() => signOut({ callbackUrl: "/", redirect: true })}>
+          <span className="text-black dark:text-white hover:text-hover-text dark:hover:text-hover-text">
+            로그아웃
+          </span>
+        </button>
       ) : (
-        <Button>
-          <Link href="/login">로그인하기</Link>
-        </Button>
+        <button>
+          <Link
+            href="/login"
+            className="text-black dark:text-white hover:text-hover-text dark:hover:text-hover-text"
+          >
+            로그인하기
+          </Link>
+        </button>
       )}
     </div>
   );
