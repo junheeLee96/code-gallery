@@ -22,7 +22,6 @@ export default function CommentsWrapper({
   });
 
   useScrollLoaer({ fetchNextPage, hasNextPage });
-
   return (
     <div className="pb-20">
       <Wrapper>
