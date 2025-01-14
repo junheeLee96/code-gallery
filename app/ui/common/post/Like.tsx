@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import "./css/like.css";
+import "../css/like.css";
 import { createLike } from "@/app/lib/actions";
 import { useRouter } from "next/navigation";
 import { ResultSetHeader } from "mysql2";
@@ -25,7 +25,6 @@ export default function Like({ id, isInitialLiked, likeCount }: LikeProps) {
 
   const handleClick = async () => {
     const response = await createLike(id, !isAnimating);
-    console.log("response = ", response);
 
     if (isErrorResponse(response)) {
       if (window.confirm(response.message)) {
@@ -33,11 +32,8 @@ export default function Like({ id, isInitialLiked, likeCount }: LikeProps) {
       }
       return;
     }
-    if (!isAnimating) {
-      setLikeCount((p) => p + 1);
-    } else {
-      setLikeCount((p) => p - 1);
-    }
+    const newLikeCount = !isAnimating ? LikeCount + 1 : LikeCount - 1;
+    setLikeCount(newLikeCount);
     setIsAnimating((p) => !p);
   };
 

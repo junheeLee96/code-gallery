@@ -1,7 +1,7 @@
 import { CommentsTypes } from "@/app/lib/definitions";
-import UserName from "../common/UserName";
 import Markdown from "../common/post/Markdown";
-import TimeAgo from "../common/TimeAgo";
+import UserName from "../common/post/UserName";
+import TimeAgo from "../common/post/TimeAgo";
 
 type CommentProps = {
   comment: CommentsTypes;
