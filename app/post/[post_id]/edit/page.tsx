@@ -1,5 +1,5 @@
 import { getPost } from "@/app/lib/server-data";
-import UserName from "@/app/ui/common/UserName";
+import UserName from "@/app/ui/common/post/UserName";
 import Wrapper from "@/app/ui/common/Wrapper";
 import PostForm from "@/app/ui/post/PostForm";
 import { auth } from "@/auth";
