@@ -17,9 +17,9 @@ async function checkAuthor({
   post_id: string;
   uuid: string | undefined;
 }) {
-  const UserQuery = "SELECT * FROM posts WHERE idx = ?";
-  const UserQueryParams = [post_id];
-  const [author] = await db<User[]>(UserQuery, UserQueryParams);
+  const SelectUserQuery = "SELECT * FROM posts WHERE idx = ?";
+  const SelectUserQueryParams = [post_id];
+  const [author] = await db<User[]>(SelectUserQuery, SelectUserQueryParams);
   if (author.uuid === uuid) return true;
 
   return false;
@@ -29,13 +29,13 @@ export async function createNewUser(user: User) {
   if (!user || !user.uuid || !user.nickname) {
     throw new Error("User is not logged");
   }
-  const query = `
+  const createNewuserQuery = `
         INSERT INTO users (uuid, user_name,nickname, email, image,reg_dt)
         VALUES (?, ?, ?, ?, ?, ?)
     `;
 
   const reg_dt = new Date();
-  const queryParams = [
+  const createNewUserQueryParams = [
     user.uuid,
     user.user_name,
     user.nickname,
@@ -43,7 +43,7 @@ export async function createNewUser(user: User) {
     user.image,
     reg_dt,
   ];
-  await db<ResultSetHeader>(query, queryParams);
+  await db<ResultSetHeader>(createNewuserQuery, createNewUserQueryParams);
 }
 
 export async function createPost({
@@ -59,13 +59,13 @@ export async function createPost({
   }
   const nickname = session.user.nickname as string;
 
-  const query = `
+  const createPostQuery = `
         INSERT INTO posts (uuid, nickname, title,content, language)
         VALUES (?, ?, ?, ?, ?)
     `;
 
-  const queryParams = [uuid, nickname, title, content, language];
-  await db<ResultSetHeader>(query, queryParams);
+  const createPostQueryParams = [uuid, nickname, title, content, language];
+  await db<ResultSetHeader>(createPostQuery, createPostQueryParams);
 }
 
 export const createComment = async ({
@@ -74,6 +74,13 @@ export const createComment = async ({
   uuid,
   nickname,
 }: createCommentProps) => {
+  const session = await auth();
+  const useruuid = session?.user?.id;
+
+  if (!uuid || uuid !== useruuid) {
+    throw new Error("로그인이 필요합니다.");
+  }
+
   const query = `INSERT INTO comments (post_id, uuid, nickname, comment)
         VALUES (?, ?, ?, ?)`;
   const queryParams = [post_id, uuid, nickname, comment];
