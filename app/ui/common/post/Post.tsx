@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { PostTypes } from "../../lib/definitions";
+import { PostTypes } from "../../../lib/definitions";
 import Markdown from "./Markdown";
-import UserName from "./UserName";
 import Like from "./Like";
+import UserName from "./UserName";
 
 type PostPropTypes = {
   post: PostTypes;
@@ -35,13 +35,11 @@ export default function Post({
       />
       <Markdown markdown={content} language={post.language} />
       {isContentTruncated && <ViewMoreButton onClick={handleExpandContent} />}
-      <div>
-        <Like
-          id={String(post.idx)}
-          likeCount={post.like}
-          isInitialLiked={post.initialLike}
-        />
-      </div>
+      <Like
+        id={String(post.idx)}
+        likeCount={post.like}
+        isInitialLiked={post.initialLike}
+      />
     </div>
   );
 }

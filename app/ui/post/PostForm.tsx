@@ -1,7 +1,7 @@
 "use client";
 
 import Textarea from "../common/TextArea";
-import Markdown from "../common/Markdown";
+import Markdown from "../common/post/Markdown";
 import Languages from "../common/Languages";
 import usePostForm from "@/app/hooks/usePostForm";
 import { SendHorizonal } from "lucide-react";

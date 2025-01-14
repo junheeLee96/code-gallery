@@ -1,6 +1,6 @@
 "use client";
 
-import Post from "../common/Post";
+import Post from "../common/post/Post";
 import { PostTypes } from "@/app/lib/definitions";
 import AddCommentBtn from "./add-comment-btn";
 import useInfiniteQueryHook from "@/app/hooks/useInfiniteQueryHook";

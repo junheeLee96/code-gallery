@@ -1,5 +1,5 @@
 import { getPost } from "@/app/lib/server-data";
-import Post from "../common/Post";
+import Post from "../common/post/Post";
 import Wrapper from "../common/Wrapper";
 import { notFound } from "next/navigation";
 

@@ -25,20 +25,20 @@ export default function Like({ id, isInitialLiked, likeCount }: LikeProps) {
 
   const handleClick = async () => {
     const response = await createLike(id, !isAnimating);
+    console.log("response = ", response);
 
     if (isErrorResponse(response)) {
       if (window.confirm(response.message)) {
         router.push("/login");
-        return;
       }
-    } else {
-      if (!isAnimating) {
-        setLikeCount((p) => p + 1);
-      } else {
-        setLikeCount((p) => p - 1);
-      }
-      setIsAnimating((p) => !p);
+      return;
     }
+    if (!isAnimating) {
+      setLikeCount((p) => p + 1);
+    } else {
+      setLikeCount((p) => p - 1);
+    }
+    setIsAnimating((p) => !p);
   };
 
   return (
