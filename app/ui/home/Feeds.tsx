@@ -15,14 +15,18 @@ import {
 import { truncateText } from "@/app/lib/utils";
 
 export default function Feeds({ date }: { date: Date }) {
+  // 최신순, 오래된 순 ...
   const { sorting } = useSortingStore((state) => state);
+  // javascript, python ...
   const { language } = useLanguageStore((state) => state);
+  // 하루 전, 일주일 전, 한달 전 ...
   const { timePeriod } = useTimePeriodStore((state) => state);
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQueryHook({
     queryKey: ["posts", language, date, sorting, timePeriod],
     queryFn: getPosts,
   });
+
   useScrollLoaer({ hasNextPage, fetchNextPage });
 
   return (

@@ -17,19 +17,16 @@ export default function Post({
   truncatedPost,
   isTruncated,
 }: PostPropTypes) {
-  const [content, setContent] = useState<string>(
-    truncatedPost ? truncatedPost : post.content
-  );
+  const [content, setContent] = useState<string>(truncatedPost || post.content);
+  const [isContentTruncated, setIsContentTruncated] = useState(isTruncated);
 
-  const [isTruncatedFlag, setIsTruncatedFlag] = useState(isTruncated);
-
-  const handleIsTruncated = () => {
+  const handleExpandContent = () => {
     setContent(post.content);
-    setIsTruncatedFlag(false);
+    setIsContentTruncated(false);
   };
 
   return (
-    <div>
+    <div className="post">
       <UserName
         nickname={post.nickname}
         isAuthor={post.isAuthor}
@@ -37,11 +34,7 @@ export default function Post({
         reg_dt={post.reg_dt}
       />
       <Markdown markdown={content} language={post.language} />
-      {isTruncatedFlag && (
-        <button onClick={handleIsTruncated} className="text-sm">
-          더보기
-        </button>
-      )}
+      {isContentTruncated && <ViewMoreButton onClick={handleExpandContent} />}
       <div>
         <Like
           id={String(post.idx)}
@@ -50,5 +43,17 @@ export default function Post({
         />
       </div>
     </div>
+  );
+}
+
+type ViewMoreButtonProps = {
+  onClick: () => void;
+};
+
+function ViewMoreButton({ onClick }: ViewMoreButtonProps) {
+  return (
+    <button onClick={onClick} className="text-sm text-gray-500">
+      더보기
+    </button>
   );
 }

@@ -1,11 +1,11 @@
 import { CircleUserRound } from "lucide-react";
 import TimeAgo from "./TimeAgo";
-import ActionsButtons from "./ActionButtons";
+import PostActionsButtons from "./PostActionButtons";
 
 type UserNameProps = {
   nickname: string;
   isAuthor: boolean;
-  reg_dt?: string;
+  reg_dt: string;
   post_id?: string;
 };
 
@@ -24,9 +24,9 @@ export default function UserName({
           </span>
           <span className="ml-1">{nickname}</span>
         </div>
-        {isAuthor && post_id && <ActionsButtons post_id={post_id} />}
+        {isAuthor && post_id && <PostActionsButtons post_id={post_id} />}
       </div>
-      {reg_dt && <TimeAgo date={reg_dt} />}
+      <TimeAgo date={reg_dt} />
     </div>
   );
 }
