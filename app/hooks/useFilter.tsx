@@ -21,7 +21,6 @@ export default function useFilter() {
   };
 
   const onTimePeriodsChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log(e);
     setTimePeriod(e.target.value);
   };
 
