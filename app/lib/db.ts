@@ -17,6 +17,7 @@ const executeQuery = async <T>(
   retries: number = 10
 ): Promise<T> => {
   let attempt = 0;
+  const DELAY_TIME = 30000;
   while (attempt < retries) {
     const connection = await pool.getConnection();
     try {
@@ -38,7 +39,7 @@ const executeQuery = async <T>(
         );
       }
       // 잠시 대기 후 재시도
-      await new Promise((res) => setTimeout(res, 30000)); //
+      await new Promise((res) => setTimeout(res, DELAY_TIME)); //
     } finally {
       connection.release();
     }
