@@ -1,7 +1,7 @@
 "use client";
 
 import useActionButton from "@/app/hooks/useActionButton";
-import Button from "./Button";
+import Button from "../Button";
 
 type PostActionsButtons = {
   post_id: string;
