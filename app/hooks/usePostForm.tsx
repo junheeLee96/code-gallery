@@ -1,12 +1,23 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { createPost } from "../lib/actions";
+import { createPost, editPost } from "../lib/actions";
+import { PostTypes } from "../lib/definitions";
+import { useRouter } from "next/navigation";
 
-export default function usePostForm() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [language, setLanguage] = useState("javascript");
+type usePostFormProps = {
+  initialPost?: PostTypes;
+};
+
+export default function usePostForm({ initialPost }: usePostFormProps) {
+  const router = useRouter();
+  const [title, setTitle] = useState(initialPost ? initialPost.title : "");
+  const [content, setContent] = useState(
+    initialPost ? initialPost.content : ""
+  );
+  const [language, setLanguage] = useState(
+    initialPost ? initialPost.language : "javascript"
+  );
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,9 +38,20 @@ export default function usePostForm() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await createPost({ title, content, language });
-      setIsLoading(false);
-      // redirect("/");
+      if (initialPost) {
+        // post 수정하기
+        await editPost({
+          title,
+          content,
+          language,
+          post_id: String(initialPost.idx),
+        });
+      } else {
+        // post 만들기
+        await createPost({ title, content, language });
+      }
+
+      router.push("/");
     } catch (e) {
       console.error(e);
       setError(e instanceof Error ? e : new Error("An unknown error occurred"));

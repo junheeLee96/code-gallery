@@ -38,10 +38,10 @@ export async function GET(
   const commentCountsQuery = `SELECT COUNT(*) AS totalComments FROM comments WHERE post_id = ? and reg_dt < ?`;
   const commentQueryParams: Array<string | Date> = [post_id, date];
 
-  const [countRows] = await db<RowDataPacket[]>({
-    query: commentCountsQuery,
-    queryParams: commentQueryParams,
-  });
+  const [countRows] = await db<RowDataPacket[]>(
+    commentCountsQuery,
+    commentQueryParams
+  );
   const { totalComments } = countRows;
   const totalCommentPage = Math.ceil(totalComments / commentsPerPage);
 
@@ -62,10 +62,8 @@ export async function GET(
   queryParams.push(commentsPerPage + 1);
 
   const data = await db<(Omit<CommentsTypes, "isAuthor"> & { uuid: string })[]>(
-    {
-      query: commentQuery,
-      queryParams,
-    }
+    commentQuery,
+    queryParams
   );
 
   const hasNextPage = data.length > commentsPerPage;

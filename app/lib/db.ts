@@ -11,11 +11,6 @@ const pool: Pool = mysql.createPool({
   queueLimit: 0,
 });
 
-type QueryParams = {
-  query: string;
-  queryParams: Array<string | number | Date>;
-};
-
 const executeQuery = async <T>(
   query: string,
   queryParams: Array<string | number | Date>,
@@ -51,10 +46,10 @@ const executeQuery = async <T>(
   throw new Error("Unexpected error");
 };
 
-export const db = async <T>({
-  query,
-  queryParams,
-}: QueryParams): Promise<T> => {
+export const db = async <T>(
+  query: string,
+  queryParams: Array<string | number | Date>
+): Promise<T> => {
   return await executeQuery<T>(query, queryParams);
 };
 

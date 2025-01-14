@@ -8,12 +8,17 @@ import { SendHorizonal } from "lucide-react";
 import Button from "../common/Button";
 import Loading from "../common/Loading";
 import Input from "../common/input";
+import { PostTypes } from "@/app/lib/definitions";
 
 type PostFormTypes = {
   isMarkdownRender: boolean;
+  initialPost?: PostTypes;
 };
 
-export default function PostForm({ isMarkdownRender }: PostFormTypes) {
+export default function PostForm({
+  isMarkdownRender,
+  initialPost,
+}: PostFormTypes) {
   const {
     title,
     content,
@@ -24,7 +29,7 @@ export default function PostForm({ isMarkdownRender }: PostFormTypes) {
     onSubmit,
     error,
     isLoading,
-  } = usePostForm();
+  } = usePostForm({ initialPost });
 
   return (
     <form onSubmit={onSubmit}>

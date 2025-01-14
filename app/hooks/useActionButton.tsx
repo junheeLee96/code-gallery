@@ -15,6 +15,7 @@ export default function useActionButton({ post_id }: useActionButtonProps) {
 
   const onEdit = async () => {
     setIsLoading(true);
+    router.push(`/post/${post_id}/edit`);
   };
 
   const onDelete = async () => {

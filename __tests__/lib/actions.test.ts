@@ -11,7 +11,7 @@ import {
 } from "@/app/lib/actions";
 import {
   User,
-  createPostProps,
+  PostActionsProps,
   createCommentProps,
 } from "@/app/lib/definitions";
 import { auth } from "@/auth";
@@ -56,7 +56,7 @@ describe("서버 액션 테스트", () => {
 
   describe("createPost 함수", () => {
     it("새 게시물을 성공적으로 생성해야 함", async () => {
-      const mockPost: createPostProps = {
+      const mockPost: PostActionsProps = {
         title: "테스트 게시물",
         content: "이것은 테스트 게시물입니다",
         language: "ko",
@@ -87,7 +87,7 @@ describe("서버 액션 테스트", () => {
     it("사용자가 로그인하지 않은 경우 에러를 던져야 함", async () => {
       (auth as jest.Mock).mockResolvedValue({});
 
-      await expect(createPost({} as createPostProps)).rejects.toThrow(
+      await expect(createPost({} as PostActionsProps)).rejects.toThrow(
         "로그인이 필요합니다."
       );
     });

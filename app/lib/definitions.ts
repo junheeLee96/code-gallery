@@ -28,7 +28,7 @@ export type CommentsTypes = {
   reg_dt: string;
 };
 
-export type createPostProps = {
+export type PostActionsProps = {
   title: string;
   content: string;
   language: string;

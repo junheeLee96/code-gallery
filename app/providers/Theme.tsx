@@ -17,9 +17,7 @@ interface ThemeContextType {
 
 const defaultContextValue: ThemeContextType = {
   theme: "light",
-  toggleTheme: () => {
-    console.log("Default toggleTheme called");
-  },
+  toggleTheme: () => {},
 };
 
 const ThemeContext = createContext<ThemeContextType>(defaultContextValue);
@@ -39,20 +37,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const initialTheme = savedTheme || systemTheme;
     setTheme(initialTheme);
     applyTheme(initialTheme);
-    console.log("Initial theme set:", initialTheme);
   }, []);
 
   const toggleTheme = useCallback(() => {
-    console.log("toggleTheme called in provider");
     const newTheme = theme === "light" ? "dark" : "light";
-    console.log("New theme:", newTheme);
     setTheme(newTheme);
     applyTheme(newTheme);
     localStorage.setItem("theme", newTheme);
   }, [theme]);
 
   const applyTheme = (newTheme: Theme) => {
-    console.log("Applying theme:", newTheme);
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(newTheme);
   };
@@ -61,8 +55,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     theme,
     toggleTheme,
   };
-
-  console.log("ThemeProvider rendering, theme:", theme);
 
   if (!mounted) {
     return null;

@@ -2,8 +2,28 @@
 
 import { auth } from "@/auth";
 import { db } from "./db";
-import { createCommentProps, createPostProps, User } from "./definitions";
+import {
+  createCommentProps,
+  PostActionsProps,
+  PostTypes,
+  User,
+} from "./definitions";
 import { ResultSetHeader } from "mysql2";
+
+async function checkAuthor({
+  post_id,
+  uuid,
+}: {
+  post_id: string;
+  uuid: string | undefined;
+}) {
+  const UserQuery = "SELECT * FROM posts WHERE idx = ?";
+  const UserQueryParams = [post_id];
+  const [author] = await db<User[]>(UserQuery, UserQueryParams);
+  if (author.uuid === uuid) return true;
+
+  return false;
+}
 
 export async function createNewUser(user: User) {
   if (!user || !user.uuid || !user.nickname) {
@@ -23,14 +43,14 @@ export async function createNewUser(user: User) {
     user.image,
     reg_dt,
   ];
-  await db<ResultSetHeader>({ query, queryParams });
+  await db<ResultSetHeader>(query, queryParams);
 }
 
 export async function createPost({
   title,
   content,
   language,
-}: createPostProps) {
+}: PostActionsProps) {
   const session = await auth();
   const uuid = session?.user?.id;
 
@@ -45,7 +65,7 @@ export async function createPost({
     `;
 
   const queryParams = [uuid, nickname, title, content, language];
-  await db<ResultSetHeader>({ query, queryParams });
+  await db<ResultSetHeader>(query, queryParams);
 }
 
 export const createComment = async ({
@@ -59,11 +79,8 @@ export const createComment = async ({
   const queryParams = [post_id, uuid, nickname, comment];
   const commentCountQuery =
     "UPDATE posts SET comment = comment + 1 WHERE idx = ?;";
-  db<ResultSetHeader[]>({
-    query: commentCountQuery,
-    queryParams: [queryParams[0]],
-  });
-  return db<ResultSetHeader[]>({ query, queryParams });
+  db<ResultSetHeader[]>(commentCountQuery, [queryParams[0]]);
+  return db<ResultSetHeader[]>(query, queryParams);
 };
 export const createLike = async (
   post_id: string,
@@ -82,24 +99,18 @@ export const createLike = async (
     ? "INSERT INTO likes (uuid, post_id) VALUES (?, ?);"
     : "DELETE FROM likes WHERE uuid = ? AND post_id = ?  ;";
   const queryParams = [uuid, post_id];
-  await db<ResultSetHeader[]>({ query: likeQuery, queryParams: likeParams });
-  return db<ResultSetHeader[]>({ query, queryParams });
+  await db<ResultSetHeader[]>(likeQuery, likeParams);
+  return db<ResultSetHeader[]>(query, queryParams);
 };
 
 export const deletePost = async (post_id: string) => {
   try {
     const session = await auth();
     const useruuid = session?.user?.id;
-
-    const UserQuery = "SELECT * FROM posts WHERE idx = ?";
-    const UserQueryParams = [post_id];
-    const [author] = await db<User[]>({
-      query: UserQuery,
-      queryParams: UserQueryParams,
-    });
+    const author = await checkAuthor({ post_id, uuid: useruuid });
 
     // author가 아니라면 403 반환
-    if (author.uuid !== useruuid) {
+    if (!author) {
       return {
         message: "권한이 없습니다.",
       };
@@ -108,9 +119,54 @@ export const deletePost = async (post_id: string) => {
     const deleteQuery = "DELETE FROM posts WHERE idx = ?";
     const deleteQueryParams = [post_id];
 
-    await db({ query: deleteQuery, queryParams: deleteQueryParams });
+    await db(deleteQuery, deleteQueryParams);
 
     return { message: "Delete successfully" };
+  } catch (error) {
+    console.error("Error processing request:", error);
+    throw new Error("An unknown error occurred");
+  }
+};
+
+export const editPost = async ({
+  title,
+  content,
+  language,
+  post_id,
+}: PostActionsProps & { post_id: string }) => {
+  try {
+    const session = await auth();
+    const useruuid = session?.user?.id;
+    const author = await checkAuthor({
+      post_id,
+      uuid: useruuid ? useruuid : "",
+    });
+
+    if (!author) {
+      return {
+        message: "권한이 없습니다.",
+      };
+    }
+
+    const checkPostExistQuery = "SELECT * FROM posts WHERE idx = ?";
+    const checkPostExistQueryParams = [post_id];
+
+    const [post] = await db<PostTypes[]>(
+      checkPostExistQuery,
+      checkPostExistQueryParams
+    );
+    if (!post) return { message: "" };
+
+    const updateQuery = `UPDATE posts SET 
+    title = ? , 
+    content = ? , 
+    language = ? WHERE idx = ?;
+`;
+    const updateQueryParams = [title, content, language, post_id];
+
+    await db<ResultSetHeader>(updateQuery, updateQueryParams);
+
+    return { message: "update success" };
   } catch (error) {
     console.error("Error processing request:", error);
     throw new Error("An unknown error occurred");

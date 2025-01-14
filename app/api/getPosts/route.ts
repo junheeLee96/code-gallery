@@ -147,20 +147,17 @@ export async function GET(
   PostQuery += " LIMIT ?";
   PostQueryParams.push(postsPerPage + 1);
 
-  const [countRows] = await db<[{ totalPosts: number }]>({
-    query: PostCountQuery,
-    queryParams: PostCountQueryParams,
-  });
+  const [countRows] = await db<[{ totalPosts: number }]>(
+    PostCountQuery,
+    PostCountQueryParams
+  );
 
   const postRows = await db<
     (Omit<PostTypes, "isAuthor" | "initialLike"> & {
       uuid: string;
       like_count: number;
     })[]
-  >({
-    query: PostQuery,
-    queryParams: PostQueryParams,
-  });
+  >(PostQuery, PostQueryParams);
 
   const hasNextPage = postRows.length > postsPerPage;
   const posts = postRows.slice(0, postsPerPage);
@@ -199,7 +196,7 @@ async function isLike(
   const promise_arr = postIdArray.map((post_id) => {
     const query = "SELECT * FROM likes WHERE post_id = ? AND uuid = ? ;";
     const queryParams = [post_id, uuid];
-    return db<ResultSetHeader[]>({ query, queryParams }).then((response) => ({
+    return db<ResultSetHeader[]>(query, queryParams).then((response) => ({
       post_id,
       response,
     }));

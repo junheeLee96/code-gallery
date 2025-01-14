@@ -1,4 +1,4 @@
-import mysql, { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import mysql, { Pool } from "mysql2/promise";
 import { db } from "@/app/lib/db";
 
 jest.mock("mysql2/promise", () => {
@@ -26,11 +26,10 @@ describe("db 함수 테스트", () => {
     const mockQueryParams = ["value1", 123, new Date()];
     const mockResult = [{ id: 1, name: "test" }];
     mockPool.query.mockResolvedValue([mockResult]);
-
-    const result = await db<{ id: number; name: string }>({
-      query: "SELECT * FROM test WHERE id = ?",
-      queryParams: mockQueryParams,
-    });
+    const result = await db<{ id: number; name: string }>(
+      "SELECT * FROM test WHERE id = ?",
+      mockQueryParams
+    );
 
     expect(mockPool.query).toHaveBeenCalledWith(
       "SELECT * FROM test WHERE id = ?",
@@ -45,10 +44,10 @@ describe("db 함수 테스트", () => {
     mockPool.query.mockRejectedValue(mockError);
 
     await expect(
-      db<{ id: number; name: string }>({
-        query: "SELECT * FROM test WHERE id = ?",
-        queryParams: mockQueryParams,
-      })
+      db<{ id: number; name: string }>(
+        "SELECT * FROM test WHERE id = ?",
+        mockQueryParams
+      )
     ).rejects.toThrow("쿼리 실행 오류");
 
     expect(mockPool.query).toHaveBeenCalledWith(
@@ -64,10 +63,10 @@ describe("db 함수 테스트", () => {
     mockPool.query.mockRejectedValue({});
 
     await expect(
-      db<{ id: number; name: string }>({
-        query: "SELECT * FROM test WHERE id = ?",
-        queryParams: mockQueryParams,
-      })
+      db<{ id: number; name: string }>(
+        "SELECT * FROM test WHERE id = ?",
+        mockQueryParams
+      )
     ).rejects.toThrow("알 수 없는 오류가 발생했습니다.");
 
     expect(mockPool.query).toHaveBeenCalledWith(
