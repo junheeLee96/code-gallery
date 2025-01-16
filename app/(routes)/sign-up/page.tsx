@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import SignUpForm from "../ui/sign-up/SignUpForm";
+import SignUpForm from "../../ui/sign-up/SignUpForm";
 import { useRouter } from "next/navigation";
 
 export default function SignUp() {

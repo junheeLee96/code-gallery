@@ -1,4 +1,4 @@
-import SignUp from "@/app/sign-up/page";
+import SignUp from "@/app/(routes)/sign-up/page";
 import SignUpForm from "@/app/ui/sign-up/SignUpForm";
 import { render, screen } from "@testing-library/react";
 import { useSession } from "next-auth/react";
