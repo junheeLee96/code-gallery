@@ -3,6 +3,7 @@ import "./globals.css";
 import { Metadata } from "next";
 import Providers from "./providers";
 import Header from "./ui/common/header";
+import ToastMessageContainer from "./ui/common/toast/ToastMessageContainer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -43,6 +44,7 @@ export default function RootLayout({
               <div className="w-full h-full">{children}</div>
             </div>
           </div>
+          <ToastMessageContainer />
         </Providers>
       </body>
     </html>
