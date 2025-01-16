@@ -24,8 +24,11 @@ export function ToastMessageProvider({
   const timeoutIds = useRef(new Set<NodeJS.Timeout>());
 
   useEffect(() => {
+    // 클린업 함수에서 사용하기 위해 참조 객체를 복사
+    const currentTimeoutIds = timeoutIds.current;
+
     return () => {
-      timeoutIds.current.forEach((id) => clearTimeout(id));
+      currentTimeoutIds.forEach((id) => clearTimeout(id));
     };
   }, []);
 

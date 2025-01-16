@@ -19,8 +19,8 @@ export default function SignUp() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <SignUpForm />
+    <div className="flex justify-center items-center min-h-screen">
+      {session?.user.isNewUser && <SignUpForm />}
     </div>
   );
 }

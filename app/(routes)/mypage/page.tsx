@@ -4,9 +4,8 @@ import UserPosts from "@/app/ui/mypage/user-posts";
 export default function Mypage() {
   return (
     <div>
-      gdgdgd
-      {/* <Profile />
-      <UserPosts /> */}
+      <Profile />
+      <UserPosts />
     </div>
   );
 }

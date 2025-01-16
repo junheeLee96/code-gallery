@@ -5,9 +5,7 @@ type AuthGuardServerProps = {
   children: React.ReactNode;
 };
 
-export default async function AuthGuardServer({
-  children,
-}: AuthGuardServerProps) {
+export default async function AuthGuard({ children }: AuthGuardServerProps) {
   const session = await auth();
 
   if (!session?.user?.id) {

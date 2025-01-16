@@ -1,6 +1,6 @@
 "use client";
 
-import { useToastMessageContext } from "@/app/providers/ToastMessageProvider";
+// import { useToastMessageContext } from "@/app/providers/ToastMessageProvider";
 import { ToastMessageProps } from "@/app/providers/types/toastMessage-type";
 
 const baseStyles =
@@ -12,8 +12,8 @@ const typeStyles = {
   info: "bg-info-500 text-black dark:text-white",
 };
 
-const ToastMessageItem = ({ id, message, type }: ToastMessageProps) => {
-  const { removeToastMessage } = useToastMessageContext();
+const ToastMessageItem = ({ message, type }: ToastMessageProps) => {
+  // const { removeToastMessage } = useToastMessageContext();
 
   return (
     <div

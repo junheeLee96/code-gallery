@@ -1,4 +1,4 @@
-import AuthGuardServer from "@/app/authGuard/AuthGuard-server";
+import AuthGuard from "@/app/authGuard/\bAuthGuard";
 import UserName from "@/app/ui/common/post/UserName";
 import Wrapper from "@/app/ui/common/Wrapper";
 import PostForm from "@/app/ui/post/PostForm";
@@ -8,7 +8,7 @@ export default async function Post() {
   const session = await auth();
   return (
     <Wrapper>
-      <AuthGuardServer>
+      <AuthGuard>
         <div className="w-full h-full flex flex-col">
           <UserName
             nickname={session?.user.nickname as string}
@@ -18,7 +18,7 @@ export default async function Post() {
             <PostForm isMarkdownRender={true} />
           </div>
         </div>
-      </AuthGuardServer>
+      </AuthGuard>
     </Wrapper>
   );
 }
