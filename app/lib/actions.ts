@@ -110,7 +110,9 @@ export const createLike = async (
   return db<ResultSetHeader[]>(query, queryParams);
 };
 
-export const deletePost = async (post_id: string) => {
+export const deletePost = async (
+  post_id: string
+): Promise<{ message: string; type: "error" | "success" }> => {
   try {
     const session = await auth();
     const useruuid = session?.user?.id;
@@ -120,6 +122,7 @@ export const deletePost = async (post_id: string) => {
     if (!author) {
       return {
         message: "권한이 없습니다.",
+        type: "error",
       };
     }
 
@@ -128,7 +131,7 @@ export const deletePost = async (post_id: string) => {
 
     await db(deleteQuery, deleteQueryParams);
 
-    return { message: "Delete successfully" };
+    return { message: "Delete successfully", type: "success" };
   } catch (error) {
     console.error("Error processing request:", error);
     throw new Error("An unknown error occurred");

@@ -16,7 +16,10 @@ const ToastMessageItem = ({ id, message, type }: ToastMessageProps) => {
   const { removeToastMessage } = useToastMessageContext();
 
   return (
-    <div role="toastMessage" className={`${baseStyles} ${typeStyles[type]}`}>
+    <div
+      role="toastMessage"
+      className={`w-fit ${baseStyles} ${typeStyles[type]}`}
+    >
       <span className="text-body font-medium pr-4">{message}</span>
       {/* <IconButton
         icon={

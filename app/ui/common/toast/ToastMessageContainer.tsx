@@ -10,7 +10,7 @@ const ToastMessageContainer = () => {
     <div
       role="toastMessage"
       aria-live="polite"
-      className="fixed bottom-[7.5rem] left-[4.6rem] z-50 flex flex-col gap-4 w-full max-w-[40rem] px-4"
+      className="fixed top-[60px] right-[4.6rem] z-50 flex flex-col gap-4 max-w-[40rem] px-4"
     >
       {toastMessages.map((toastMessage) => (
         <ToastMessageItem key={toastMessage.id} {...toastMessage} />

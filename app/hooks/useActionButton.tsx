@@ -21,10 +21,6 @@ export default function useActionButton({ post_id }: useActionButtonProps) {
   };
 
   const onDelete = async () => {
-    const message = "testing..zz";
-    const type = "success";
-    showToastMessage({ message, type });
-    return;
     setIsLoading(true);
     try {
       const data = await deletePost(post_id);
@@ -32,10 +28,14 @@ export default function useActionButton({ post_id }: useActionButtonProps) {
         alert("성공적으로 삭제되었습니다.");
         router.push("/");
       } else {
+        showToastMessage({ message: data.message, type: data.type });
         alert(data.message);
       }
     } catch (e) {
       console.error(e);
+      const message = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+      const type = "error";
+      showToastMessage({ message, type });
     } finally {
       setIsLoading(false);
     }
