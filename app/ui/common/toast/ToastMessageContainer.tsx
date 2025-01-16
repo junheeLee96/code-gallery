@@ -5,7 +5,6 @@ import ToastMessageItem from "./ToastMessage";
 
 const ToastMessageContainer = () => {
   const { toastMessages } = useToastMessageContext();
-  console.log(toastMessages);
 
   return (
     <div

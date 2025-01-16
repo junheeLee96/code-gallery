@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { deletePost } from "../lib/actions";
 import { useRouter } from "next/navigation";
+import { useToastMessageContext } from "../providers/ToastMessageProvider";
 
 type useActionButtonProps = {
   post_id: string;
@@ -10,6 +11,7 @@ type useActionButtonProps = {
 
 export default function useActionButton({ post_id }: useActionButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const { showToastMessage } = useToastMessageContext();
 
   const router = useRouter();
 
@@ -19,6 +21,10 @@ export default function useActionButton({ post_id }: useActionButtonProps) {
   };
 
   const onDelete = async () => {
+    const message = "testing..zz";
+    const type = "success";
+    showToastMessage({ message, type });
+    return;
     setIsLoading(true);
     try {
       const data = await deletePost(post_id);

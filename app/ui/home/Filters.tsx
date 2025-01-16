@@ -16,7 +16,7 @@ export default function Filters() {
   } = useFilter();
 
   return (
-    <div className="h-[56px] lg:sticky relative top-0 rounded-xl flex items-center pl-4 bg-transparent">
+    <div className="h-[56px] lg:sticky relative top-0 rounded-xl flex items-center pl-4 bg-transparent w-fit">
       <ul className="flex gap-5">
         <li className="">
           <Languages

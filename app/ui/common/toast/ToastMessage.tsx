@@ -7,9 +7,9 @@ const baseStyles =
   "flex items-center justify-between w-full p-4 shadow-lg rounded-xl animate-slideIn";
 
 const typeStyles = {
-  error: "bg-error-500 text-white",
-  success: "bg-success-500 text-white",
-  info: "bg-info-500 text-white",
+  error: "bg-[#FF6161] text-black dark:text-white",
+  success: "bg-[#05CE91] text-black dark:text-white",
+  info: "bg-info-500 text-black dark:text-white",
 };
 
 const ToastMessageItem = ({ id, message, type }: ToastMessageProps) => {
