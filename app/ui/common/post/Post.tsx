@@ -5,6 +5,7 @@ import { PostTypes } from "../../../lib/definitions";
 import Markdown from "./Markdown";
 import Like from "./Like";
 import UserName from "./UserName";
+import Title from "./Title";
 
 type PostPropTypes = {
   post: PostTypes;
@@ -33,6 +34,7 @@ export default function Post({
         post_id={String(post.idx)}
         reg_dt={post.reg_dt}
       />
+      <Title title={post.title} />
       <Markdown markdown={content} language={post.language} />
       {isContentTruncated && <ViewMoreButton onClick={handleExpandContent} />}
       <Like
