@@ -16,19 +16,19 @@ export default function Filters() {
   } = useFilter();
 
   return (
-    <div className="h-[56px] lg:sticky relative top-0 rounded-xl flex items-center pl-4 bg-transparent w-fit">
-      <ul className="flex gap-5">
-        <li className="">
+    <div className="h-[56px] bg-blue-500 1200-screen:sticky w-full top-0 rounded-xl flex items-center pl-4">
+      <ul className="flex gap-5 w-full flex-1">
+        <li className="w-full">
           <Languages
             onChange={onLanguageChange}
             isWholeRender={true}
             value={language}
           />
         </li>
-        <li>
+        <li className="w-full">
           <Sorting onChange={onSortingChange} value={sorting} />
         </li>
-        <li>
+        <li className="w-full">
           <TimePeriods onChange={onTimePeriodsChange} value={timePeriod} />
         </li>
       </ul>

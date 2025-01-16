@@ -8,7 +8,12 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    screens: { g: "720px", lg: "1024px" },
+    screens: {
+      "550-screen": "520px",
+      "700-screen": "640px",
+      "1024-screen": "1024px",
+      "1200-screen": "1200px",
+    },
     extend: {
       height: {
         "screen-without-header": "calc(100vh - 56px)",

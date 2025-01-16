@@ -40,7 +40,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           <div className="min-w-screen min-h-screen flex justify-center pt-[56px] bg-white dark:bg-dark-bg">
-            <div className="w-full lg:w-[680px] min-h-full">
+            <div className="w-full 700-screen:w-[680px] min-h-full bg-red-500 px-4">
               <div className="w-full h-full">{children}</div>
             </div>
           </div>
