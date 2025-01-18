@@ -37,7 +37,7 @@ ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 RUN echo "$SCHEMA" > prisma/schema.prisma
 
 # Generate Prisma client
-RUN npx prisma generate
+RUN npx prisma generate --debug 
 
 # Build the application
 RUN npm run build
