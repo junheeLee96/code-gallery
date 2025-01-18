@@ -35,6 +35,9 @@ ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 # Generate Prisma schema file from GitHub secret
 RUN mkdir -p prisma && echo "$PRISMA_SCHEMA" > prisma/schema.prisma
 
+# Print schema for debugging (optional)
+RUN cat prisma/schema.prisma
+
 # Generate Prisma client
 RUN npx prisma generate
 
