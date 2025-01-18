@@ -18,7 +18,7 @@ type CodeProps = ComponentPropsWithoutRef<"code"> & {
 
 export default function Markdown({ markdown, language }: MarkdownTypes) {
   return (
-    <div className="overflow-scroll py-3">
+    <div className="py-3 ">
       <ReactMarkdown
         remarkPlugins={[remarkBreaks]}
         components={{
