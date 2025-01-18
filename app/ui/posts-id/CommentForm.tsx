@@ -6,19 +6,21 @@ import { useSession } from "next-auth/react";
 import useCommentForm from "../../hooks/useCommentForm";
 import Comment from "./Comment";
 import { CommentsTypes } from "@/app/lib/definitions";
+import { useEffect } from "react";
 
 type CommentFormProp = {
-  post_id: string;
+  post_id: number;
 };
 
 export default function CommentForm({ post_id }: CommentFormProp) {
   const { data: user } = useSession();
   const { comment, isLoading, error, onCommentChange, onSubmit, comments } =
     useCommentForm({
-      uuid: user?.user.id as string,
-      nickname: user?.user.nickname as string,
       post_id,
     });
+  useEffect(() => {
+    console.log(comments);
+  }, [comments]);
 
   if (!user) return null;
 

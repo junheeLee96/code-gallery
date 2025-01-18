@@ -3,14 +3,14 @@ import PostActionsButtons from "./PostActionButtons";
 import TimeAgo from "./TimeAgo";
 
 type UserNameProps = {
-  nickname: string;
+  username: string;
   isAuthor: boolean;
-  reg_dt?: string;
-  post_id?: string;
+  reg_dt?: Date;
+  post_id?: number;
 };
 
 export default function UserName({
-  nickname,
+  username,
   isAuthor,
   reg_dt,
   post_id,
@@ -22,7 +22,7 @@ export default function UserName({
           <span>
             <CircleUserRound />
           </span>
-          <span className="ml-1">{nickname}</span>
+          <span className="ml-1">{username}</span>
         </div>
         {isAuthor && post_id && <PostActionsButtons post_id={post_id} />}
       </div>

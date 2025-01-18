@@ -16,6 +16,25 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: "database",
   },
+  callbacks: {
+    // JWT 토큰에 사용자 ID 추가
+    async jwt({ token, account, user }) {
+      console.log("jwt ", token);
+      console.log("jwt ", account);
+      console.log("jwt ", user);
+      if (account && user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    // 세션 객체에 사용자 ID 추가
+    async session({ session }) {
+      if (session.user) {
+        session.user.id = session.user.id;
+      }
+      return session;
+    },
+  },
 });
 
 // mysql로만 관리

@@ -1,31 +1,30 @@
 export type User = {
   uuid: string;
-  user_name: string;
+  username?: string;
   email: string;
   image: string;
-  nickname?: string;
 };
 
 export type PostTypes = {
   idx: number;
   isAuthor: boolean;
-  nickname: string;
+  username: string;
   title: string;
   content: string;
   language: string;
   like: number;
   comment: number;
-  reg_dt: string;
+  reg_dt: Date;
   initialLike: boolean;
 };
 
 export type CommentsTypes = {
   idx: number;
-  post_id: string;
+  post_id: number;
   isAuthor: boolean;
-  nickname: string;
+  username: string;
   comment: string;
-  reg_dt: string;
+  reg_dt: Date;
 };
 
 export type PostActionsProps = {
@@ -42,9 +41,7 @@ export type InfiniteProps = {
 };
 
 export type createCommentProps = {
-  uuid: string;
-  post_id: string;
-  nickname: string;
+  post_id: number;
   comment: string;
 };
 
@@ -68,4 +65,9 @@ interface InfiniteQueryBaseResponse {
 
 export interface InfiniteQueryResponse<T> extends InfiniteQueryBaseResponse {
   data: T;
+}
+
+export interface DetailedPostTypes extends PostTypes {
+  likes: number;
+  comments: number;
 }

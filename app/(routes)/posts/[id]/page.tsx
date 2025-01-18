@@ -18,16 +18,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     // api route는 클라이언트 컴포넌트를 위한 것이므로 직접 db에 접근하여 성능향상(api route를 거치지 않기에 불필요한 네트워크 방지)
 
     const post = await getPost(post_id);
-    if (!post) {
-      return {
-        title: "페이지를 찾을 수 없습니다.",
-        description: "페이지를 찾을 수 없습니다.",
-      };
-    }
 
     return {
-      title: `${post[0].title}` || "",
-      description: post[0].content.substring(0, 150),
+      title: `${post.title}` || "",
+      description: post.content.substring(0, 150),
     };
   } catch (e) {
     if (e instanceof Error && "statusCode" in e && e.statusCode === 404) {
@@ -41,14 +35,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function Post({ params }: { params: { id: string } }) {
+export default function Post({ params }: { params: { id: string } }) {
   return (
     <div>
       <Suspense fallback={<PostSkeleton />}>
         <PostWrapper post_id={params.id} />
       </Suspense>
       <Suspense fallback={<CommentsSkeleton />}>
-        <CommentsWrapper post_id={params.id} date={new Date()} />
+        <CommentsWrapper post_id={parseInt(params.id)} date={new Date()} />
       </Suspense>
     </div>
   );

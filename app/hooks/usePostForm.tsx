@@ -54,7 +54,9 @@ export default function usePostForm({ initialPost }: usePostFormProps) {
       router.push("/");
     } catch (e) {
       console.error(e);
-      setError(e instanceof Error ? e : new Error("An unknown error occurred"));
+      setError(
+        e instanceof Error ? e : new Error("알 수 없는 오류가 발생했습니다.")
+      );
       setIsLoading(false);
     }
   };

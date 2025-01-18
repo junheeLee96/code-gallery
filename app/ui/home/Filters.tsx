@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import Languages from "../common/Languages";
 import Sorting from "./Sorting";
 import TimePeriods from "./TimePeriods";
@@ -15,8 +14,6 @@ export default function Filters() {
     onSortingChange,
     onTimePeriodsChange,
   } = useFilter();
-  const { data: session } = useSession();
-  console.log(session);
 
   return (
     <div className="h-[56px] 1200-screen:sticky w-full top-0 rounded-xl flex items-center pl-4">

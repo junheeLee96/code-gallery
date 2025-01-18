@@ -4,7 +4,7 @@ import useActionButton from "@/app/hooks/useActionButton";
 import Button from "../Button";
 
 type PostActionsButtons = {
-  post_id: string;
+  post_id: number;
 };
 
 export default function PostActionsButtons({ post_id }: PostActionsButtons) {

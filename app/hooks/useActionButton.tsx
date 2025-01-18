@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useToastMessageContext } from "../providers/ToastMessageProvider";
 
 type useActionButtonProps = {
-  post_id: string;
+  post_id: number;
 };
 
 export default function useActionButton({ post_id }: useActionButtonProps) {
@@ -23,21 +23,16 @@ export default function useActionButton({ post_id }: useActionButtonProps) {
   const onDelete = async () => {
     setIsLoading(true);
     try {
-      const data = await deletePost(post_id);
-      if (data.message === "Delete successfully") {
-        alert("성공적으로 삭제되었습니다.");
-        router.push("/");
-      } else {
-        showToastMessage({ message: data.message, type: data.type });
-        alert(data.message);
-      }
+      await deletePost(post_id);
     } catch (e) {
       console.error(e);
-      const message = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
-      const type = "error";
-      showToastMessage({ message, type });
-    } finally {
-      setIsLoading(false);
+      const message =
+        e instanceof Error ? e.message : "알 수 없는 오류가 발생했습니다.";
+
+      showToastMessage({
+        message,
+        type: "error",
+      });
     }
   };
   return { isLoading, onEdit, onDelete };

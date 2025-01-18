@@ -8,7 +8,7 @@ import Wrapper from "../common/Wrapper";
 import Comment from "./Comment";
 
 type CommentsWrapperProps = {
-  post_id: string;
+  post_id: number;
   date: Date;
 };
 

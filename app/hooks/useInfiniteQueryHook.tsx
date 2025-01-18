@@ -13,7 +13,7 @@ export type queryFnParams = {
 };
 
 interface useInfiniteQueryHookProps<T> {
-  queryKey: Array<string | Date>;
+  queryKey: Array<string | Date | number>;
   queryFn: ({
     cursor,
     queryKey,

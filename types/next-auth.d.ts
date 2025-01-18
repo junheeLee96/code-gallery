@@ -9,8 +9,10 @@ declare module "next-auth" {
   interface Session {
     user: User & {
       id: string;
-      isNewUser?: boolean;
-      nickname?: string;
+      name: string;
+      username?: string;
+      email: string;
+      image: string;
     };
   }
 }

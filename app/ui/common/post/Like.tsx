@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import "../css/like.css";
-import { createLike } from "@/app/lib/actions";
+import { handleLike } from "@/app/lib/actions";
 import { useRouter } from "next/navigation";
-import { ResultSetHeader } from "mysql2";
 
 type LikeProps = {
   id: string;
@@ -12,26 +11,31 @@ type LikeProps = {
   likeCount: number;
 };
 
-function isErrorResponse(
-  response: ResultSetHeader[] | { message: string }
-): response is { message: string } {
-  return "message" in response;
-}
-
 export default function Like({ id, isInitialLiked, likeCount }: LikeProps) {
   const router = useRouter();
   const [isAnimating, setIsAnimating] = useState(isInitialLiked);
   const [LikeCount, setLikeCount] = useState(likeCount);
 
-  const handleClick = async () => {
-    const response = await createLike(id, !isAnimating);
-
-    if (isErrorResponse(response)) {
-      if (window.confirm(response.message)) {
-        router.push("/login");
+  const handleResponse = (res: { status: boolean; message: string }) => {
+    if (!res.status) {
+      if (res.message === "로그인이 필요합니다. 로그인하시겠습니까?") {
+        if (confirm(res.message)) {
+          router.push("/login");
+        } else {
+          return false;
+        }
+      } else {
+        alert(res.message);
       }
-      return;
+      return false;
     }
+
+    return true;
+  };
+  const handleClick = async () => {
+    const response = await handleLike(id, !isAnimating);
+    if (!handleResponse(response)) return;
+
     const newLikeCount = !isAnimating ? LikeCount + 1 : LikeCount - 1;
     setLikeCount(newLikeCount);
     setIsAnimating((p) => !p);

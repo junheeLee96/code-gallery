@@ -1,6 +1,9 @@
 export function timeAgo(date: string): string {
   const now = new Date();
   const past = new Date(date);
+  if (isNaN(past.getTime())) {
+    return "유효하지 않은 날짜입니다"; // 또는 적절한 에러 메시지를 반환
+  }
   const diffInSeconds = (now.getTime() - past.getTime()) / 1000;
 
   const rtf = new Intl.RelativeTimeFormat("ko", { numeric: "auto" });

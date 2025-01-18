@@ -29,9 +29,9 @@ export default function Post({
   return (
     <div className="post">
       <UserName
-        nickname={post.nickname}
+        username={post.username}
         isAuthor={post.isAuthor}
-        post_id={String(post.idx)}
+        post_id={post.idx}
         reg_dt={post.reg_dt}
       />
       <Title title={post.title} />

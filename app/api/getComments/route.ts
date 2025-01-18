@@ -1,15 +1,11 @@
-import { db } from "@/app/lib/db";
-import { CommentsTypes, InfiniteQueryResponse } from "@/app/lib/definitions";
 import { auth } from "@/auth";
+import { prisma } from "@/prisma";
 import moment from "moment-timezone";
-import { RowDataPacket } from "mysql2";
 import { NextResponse } from "next/server";
 
 const commentsPerPage = 12;
 
-export async function GET(
-  request: Request
-): Promise<NextResponse<InfiniteQueryResponse<CommentsTypes[]>>> {
+export async function GET(request: Request): Promise<NextResponse> {
   const session = await auth();
   const useruuid = session?.user?.id;
 
@@ -19,7 +15,6 @@ export async function GET(
     ? new Date(decodeURIComponent(dateString))
     : new Date();
   const cursor = searchParams.get("cursor");
-
   const post_id = searchParams.get("post_id") as string;
 
   // Parse cursor
@@ -35,47 +30,47 @@ export async function GET(
   }
 
   // Count comments
-  const commentCountsQuery = `SELECT COUNT(*) AS totalComments FROM comments WHERE post_id = ? and reg_dt < ?`;
-  const commentQueryParams: Array<string | Date> = [post_id, date];
-
-  const [countRows] = await db<RowDataPacket[]>(
-    commentCountsQuery,
-    commentQueryParams
-  );
-  const { totalComments } = countRows;
+  const commentCounts = await prisma.comment.count({
+    where: {
+      post_id: parseInt(post_id),
+      reg_dt: {
+        lt: date,
+      },
+    },
+  });
+  const totalComments = commentCounts;
   const totalCommentPage = Math.ceil(totalComments / commentsPerPage);
 
   // Get comments
-  let commentQuery = `
-    SELECT * FROM comments 
-    WHERE post_id = ? and reg_dt < ?
-  `;
-  const queryParams: Array<string | Date | number> = [post_id, date];
+  const commentsData = await prisma.comment.findMany({
+    where: {
+      post_id: parseInt(post_id),
+      reg_dt: {
+        lt: date,
+      },
+    },
+    orderBy: [{ reg_dt: "desc" }, { idx: "desc" }],
+    take: commentsPerPage + 1,
+    ...(cursorValue !== undefined &&
+      cursorDate !== undefined && {
+        skip: 0, // Start from the correct position based on cursor
+        where: {
+          AND: [
+            { reg_dt: { lt: cursorDate } },
+            { reg_dt: { equals: cursorDate }, idx: { lt: cursorValue } },
+          ],
+        },
+      }),
+  });
 
-  // Cursor based pagination
-  if (cursorValue !== undefined && cursorDate !== undefined) {
-    commentQuery += " AND (reg_dt < ? OR (reg_dt = ? AND idx < ?))";
-    queryParams.push(cursorDate, cursorDate, cursorValue);
-  }
+  const hasNextPage = commentsData.length > commentsPerPage;
+  const comments = commentsData.slice(0, commentsPerPage);
 
-  commentQuery += " ORDER BY reg_dt DESC, idx DESC LIMIT ?";
-  queryParams.push(commentsPerPage + 1);
-
-  const data = await db<(Omit<CommentsTypes, "isAuthor"> & { uuid: string })[]>(
-    commentQuery,
-    queryParams
-  );
-
-  const hasNextPage = data.length > commentsPerPage;
-  const comments = data.slice(0, commentsPerPage);
-
-  const formattedComments: CommentsTypes[] = comments.map(
-    ({ uuid, reg_dt, ...comment }) => ({
-      ...comment,
-      reg_dt: moment.utc(reg_dt).tz("Asia/Seoul").format(),
-      isAuthor: useruuid === uuid,
-    })
-  );
+  const formattedComments = comments.map(({ uuid, reg_dt, ...comment }) => ({
+    ...comment,
+    reg_dt: moment.utc(reg_dt).tz("Asia/Seoul").format(),
+    isAuthor: useruuid === uuid,
+  }));
 
   const nextCursor = hasNextPage
     ? `${comments[comments.length - 1].idx}_${new Date(

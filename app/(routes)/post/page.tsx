@@ -11,7 +11,7 @@ export default async function Post() {
       <AuthGuard>
         <div className="w-full h-full flex flex-col">
           <UserName
-            nickname={session?.user.nickname as string}
+            username={session?.user.username as string}
             isAuthor={true}
           />
           <div className="flex-1 ">
