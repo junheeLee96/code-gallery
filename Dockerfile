@@ -1,11 +1,10 @@
-# Base on offical Node.js Alpine image
+# Base on official Node.js Alpine image
 FROM node:alpine
 
 # Set working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json before other files
-# Utilise Docker cache to save re-installing dependencies if unchanged
 COPY package*.json ./
 
 # Install dependencies
@@ -13,9 +12,6 @@ RUN npm install
 
 # Copy all files
 COPY . .
-
-# Copy Prisma schema file
-COPY prisma/schema.prisma ./prisma/
 
 # Add build arguments
 ARG GOOGLE_CLIENT_ID
@@ -37,19 +33,13 @@ ENV AUTH_URL=$AUTH_URL
 ENV NEXT_PUBLIC_REDIRECT_URI=$NEXT_PUBLIC_REDIRECT_URI
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
-# Create a .env.local file with the environment variables
-RUN echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> .env.local && \
-    echo "GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET" >> .env.local && \
-    echo "DATABASE_URL=$DATABASE_URL" >> .env.local && \
-    echo "AUTH_SECRET=$AUTH_SECRET" >> .env.local && \
-    echo "AUTH_TRUST_HOST=$AUTH_TRUST_HOST" >> .env.local && \
-    echo "AUTH_URL=$AUTH_URL" >> .env.local && \
-    echo "NEXT_PUBLIC_REDIRECT_URI=$NEXT_PUBLIC_REDIRECT_URI" >> .env.local && \
-    echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" >> .env.local
+# Generate Prisma schema file from GitHub secret SCHEMA
+RUN echo "$SCHEMA" > prisma/schema.prisma
 
 # Generate Prisma client
 RUN npx prisma generate
 
+# Build the application
 RUN npm run build
 
 # Expose the listening port

@@ -11,6 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Generate schema.prisma from secret
+        run: |
+          echo "$SCHEMA" > prisma/schema.prisma
+
       - name: Build Docker image
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
