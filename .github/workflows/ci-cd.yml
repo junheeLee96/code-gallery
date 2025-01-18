@@ -15,17 +15,10 @@ jobs:
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           AUTH_TRUST_HOST: ${{ secrets.AUTH_TRUST_HOST }}
           AUTH_URL: ${{ secrets.AUTH_URL }}
-
           NEXT_PUBLIC_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_REDIRECT_URI }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
@@ -33,11 +26,7 @@ jobs:
           docker build \
             --build-arg GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \
             --build-arg GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET \
-            --build-arg DB_HOST=$DB_HOST \
-            --build-arg DB_PORT=$DB_PORT \
-            --build-arg DB_USER=$DB_USER \
-            --build-arg DB_NAME=$DB_NAME \
-            --build-arg DB_PASSWORD=$DB_PASSWORD \
+            --build-arg DATABASE_URL=$DATABASE_URL \
             --build-arg AUTH_SECRET=$AUTH_SECRET \
             --build-arg AUTH_TRUST_HOST=$AUTH_TRUST_HOST \
             --build-arg AUTH_URL=$AUTH_URL \
@@ -67,11 +56,7 @@ jobs:
               -p 3000:3000 \
               -e GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
               -e GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
-              -e DB_HOST=${{ secrets.DB_HOST }} \
-              -e DB_PORT=${{ secrets.DB_PORT }} \
-              -e DB_USER=${{ secrets.DB_USER }} \
-              -e DB_NAME=${{ secrets.DB_NAME }} \
-              -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
               -e AUTH_SECRET=${{ secrets.AUTH_SECRET }} \
               -e AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }} \
               -e AUTH_URL=${{ secrets.AUTH_URL }} \
