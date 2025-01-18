@@ -1,0 +1,139 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+ 
+generator client {
+  provider = "prisma-client-js"
+}
+ 
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  username      String?         @unique
+  email         String?         @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]       // 정의된 Account 모델
+  sessions      Session[]       // 정의된 Session 모델
+  Authenticator Authenticator[] // 정의된 Authenticator 모델
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // 관계 설정
+  posts    Posts[]                                // 유저가 작성한 게시글들
+  comments Comment[]                             // 유저가 작성한 댓글들
+  likes    Likes[]                               // 유저가 누른 좋아요들
+}
+
+ 
+model Account {
+  id                       String  @id @default(cuid())
+  userId                   String  @unique
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? @db.Text
+  access_token             String? @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String? @db.Text
+  session_state            String?
+  refresh_token_expires_in Int?
+  user                     User?   @relation(fields: [userId], references: [id])
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+ 
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  @@index([userId])
+}
+ 
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+ 
+  @@unique([identifier, token])
+}
+ 
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([userId, credentialID])
+}
+
+model Posts {
+  idx       Int       @id @default(autoincrement()) // 프라이머리 키, 오토 인크리먼트
+  uuid      String                                 // 작성자 (User 테이블의 id를 참조)
+  username  String                                 // 유저의 이름 (닉네임 -> 사용자 이름으로 변경)
+  title     String    @db.VarChar(20)             // 제목
+  content   String    @db.Text                    // 내용
+  language  String    @db.VarChar(40)             // 언어
+  like      Int       @default(0)                 // 좋아요
+  comment   Int       @default(0)                 // 댓글 수
+  reg_dt    DateTime  @default(now())             // 등록 날짜
+  mod_dt    DateTime  @updatedAt                  // 수정 날짜
+
+  // 관계 설정
+  user      User      @relation(fields: [uuid], references: [id]) // User 테이블과 연결
+  comments  Comment[] @relation("PostComments")   // 한 게시글은 여러 댓글을 가질 수 있음
+  likes     Likes[]   @relation("PostLikes")     // 한 게시글은 여러 좋아요를 가질 수 있음
+
+  @@index([uuid])                                 // uuid에 인덱스 추가
+}
+
+model Comment {
+  idx       Int       @id @default(autoincrement()) // 프라이머리 키, 오토 인크리먼트
+  post_id   Int                                    // Posts 테이블의 idx를 참조
+  uuid      String                                 // 작성자 (User 테이블의 id를 참조)
+  username  String    @db.VarChar(20)             // 유저의 이름 (닉네임 -> 사용자 이름으로 변경)
+  comment   String    @db.Text                    // 댓글 내용
+  reg_dt    DateTime  @default(now())             // 등록 날짜
+
+  // 관계 설정
+  post      Posts     @relation("PostComments", fields: [post_id], references: [idx]) // 반대 방향 관계 추가
+  user      User      @relation(fields: [uuid], references: [id])    // User 테이블과 연결
+
+  @@index([post_id])                              // post_id에 인덱스 추가
+  @@index([uuid])                                 // uuid에 인덱스 추가
+}
+
+model Likes {
+  idx       Int       @id @default(autoincrement()) // 프라이머리 키, 오토 인크리먼트
+  post_id   Int                                    // Posts 테이블의 idx를 참조
+  uuid      String                                 // User 테이블의 id를 참조
+  reg_dt    DateTime  @default(now())             // 좋아요 등록 시간
+
+  // 관계 설정
+  post      Posts     @relation("PostLikes", fields: [post_id], references: [idx]) // 반대 방향 관계 추가
+  user      User      @relation(fields: [uuid], references: [id])    // User 테이블과 연결
+
+  @@index([post_id])                              // post_id에 인덱스 추가
+  @@index([uuid])                                 // uuid에 인덱스 추가
+}

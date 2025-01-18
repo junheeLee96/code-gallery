@@ -11,10 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Create temporary Prisma schema file
-        run: echo "${{ secrets.PRISMA_SCHEMA }}" > prisma_schema_temp.txt
-
-      - name: Build Docker image
+      - name: Docker 이미지 빌드
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
@@ -24,6 +21,7 @@ jobs:
           AUTH_URL: ${{ secrets.AUTH_URL }}
           NEXT_PUBLIC_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_REDIRECT_URI }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
           docker build \
             --build-arg GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \
@@ -34,19 +32,18 @@ jobs:
             --build-arg AUTH_URL=$AUTH_URL \
             --build-arg NEXT_PUBLIC_REDIRECT_URI=$NEXT_PUBLIC_REDIRECT_URI \
             --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
-            --build-arg PRISMA_SCHEMA="$(cat prisma_schema_temp.txt)" \
+            --build-arg DATABASE_URL=$DATABASE_URL \
             -t code-gallery .
-          rm prisma_schema_temp.txt
 
-      - name: Login to Docker Hub
+      - name: Docker Hub 로그인
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Push Docker image
+      - name: Docker 이미지 푸시
         run: |
           docker tag code-gallery ${{ secrets.DOCKER_USERNAME }}/code-gallery:${{ github.sha }}
           docker push ${{ secrets.DOCKER_USERNAME }}/code-gallery:${{ github.sha }}
 
-      - name: Deploy to EC2
+      - name: EC2에 배포
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -66,4 +63,8 @@ jobs:
               -e AUTH_URL=${{ secrets.AUTH_URL }} \
               -e NEXT_PUBLIC_REDIRECT_URI=${{ secrets.NEXT_PUBLIC_REDIRECT_URI }} \
               -e NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
+              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
               ${{ secrets.DOCKER_USERNAME }}/code-gallery:${{ github.sha }}
+
+            # Prisma 마이그레이션 실행
+            docker exec code-gallery npx prisma migrate deploy
