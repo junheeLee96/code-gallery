@@ -15,7 +15,6 @@ jobs:
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           AUTH_TRUST_HOST: ${{ secrets.AUTH_TRUST_HOST }}
           AUTH_URL: ${{ secrets.AUTH_URL }}
@@ -26,7 +25,6 @@ jobs:
           docker build \
             --build-arg GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \
             --build-arg GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET \
-            --build-arg DATABASE_URL=$DATABASE_URL \
             --build-arg AUTH_SECRET=$AUTH_SECRET \
             --build-arg AUTH_TRUST_HOST=$AUTH_TRUST_HOST \
             --build-arg AUTH_URL=$AUTH_URL \
@@ -57,7 +55,6 @@ jobs:
               -p 3000:3000 \
               -e GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
               -e GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
-              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
               -e AUTH_SECRET=${{ secrets.AUTH_SECRET }} \
               -e AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }} \
               -e AUTH_URL=${{ secrets.AUTH_URL }} \
