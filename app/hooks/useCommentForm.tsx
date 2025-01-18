@@ -1,5 +1,5 @@
 import { createComment } from "@/app/lib/actions";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { CommentsTypes } from "../lib/definitions";
 
 type useCommentFormProps = {
@@ -38,10 +38,6 @@ export default function useCommentForm({ post_id }: useCommentFormProps) {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    console.log(comments);
-  }, [comments]);
 
   return {
     comments,

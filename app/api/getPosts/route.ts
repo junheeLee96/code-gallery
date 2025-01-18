@@ -113,7 +113,6 @@ export async function GET(
 
   // 커서 기반 페이지네이션
   const hasNextPage = posts.length > postsPerPage;
-  console.log(posts);
   const slicedPost = posts.slice(0, postsPerPage);
   const formattedPosts = slicedPost.map((post) => ({
     idx: post.idx,

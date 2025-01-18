@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import useCommentForm from "../../hooks/useCommentForm";
 import Comment from "./Comment";
 import { CommentsTypes } from "@/app/lib/definitions";
-import { useEffect } from "react";
 
 type CommentFormProp = {
   post_id: number;
@@ -18,9 +17,6 @@ export default function CommentForm({ post_id }: CommentFormProp) {
     useCommentForm({
       post_id,
     });
-  useEffect(() => {
-    console.log(comments);
-  }, [comments]);
 
   if (!user) return null;
 
