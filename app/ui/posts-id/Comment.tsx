@@ -13,9 +13,6 @@ export default function Comment({ comment }: CommentProps) {
       <div>
         <UserName isAuthor={comment.isAuthor} username={comment.username} />
       </div>
-      {comment.comment === "1" && (
-        <div className="w-full bg-red-500">이거임</div>
-      )}
       <Markdown language="" markdown={comment.comment} />
       <TimeAgo date={comment.reg_dt} />
     </div>
