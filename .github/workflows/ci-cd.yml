@@ -13,6 +13,7 @@ jobs:
 
       - name: Generate schema.prisma from secret
         run: |
+          mkdir -p prisma
           echo "$SCHEMA" > prisma/schema.prisma
 
       - name: Build Docker image
