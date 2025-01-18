@@ -10,6 +10,7 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Copy all files
 COPY . .
 
 # Add build arguments
@@ -32,13 +33,12 @@ ENV AUTH_TRUST_HOST=$AUTH_TRUST_HOST
 ENV AUTH_URL=$AUTH_URL
 ENV NEXT_PUBLIC_REDIRECT_URI=$NEXT_PUBLIC_REDIRECT_URI
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
-ENV PRISMA_SCHEMA=$PRISMA_SCHEMA
 
-# Generate Prisma schema file from GitHub secret
+# Generate Prisma schema file from build argument
 RUN mkdir -p prisma && echo "$PRISMA_SCHEMA" > prisma/schema.prisma
 
 # Print schema for debugging (optional)
-RUN cat prisma/schema.prisma
+RUN echo "Prisma Schema Content:" && cat prisma/schema.prisma
 
 # Generate Prisma client
 RUN npx prisma generate

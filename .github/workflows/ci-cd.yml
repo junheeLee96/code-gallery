@@ -11,10 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Create Prisma schema
-        run: |
-          mkdir -p prisma
-          echo "${{ secrets.PRISMA_SCHEMA }}" > prisma/schema.prisma
+      - name: Create temporary Prisma schema file
+        run: echo "${{ secrets.PRISMA_SCHEMA }}" > prisma_schema_temp.txt
 
       - name: Build Docker image
         env:
@@ -26,7 +24,6 @@ jobs:
           AUTH_URL: ${{ secrets.AUTH_URL }}
           NEXT_PUBLIC_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_REDIRECT_URI }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-
         run: |
           docker build \
             --build-arg GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \
@@ -37,8 +34,9 @@ jobs:
             --build-arg AUTH_URL=$AUTH_URL \
             --build-arg NEXT_PUBLIC_REDIRECT_URI=$NEXT_PUBLIC_REDIRECT_URI \
             --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
-            --build-arg PRISMA_SCHEMA="$PRISMA_SCHEMA" \
+            --build-arg PRISMA_SCHEMA="$(cat prisma_schema_temp.txt)" \
             -t code-gallery .
+          rm prisma_schema_temp.txt
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
