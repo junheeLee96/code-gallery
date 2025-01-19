@@ -3,8 +3,10 @@ import AuthController from "../auth/AuthController";
 import Image from "next/image";
 import NewPost from "../home/NewPost";
 import ThemeToggle from "./ThemeToggle";
+import { auth } from "@/auth";
 
-export default function Header() {
+export default async function Header() {
+  const session = await auth();
   return (
     <header
       className="fixed z-11 top-[0] left-[0] w-full bg-white 
@@ -26,6 +28,14 @@ export default function Header() {
         <div className="flex items-center gap-5">
           <ThemeToggle />
           <NewPost />
+          {session?.user && (
+            <Link
+              href="/mypage"
+              className="text-sm text-black dark:text-white hover:text-hover-text dark:hover:text-hover-text"
+            >
+              마이페이지
+            </Link>
+          )}
           <AuthController />
         </div>
       </div>

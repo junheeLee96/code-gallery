@@ -5,7 +5,7 @@ export default function NewPost() {
     <div className="mr-3">
       <Link
         href="/post"
-        className="w-full h-[60px] flex items-center text-black dark:text-white hover:text-hover-text dark:hover:text-hover-text "
+        className="w-full h-[60px] flex items-center text-black dark:text-white hover:text-hover-text dark:hover:text-hover-text text-sm"
       >
         새 글 작성하기
       </Link>

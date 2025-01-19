@@ -15,7 +15,7 @@ export default function AuthController() {
 function LogoutButton() {
   return (
     <button onClick={() => signOut({ callbackUrl: "/", redirect: true })}>
-      <span className="text-black dark:text-white hover:text-hover-text dark:hover:text-hover-text">
+      <span className="text-black dark:text-white hover:text-hover-text dark:hover:text-hover-text text-sm">
         로그아웃
       </span>
     </button>
@@ -27,7 +27,7 @@ function LoginButton() {
     <button>
       <Link
         href="/login"
-        className="text-black dark:text-white hover:text-hover-text dark:hover:text-hover-text"
+        className="text-black dark:text-white hover:text-hover-text dark:hover:text-hover-text text-sm"
       >
         로그인하기
       </Link>
