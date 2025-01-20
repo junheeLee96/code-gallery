@@ -1,7 +1,7 @@
 import { timeAgo } from "@/app/lib/utils";
 
 type TimeAgoProps = {
-  date: Date;
+  date: string;
 };
 
 export default function TimeAgo({ date }: TimeAgoProps) {

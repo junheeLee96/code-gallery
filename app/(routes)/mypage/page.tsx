@@ -1,11 +1,14 @@
+import AuthGuard from "@/app/authGuard/\bAuthGuard";
+import History from "@/app/ui/mypage/History";
 import Profile from "@/app/ui/mypage/Profile";
-import UserPosts from "@/app/ui/mypage/user-posts";
 
 export default function Mypage() {
   return (
-    <div>
-      <Profile />
-      <UserPosts />
-    </div>
+    <AuthGuard>
+      <div className="w-full mt-5">
+        <Profile />
+        <History />
+      </div>
+    </AuthGuard>
   );
 }

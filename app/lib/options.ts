@@ -36,3 +36,14 @@ export const timePeriods = [
     value: "whole",
   },
 ];
+
+export const userActivities = [
+  {
+    name: "게시글",
+    value: "post",
+  },
+  {
+    name: "작성 댓글",
+    value: "comment",
+  },
+];

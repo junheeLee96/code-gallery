@@ -5,7 +5,7 @@ import TimeAgo from "./TimeAgo";
 type UserNameProps = {
   username: string;
   isAuthor: boolean;
-  reg_dt?: Date;
+  reg_dt?: string;
   post_id?: number;
 };
 

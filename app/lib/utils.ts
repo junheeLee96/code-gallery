@@ -34,3 +34,16 @@ export function truncateText(input: string): [boolean, string] {
   // 기본적으로 원본 텍스트 반환
   return [false, input];
 }
+
+export function formatDateTime(time: string): string {
+  // 정확히 ISO 문자열을 UTC 기준으로 처리
+  const date = new Date(time);
+  // UTC 기반으로 날짜와 시간을 가져옵니다
+  const year = String(date.getUTCFullYear()).slice(-2);
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const hour = String(date.getUTCHours()).padStart(2, "0"); // 시간은 UTC로 처리
+  const minute = String(date.getUTCMinutes()).padStart(2, "0");
+
+  return `${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분`;
+}

@@ -44,3 +44,18 @@ export const getComments = async ({
     }
   );
 };
+
+export const getUserActivity = async ({
+  cursor,
+  queryKey,
+}: {
+  cursor: string;
+  queryKey: string;
+}): Promise<InfiniteQueryResponse<PostTypes[]>> => {
+  return client("/api/getUserActivity", {
+    params: {
+      cursor,
+      activity: queryKey,
+    },
+  });
+};

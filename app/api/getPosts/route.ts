@@ -123,7 +123,7 @@ export async function GET(
     language: post.language,
     like: post.like,
     comment: post.comment,
-    reg_dt: post.reg_dt,
+    reg_dt: post.reg_dt.toString(),
     initialLike: post.likes.some((user) => user.uuid === useruuid),
   }));
 
