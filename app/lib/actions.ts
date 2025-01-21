@@ -43,8 +43,9 @@ export async function createPost({
 }: PostActionsProps) {
   const session = await auth();
   const userId = session?.user?.id;
+  const username = session?.user?.username;
 
-  if (!userId) {
+  if (!userId || !username) {
     throw new Error("로그인이 필요합니다.");
   }
 
@@ -60,7 +61,7 @@ export async function createPost({
   const newPost = await prisma.posts.create({
     data: {
       uuid: userId,
-      username: user.name,
+      username,
       title: title,
       content: content,
       language: language,

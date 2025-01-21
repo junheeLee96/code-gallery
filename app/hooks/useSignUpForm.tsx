@@ -3,7 +3,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useSession } from "next-auth/react";
 import { createNewUser } from "../lib/actions";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const hasWhitespace = /\s/;
 const NicknameMaxLength = 12;
