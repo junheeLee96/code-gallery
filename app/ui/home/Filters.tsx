@@ -16,7 +16,7 @@ export default function Filters() {
   } = useFilter();
 
   return (
-    <div className="h-[56px] 1200-screen:sticky w-full top-0 rounded-xl flex items-center pl-4">
+    <div className="h-[56px] sticky w-full top-[56px] rounded-xl flex items-center pl-4 bg-white dark:bg-dark-bg">
       <ul className="flex gap-5 w-full flex-1">
         <li className="w-full">
           <Languages

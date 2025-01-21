@@ -17,7 +17,7 @@ export default function Languages({
   value,
 }: LanguagesProps) {
   return (
-    <Select onChange={onChange && onChange} value={value}>
+    <Select onChange={onChange && onChange} value={value} label="언어">
       {languages.map((lang, idx) =>
         !isWholeRender && lang.value === "whole" ? null : (
           <option key={idx} value={lang.value}>
