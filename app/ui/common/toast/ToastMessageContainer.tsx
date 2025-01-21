@@ -8,7 +8,7 @@ const ToastMessageContainer = () => {
 
   return (
     <div
-      role="toastMessage"
+      role="status"
       aria-live="polite"
       className="fixed top-[60px] right-[4.6rem] z-50 flex flex-col gap-4 max-w-[40rem] px-4"
     >
