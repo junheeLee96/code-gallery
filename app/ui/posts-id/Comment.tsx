@@ -14,7 +14,7 @@ export default function Comment({ comment }: CommentProps) {
         <UserName isAuthor={comment.isAuthor} username={comment.username} />
       </div>
       <Markdown language="" markdown={comment.comment} />
-      <TimeAgo date={comment.reg_dt} />
+      <TimeAgo date={String(comment.reg_dt)} />
     </div>
   );
 }
