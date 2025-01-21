@@ -50,7 +50,6 @@ export async function GET(
       : {}),
   });
 
-  console.log("postsQuery result:", postsQuery);
   // 총 게시글 수
   const totalPosts = await prisma.posts.count({
     where: {
@@ -62,7 +61,6 @@ export async function GET(
   const hasNextPage = postsQuery.length > postsPerPage;
   const slicedPosts = postsQuery.slice(0, postsPerPage);
   const formattedPosts = slicedPosts.map((post) => {
-    console.log("zzzz", typeof post.reg_dt);
     return {
       idx: post.idx,
       isAuthor: true, // 모든 게시글은 현재 사용자가 작성

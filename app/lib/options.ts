@@ -42,8 +42,8 @@ export const userActivities = [
     name: "게시글",
     value: "post",
   },
-  {
-    name: "작성 댓글",
-    value: "comment",
-  },
+  // {
+  //   name: "작성 댓글",
+  //   value: "comment",
+  // },
 ];

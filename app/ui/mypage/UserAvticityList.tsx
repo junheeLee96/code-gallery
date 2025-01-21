@@ -2,8 +2,8 @@
 
 import useInfiniteQueryHook from "@/app/hooks/useInfiniteQueryHook";
 import { getUserActivity } from "@/app/lib/client-data";
-import { dateTimeToKoreanFormat, formatDateTime } from "@/app/lib/utils";
 import PostSummary from "./PostSummary";
+import useScrollLoaer from "@/app/hooks/useScrollLoader";
 
 type UserActivityListProps = {
   activity: string;
@@ -15,7 +15,8 @@ export default function UserActivityList({ activity }: UserActivityListProps) {
     queryFn: getUserActivity,
   });
 
-  console.log(data);
+  useScrollLoaer({ hasNextPage, fetchNextPage });
+
   return (
     <ul>
       {data &&
