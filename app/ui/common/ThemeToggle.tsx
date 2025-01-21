@@ -11,6 +11,7 @@ export default function ThemeToggle() {
       onClick={toggleTheme}
       className="flex items-center p-2 rounded-full w-10 h-6 transition-all border
       bg-wrapper dark:bg-[rgb(37,39,42)] border-slate-300 dark:border-slate-500"
+      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
     >
       <span
         className={`absolute  rounded-full transition-all flex items-center  ${
