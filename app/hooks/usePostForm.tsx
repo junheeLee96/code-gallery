@@ -36,6 +36,9 @@ export default function usePostForm({ initialPost }: usePostFormProps) {
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (title === "" || content === "") {
+      return;
+    }
     setIsLoading(true);
     try {
       if (initialPost) {
