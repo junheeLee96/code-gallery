@@ -15,7 +15,7 @@ export default function LoginButton() {
 
 function SignInButton() {
   return (
-    <div className="h-full flex items-center justify-center ">
+    <div className="h-screen-without-header flex items-center justify-center">
       <Image
         onClick={() => signIn("google", { callbackUrl: "/sign-up" })}
         className="cursor-pointer"
@@ -31,7 +31,7 @@ function SignInButton() {
 
 function SignOutButton() {
   return (
-    <div className="h-full flex items-center justify-center space-x-4">
+    <div className="h-screen-without-header flex items-center justify-center space-x-4">
       <Button
         onClick={() => signOut({ callbackUrl: "/", redirect: true })}
         className="font-bold py-2 px-4 rounded w-fit flex justify-center cursor-pointer"
