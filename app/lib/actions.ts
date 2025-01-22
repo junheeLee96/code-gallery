@@ -130,8 +130,9 @@ export const handleLike = async (
   try {
     const session = await auth();
     const uuid = session?.user?.id;
+    const username = session?.user?.username;
 
-    if (!uuid) {
+    if (!uuid || !username) {
       return {
         status: false,
         message: "로그인이 필요합니다. 로그인하시겠습니까?",

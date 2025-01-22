@@ -4,6 +4,7 @@ import { useState } from "react";
 import "../css/like.css";
 import { handleLike } from "@/app/lib/actions";
 import { useRouter } from "next/navigation";
+import useHandleLike from "@/app/hooks/useHandleLike";
 
 type LikeProps = {
   id: string;
@@ -12,34 +13,21 @@ type LikeProps = {
 };
 
 export default function Like({ id, isInitialLiked, likeCount }: LikeProps) {
-  const router = useRouter();
+  // 애니메이션 관리 상태
   const [isAnimating, setIsAnimating] = useState(isInitialLiked);
   const [LikeCount, setLikeCount] = useState(likeCount);
 
-  const handleResponse = (res: { status: boolean; message: string }) => {
-    if (!res.status) {
-      if (res.message === "로그인이 필요합니다. 로그인하시겠습니까?") {
-        if (confirm(res.message)) {
-          router.push("/login");
-        } else {
-          return false;
-        }
-      } else {
-        alert(res.message);
-      }
-      return false;
-    }
+  const { handleClick } = useHandleLike({
+    isLike: isAnimating,
+    id,
+    onSuccessHandleLike,
+  });
 
-    return true;
-  };
-  const handleClick = async () => {
-    const response = await handleLike(id, !isAnimating);
-    if (!handleResponse(response)) return;
-
+  function onSuccessHandleLike() {
     const newLikeCount = !isAnimating ? LikeCount + 1 : LikeCount - 1;
     setLikeCount(newLikeCount);
     setIsAnimating((p) => !p);
-  };
+  }
 
   return (
     <div className="flex items-center justify-end">
