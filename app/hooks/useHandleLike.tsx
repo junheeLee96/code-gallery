@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { handleLike } from "../lib/actions";
 import { useRouter } from "next/navigation";
 

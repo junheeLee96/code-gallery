@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import "../css/like.css";
-import { handleLike } from "@/app/lib/actions";
-import { useRouter } from "next/navigation";
 import useHandleLike from "@/app/hooks/useHandleLike";
 
 type LikeProps = {
