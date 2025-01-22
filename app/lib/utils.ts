@@ -36,7 +36,6 @@ export function truncateText(input: string): [boolean, string] {
 }
 
 export function formatDateTime(time: string): string {
-  // 정확히 ISO 문자열을 UTC 기준으로 처리
   const date = new Date(time);
   // UTC 기반으로 날짜와 시간을 가져옵니다
   const year = String(date.getUTCFullYear()).slice(-2);

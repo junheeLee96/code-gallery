@@ -16,7 +16,6 @@ export default function useActionButton({ post_id }: useActionButtonProps) {
   const router = useRouter();
 
   const onEdit = async () => {
-    setIsLoading(true);
     router.push(`/post/${post_id}/edit`);
   };
 
