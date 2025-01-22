@@ -77,7 +77,8 @@ export const createComment = async ({
 }: createCommentProps) => {
   const session = await auth();
   const uuid = session?.user?.id;
-  if (!uuid) {
+  const username = session?.user?.username;
+  if (!uuid || !username) {
     throw new Error("로그인이 필요합니다.");
   }
   const user = await prisma.user.findUnique({
@@ -94,7 +95,7 @@ export const createComment = async ({
     data: {
       post_id,
       uuid,
-      username: user.name,
+      username: username,
       comment,
     },
   });
