@@ -19,7 +19,7 @@ export default function Comment({ comment }: CommentProps) {
         id="actions"
         className="hidden group-hover:block absolute top-0 right-0"
       >
-        ㅎㅇㅎㅇㅎㅎㅇㅎㅎㅇㅎㅇㅎㅇㅎㅇ
+        {/* 삭제/수정 버튼 */}
       </div>
     </div>
   );
