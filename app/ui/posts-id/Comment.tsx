@@ -9,12 +9,18 @@ type CommentProps = {
 
 export default function Comment({ comment }: CommentProps) {
   return (
-    <div className="mb-8">
+    <div className="my-5 group relative">
       <div>
         <UserName isAuthor={comment.isAuthor} username={comment.username} />
       </div>
       <Markdown language="" markdown={comment.comment} />
       <TimeAgo date={String(comment.reg_dt)} />
+      <div
+        id="actions"
+        className="hidden group-hover:block absolute top-0 right-0"
+      >
+        ㅎㅇㅎㅇㅎㅎㅇㅎㅎㅇㅎㅇㅎㅇㅎㅇ
+      </div>
     </div>
   );
 }
