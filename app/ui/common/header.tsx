@@ -28,7 +28,7 @@ export default async function Header() {
         <div className="flex items-center gap-5">
           <ThemeToggle />
           <NewPost />
-          {session?.user && (
+          {session?.user?.id && (
             <Link
               href="/mypage"
               className="text-sm text-black dark:text-white hover:text-hover-text dark:hover:text-hover-text"
