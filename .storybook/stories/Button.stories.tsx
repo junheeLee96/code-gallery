@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../../app/ui/common/Button";
 
 export default {
-  title: "Example/Button", // Storybook에서 표시될 그룹/컴포넌트 경로
+  title: "Components/Button", // Storybook에서 표시될 그룹/컴포넌트 경로
   component: Button, // 스토리북에서 사용할 컴포넌트
   argTypes: {
     children: {

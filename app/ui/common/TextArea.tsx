@@ -28,4 +28,3 @@ export default function Textarea({
     </div>
   );
 }
-// dark:bg-dark-bg dark:border-black
