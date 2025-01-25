@@ -1,40 +1,53 @@
 import React from "react";
+import { Meta, StoryObj } from "@storybook/react";
 import Button from "../../app/ui/common/Button";
+import { userEvent, within } from "@storybook/test";
 
-export default {
-  title: "Components/Button", // Storybook에서 표시될 그룹/컴포넌트 경로
-  component: Button, // 스토리북에서 사용할 컴포넌트
+const meta: Meta<typeof Button> = {
+  title: "Components/Button",
+  component: Button,
   argTypes: {
     children: {
-      control: "text", // 스토리북에서 children을 텍스트로 입력 가능
+      control: "text",
     },
-    onClick: { action: "clicked" }, // onClick 이벤트 로그를 콘솔에 표시
-    className: { control: "text" }, // className을 변경 가능
+    onClick: { action: "clicked" },
+    className: { control: "text" },
   },
 };
 
-const Template = (args) => <Button {...args} />;
+export default meta;
+type Story = StoryObj<typeof Button>;
 
-export const Default = Template.bind({});
-Default.args = {
-  children: "기본 버튼",
-  className: "",
+export const Default: Story = {
+  args: {
+    children: "기본 버튼",
+  },
 };
 
-export const WithCustomClass = Template.bind({});
-WithCustomClass.args = {
-  children: "커스텀 클래스 버튼",
-  className: "bg-blue-500 text-white",
+export const WithCustomClass: Story = {
+  args: {
+    children: "커스텀 클래스 버튼",
+    className: "bg-blue-500 text-white",
+  },
 };
 
-export const DarkMode = Template.bind({});
-DarkMode.args = {
-  children: "다크 모드 버튼",
-  className: "dark:bg-gray-700 dark:text-white",
+export const DarkMode: Story = {
+  args: {
+    children: "다크 모드 버튼",
+    className: "dark:bg-gray-700 dark:text-white",
+  },
+  parameters: {
+    backgrounds: { default: "dark" },
+  },
 };
 
-export const ClickableButton = Template.bind({});
-ClickableButton.args = {
-  children: "클릭 가능한 버튼",
-  onClick: () => alert("버튼이 클릭되었습니다!"),
+export const ClickableButton: Story = {
+  args: {
+    children: "클릭 가능한 버튼",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole("button");
+    await userEvent.click(button);
+  },
 };

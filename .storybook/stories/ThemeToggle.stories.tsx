@@ -1,9 +1,9 @@
 import React from "react";
-import type { Story, Meta } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 import { ThemeProvider } from "@/app/providers/ThemeProvider";
 import ThemeToggle from "@/app/ui/common/ThemeToggle";
 
-export default {
+const meta: Meta<typeof ThemeToggle> = {
   title: "Components/ThemeToggle",
   component: ThemeToggle,
   decorators: [
@@ -13,42 +13,53 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+};
 
-// Create a template for the component
-const Template: Story = (args) => {
-  return (
+export default meta;
+type Story = StoryObj<typeof ThemeToggle>;
+
+// 기본 템플릿 생성
+const Template: Story = {
+  render: (args) => (
     <ThemeProvider>
-      <ThemeToggle {...args} />
+      <ThemeToggle />
     </ThemeProvider>
-  );
+  ),
 };
 
-// Create the default story
-export const Default = Template.bind({});
-
-// Create a story for the light theme
-export const LightTheme = Template.bind({});
-LightTheme.parameters = {
-  backgrounds: { default: "light" },
+// 기본 스토리 생성
+export const Default: Story = {
+  ...Template,
 };
 
-// Create a story for the dark theme
-export const DarkTheme = Template.bind({});
-DarkTheme.parameters = {
-  backgrounds: { default: "dark" },
+// 라이트 테마 스토리 생성
+export const LightTheme: Story = {
+  ...Template,
+  parameters: {
+    backgrounds: { default: "light" },
+  },
 };
 
-// Add controls to toggle between light and dark themes
-export const Toggleable = Template.bind({});
-Toggleable.args = {
-  initialTheme: "light",
+// 다크 테마 스토리 생성
+export const DarkTheme: Story = {
+  ...Template,
+  parameters: {
+    backgrounds: { default: "dark" },
+  },
 };
-Toggleable.argTypes = {
-  initialTheme: {
-    control: {
-      type: "select",
-      options: ["light", "dark"],
+
+// 라이트와 다크 테마 간 전환 가능한 스토리 생성
+export const Toggleable: Story = {
+  ...Template,
+  args: {
+    initialTheme: "light",
+  },
+  argTypes: {
+    initialTheme: {
+      control: {
+        type: "select",
+        options: ["light", "dark"],
+      },
     },
   },
 };
