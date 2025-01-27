@@ -1,38 +1,63 @@
 "use server";
 
+import { PrismaClient } from "@prisma/client";
+import { MAX_LENGTH_USER_NICKNAME, TITLE_MAX_LENGTH } from "./length";
 import { auth } from "@/auth";
-import { createCommentProps, PostActionsProps } from "./definitions";
+import {
+  ActionState,
+  CommentsTypes,
+  createCommentProps,
+  PostActionsProps,
+} from "./definitions";
 
-export async function createNewUser(newNickname: string) {
+const prisma = new PrismaClient();
+
+export async function createNewUser(username: string): Promise<ActionState> {
   const session = await auth();
-  if (!session?.user) {
-    throw new Error("로그인이 필요합니다.");
+  const uuid = session?.user?.id;
+  if (typeof username !== "string") {
+    return { success: false, message: "적법한 닉네임이 아닙니다." };
   }
-  if (!newNickname) {
-    throw new Error("유효하지 않은 사용자 ID 또는 닉네임입니다.");
+  if (
+    !username ||
+    username === "" ||
+    username.length > MAX_LENGTH_USER_NICKNAME
+  ) {
+    return {
+      success: false,
+      message: `닉네임은 1글자 이상, ${MAX_LENGTH_USER_NICKNAME}이하입니다.`,
+    };
   }
-
   try {
     const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+      where: { id: uuid },
       select: { name: true, username: true },
     });
-    if (!user || !user.name) {
-      throw new Error("사용자 정보를 찾을 수 없습니다.");
-    }
-    if (user.username) {
-      throw new Error("이미 가입한 사용자입니다.");
+
+    if (!user || !uuid) {
+      return { success: false, message: "사용자를 찾을 수 없습니다." };
     }
 
-    const updatedUser = await prisma.user.update({
+    if (user.username !== null) {
+      return { success: false, message: "이미 가입한 사용자입니다." };
+    }
+    await prisma.user.update({
       where: { id: session.user.id },
-      data: { username: newNickname }, // username 필드에 newNickname 값 업데이트
+      data: { username: username },
     });
 
-    return updatedUser;
-  } catch (error) {
-    console.error("Error updating user nickname:", error);
-    throw new Error("알 수 없는 오류가 발생했습니다.");
+    return { success: true, message: "사용자가 성공적으로 생성되었습니다." };
+  } catch (e) {
+    console.error("error on sign-up ", e);
+    return {
+      success: false,
+      message:
+        e instanceof Error
+          ? e.message
+          : "오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+    };
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
@@ -40,13 +65,19 @@ export async function createPost({
   title,
   content,
   language,
-}: PostActionsProps) {
+}: PostActionsProps): Promise<ActionState> {
   const session = await auth();
   const userId = session?.user?.id;
   const username = session?.user?.username;
+  if (title.length <= 1 || title.length > TITLE_MAX_LENGTH) {
+    return {
+      success: false,
+      message: `제목은 2글자 이상, ${TITLE_MAX_LENGTH}이하입니다.`,
+    };
+  }
 
   if (!userId || !username) {
-    throw new Error("로그인이 필요합니다.");
+    return { success: false, message: "로그인이 필요합니다." };
   }
 
   const user = await prisma.user.findUnique({
@@ -55,10 +86,10 @@ export async function createPost({
   });
 
   if (!user || !user.name) {
-    throw new Error("사용자 정보를 찾을 수 없습니다.");
+    return { success: false, message: "사용자 정보를 찾을 수 없습니다." };
   }
 
-  const newPost = await prisma.posts.create({
+  await prisma.posts.create({
     data: {
       uuid: userId,
       username,
@@ -68,61 +99,67 @@ export async function createPost({
     },
   });
 
-  return newPost;
+  return { success: true, message: null };
 }
 
 export const createComment = async ({
   comment,
   post_id,
-}: createCommentProps) => {
+}: createCommentProps): Promise<ActionState & { data?: CommentsTypes }> => {
   const session = await auth();
   const uuid = session?.user?.id;
   const username = session?.user?.username;
   if (!uuid || !username) {
-    throw new Error("로그인이 필요합니다.");
+    return { success: false, message: "로그인이 필요합니다." };
   }
-  const user = await prisma.user.findUnique({
-    where: { id: uuid },
-    select: { name: true },
-  });
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: uuid },
+      select: { name: true },
+    });
 
-  if (!user || !user.name) {
-    throw new Error("사용자 정보를 찾을 수 없습니다.");
-  }
+    if (!user || !user.name) {
+      return { success: false, message: "사용자 정보를 찾을 수 없습니다." };
+    }
 
-  // 댓글 추가
-  const newComment = await prisma.comment.create({
-    data: {
-      post_id,
-      uuid,
-      username: username,
-      comment,
-    },
-  });
-
-  // 댓글 수 증가
-  await prisma.posts.update({
-    where: { idx: post_id },
-    data: {
-      comment: {
-        increment: 1,
+    // 댓글 추가
+    const newComment = await prisma.comment.create({
+      data: {
+        post_id,
+        uuid,
+        username: username,
+        comment,
       },
-    },
-  });
+    });
 
-  const now = new Date();
-  return {
-    idx: newComment.idx,
-    post_id: newComment.post_id,
-    isAuthor: true,
-    username: newComment.username,
-    comment: newComment.comment,
-    reg_dt: now.toString(),
-  };
+    // 댓글 수 증가
+    await prisma.posts.update({
+      where: { idx: post_id },
+      data: {
+        comment: {
+          increment: 1,
+        },
+      },
+    });
+
+    const now = new Date();
+    const data: CommentsTypes = {
+      idx: newComment.idx,
+      post_id: newComment.post_id,
+      isAuthor: true,
+      username: newComment.username,
+      comment: newComment.comment,
+      reg_dt: now.toString(),
+    };
+    return { success: true, message: null, data };
+  } catch (e) {
+    console.error("Error on CommentForm ", e);
+    return {
+      success: false,
+      message: e instanceof Error ? e.message : "오류가 발생했습니다.",
+    };
+  }
 };
-
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 
 export const handleLike = async (
   post_id: string,
@@ -252,13 +289,13 @@ export const editPost = async ({
   content,
   language,
   post_id,
-}: PostActionsProps & { post_id: string }) => {
+}: PostActionsProps & { post_id: string }): Promise<ActionState> => {
   try {
     const session = await auth();
     const useruuid = session?.user?.id;
 
     if (!useruuid) {
-      throw new Error("로그인이 필요합니다.");
+      return { success: false, message: "로그인이 필요합니다." };
     }
 
     // 작성자 확인
@@ -271,6 +308,7 @@ export const editPost = async ({
 
     if (!author) {
       return {
+        success: false,
         message: "권한이 없습니다.",
       };
     }
@@ -282,6 +320,7 @@ export const editPost = async ({
 
     if (!post) {
       return {
+        success: false,
         message: "게시글이 존재하지 않습니다.",
       };
     }
@@ -296,9 +335,12 @@ export const editPost = async ({
       },
     });
 
-    return { message: "update success" };
-  } catch (error) {
-    console.error("Error processing request:", error);
-    throw new Error("알 수 없는 오류가 발생했습니다.");
+    return { success: true, message: "update success" };
+  } catch (e) {
+    console.error("Error processing on editPost request:", e);
+    return {
+      success: false,
+      message: e instanceof Error ? e.message : "오류가 발생했습ㄴ디ㅏ.",
+    };
   }
 };

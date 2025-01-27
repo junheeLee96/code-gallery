@@ -24,7 +24,7 @@ export type CommentsTypes = {
   isAuthor: boolean;
   username: string;
   comment: string;
-  reg_dt: Date;
+  reg_dt: string;
 };
 
 export type PostActionsProps = {
@@ -71,3 +71,8 @@ export interface DetailedPostTypes extends PostTypes {
   likes: number;
   comments: number;
 }
+
+export type ActionState = {
+  success: boolean;
+  message: string | null;
+};

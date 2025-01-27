@@ -15,7 +15,7 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
   const post = await getPost(post_id);
   const session = await auth();
   return (
-    <Wrapper>
+    <Wrapper className="mb-20">
       <div className="w-full h-full flex flex-col">
         <UserName username={session?.user.username as string} isAuthor={true} />
         <div className="flex-1 ">

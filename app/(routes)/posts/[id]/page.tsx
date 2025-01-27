@@ -8,11 +8,11 @@ import { notFound } from "next/navigation";
 import { getPost } from "@/app/lib/server-data";
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post_id = params.id;
+  const post_id = (await params).id;
   try {
     // 서버 컴포넌트는 api route를 사용 못함 (https://nextjs-faq.com/fetch-api-in-rsc)
     // api route는 클라이언트 컴포넌트를 위한 것이므로 직접 db에 접근하여 성능향상(api route를 거치지 않기에 불필요한 네트워크 방지)
@@ -35,14 +35,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function Post({ params }: { params: { id: string } }) {
+export default async function Post({ params }: Props) {
+  const post_id = (await params).id;
   return (
     <div>
       <Suspense fallback={<PostSkeleton />}>
-        <PostWrapper post_id={params.id} />
+        <PostWrapper post_id={post_id} />
       </Suspense>
       <Suspense fallback={<CommentsSkeleton />}>
-        <CommentsWrapper post_id={parseInt(params.id)} date={new Date()} />
+        <CommentsWrapper post_id={parseInt(post_id)} date={new Date()} />
       </Suspense>
     </div>
   );

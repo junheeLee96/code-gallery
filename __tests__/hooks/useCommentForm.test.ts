@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import useCommentForm from "@/app/hooks/useCommentForm";
+import useCommentForm from "@/app/hooks/CommentForm/useCommentForm";
 import { createComment } from "@/app/lib/actions";
 
 jest.mock("@/app/lib/actions", () => ({

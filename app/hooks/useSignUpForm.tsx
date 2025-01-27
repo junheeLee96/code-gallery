@@ -1,52 +1,41 @@
-"use client";
-
-import { ChangeEvent, FormEvent, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useActionState } from "react";
 import { createNewUser } from "../lib/actions";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
+import { ActionState } from "../lib/definitions";
+import { MAX_LENGTH_USER_NICKNAME } from "../lib/length";
 
 const hasWhitespace = /\s/;
-const NicknameMaxLength = 12;
+export const NicknameMaxLength = 12;
 
 export default function useSignUpForm() {
-  const router = useRouter();
-
-  const { data: session } = useSession();
-
-  const [nickname, setNickname] = useState("");
-  const [error, setError] = useState<null | string>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setNickname(value);
-    if (hasWhitespace.test(value)) {
-      setError("공백을 포함하지 않아야합니다.");
-    } else if (value.length > NicknameMaxLength) {
-      setError(`닉네임은 ${NicknameMaxLength}자 이하여야합니다.`);
-    } else {
-      setError(null);
+  async function actionFunc(_: ActionState, formData: FormData) {
+    const username = formData.get("username");
+    if (typeof username !== "string") {
+      return { success: false, message: "새로고침 후 다시 시도해주세요." };
     }
-  };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (error || !session?.user) return;
-    if (nickname === "") {
-      setError("1글자 이상이어야합니다.");
-      return;
+    if (hasWhitespace.test(username)) {
+      return { success: false, message: "공백을 포함하지 않아야합니다." };
     }
-    setIsLoading(true);
-    try {
-      await createNewUser(nickname);
-      router.push("/");
-    } catch (e) {
-      console.error(e);
-      setError(
-        e instanceof Error ? e.message : "알 수 없는 오류가 발생했습니다."
-      );
+    if (username.length <= 1 || username.length > MAX_LENGTH_USER_NICKNAME) {
+      return {
+        success: false,
+        message: `닉네임은 2글자 이상, ${MAX_LENGTH_USER_NICKNAME}이하입니다.`,
+      };
     }
-  };
 
-  return { nickname, error, isLoading, onInputChange, handleSubmit };
+    const response = await createNewUser(username);
+    if (!response.success) {
+      return response;
+    }
+
+    redirect("/");
+  }
+
+  const [signInForm, SignInFormAction] = useActionState(actionFunc, {
+    success: false,
+    message: null,
+  });
+
+  return { signInForm, SignInFormAction };
 }

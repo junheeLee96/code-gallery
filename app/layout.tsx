@@ -41,7 +41,7 @@ export default function RootLayout({
           <Header />
           <div className="min-w-screen min-h-screen flex justify-center pt-[56px] bg-white dark:bg-dark-bg">
             <div className="w-full 700-screen:w-[680px] min-h-full px-4">
-              <div className="w-full ">{children}</div>
+              <div className="w-full">{children}</div>
             </div>
           </div>
           <ToastMessageContainer />

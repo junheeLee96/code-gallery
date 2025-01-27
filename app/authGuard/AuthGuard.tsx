@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 type AuthGuardServerProps = {
   children: React.ReactNode;
-  isSignUp?: boolean;
+  isSignUp?: boolean; //sign-up 페이지인가?
 };
 
 export default async function AuthGuard({
@@ -17,6 +17,10 @@ export default async function AuthGuard({
   }
   if (!session?.user.username && !isSignUp) {
     redirect("/sign-up");
+  }
+
+  if (session?.user.username && isSignUp) {
+    redirect("/");
   }
 
   return <>{children}</>;

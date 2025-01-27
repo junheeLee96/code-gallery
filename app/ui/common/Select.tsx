@@ -5,6 +5,7 @@ type SelectProps = {
   children: React.ReactNode;
   value: string;
   label: string;
+  name: string;
 };
 
 export default function Select({
@@ -12,6 +13,7 @@ export default function Select({
   onChange,
   value,
   label,
+  name,
 }: SelectProps) {
   return (
     <div>
@@ -27,7 +29,7 @@ export default function Select({
         dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:bg-gray-800 dark:focus:border-gray-400
         w-full "
         id="languages" // 반드시 label의 for와 동일한 값이어야 함
-        name="language"
+        name={name}
         value={value}
         onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange?.(e)}
       >

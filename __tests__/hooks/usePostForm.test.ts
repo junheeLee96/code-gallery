@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import usePostForm from "@/app/hooks/usePostForm";
+import usePostForm from "@/app/hooks/PostForm/usePosValues";
 import { createPost } from "@/app/lib/actions";
 import { redirect } from "next/navigation";
 

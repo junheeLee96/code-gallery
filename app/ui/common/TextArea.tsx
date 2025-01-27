@@ -12,6 +12,7 @@ export default function Textarea({
   markdown,
   onMarkdownChange,
   className,
+  name,
 }: TextareaTypes) {
   return (
     <div>
@@ -23,7 +24,7 @@ export default function Textarea({
           `w-full bg-white p-2 border border-gray-200 rounded dark:bg-dark-bg dark:border-black ` +
           className
         }
-        name="markdownContent"
+        name={name}
       />
     </div>
   );
