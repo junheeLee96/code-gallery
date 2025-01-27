@@ -11,7 +11,7 @@ type SortingProps = {
 
 export default function Sorting({ value, onChange }: SortingProps) {
   return (
-    <Select onChange={onChange} value={value} label="정렬">
+    <Select onChange={onChange} value={value} label="정렬" name="sorting">
       {sortings.map((sort, idx) => (
         <option key={idx} value={sort.value}>
           {sort.name}

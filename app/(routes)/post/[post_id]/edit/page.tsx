@@ -5,13 +5,13 @@ import PostForm from "@/app/ui/post/PostForm";
 import { auth } from "@/auth";
 
 interface EditPostPageProps {
-  params: {
+  params: Promise<{
     post_id: string;
-  };
+  }>;
 }
 
 export default async function EditPostPage({ params }: EditPostPageProps) {
-  const post_id = params.post_id;
+  const post_id = (await params).post_id;
   const post = await getPost(post_id);
   const session = await auth();
   return (

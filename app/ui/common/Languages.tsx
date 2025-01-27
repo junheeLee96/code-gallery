@@ -1,6 +1,5 @@
 "use client";
 
-import { ChangeEvent } from "react";
 import { languages } from "../../lib/options";
 import Select from "./Select";
 

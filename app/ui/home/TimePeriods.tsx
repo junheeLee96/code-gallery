@@ -9,7 +9,7 @@ type TimePeriodsProps = {
 
 export default function TimePeriods({ onChange, value }: TimePeriodsProps) {
   return (
-    <Select onChange={onChange} value={value} label="기간">
+    <Select onChange={onChange} value={value} label="기간" name="timeperiod">
       {timePeriods.map((period, idx) => (
         <option key={idx} value={period.value}>
           {period.name}

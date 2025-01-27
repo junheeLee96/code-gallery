@@ -3,10 +3,10 @@
 import Textarea from "@/app/ui/common/TextArea";
 import { Send } from "lucide-react";
 import { useSession } from "next-auth/react";
-import useCommentForm from "../../hooks/CommentForm/useCommentForm";
 import Comment from "./Comment";
 import { CommentsTypes } from "@/app/lib/definitions";
 import useCommentAction from "@/app/hooks/CommentForm/useCommentAction";
+import useComment from "@/app/hooks/CommentForm/useComment";
 
 type CommentFormProp = {
   post_id: number;
@@ -15,8 +15,7 @@ type CommentFormProp = {
 export default function CommentForm({ post_id }: CommentFormProp) {
   const { data: user } = useSession();
 
-  const { onMarkdownChange, comment, comments, handleSuccess } =
-    useCommentForm();
+  const { onMarkdownChange, comment, comments, handleSuccess } = useComment();
 
   const { CommentForm, CommentFormAction, isPending } = useCommentAction({
     post_id,

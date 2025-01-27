@@ -23,6 +23,7 @@ export default function Filters() {
             onChange={onLanguageChange}
             isWholeRender={true}
             value={language}
+            name="language"
           />
         </li>
         <li className="w-full">

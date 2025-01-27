@@ -6,7 +6,7 @@ const meta: Meta<typeof Input> = {
   title: "Components/Input",
   component: Input,
   argTypes: {
-    onInputChange: { action: "changed" },
+    onChange: { action: "changed" },
   },
   parameters: {
     layout: "centered",
